@@ -3,7 +3,6 @@ name: 部署文档
 on:
   push:
     branches:
-      # 确保这是你正在使用的分支名称
       - main
 
 permissions:
@@ -17,8 +16,6 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-          # 如果你文档需要 Git 子模块，取消注释下一行
-          # submodules: true
 
       - name: 安装 pnpm
         uses: pnpm/action-setup@v2
@@ -38,43 +35,15 @@ jobs:
         run: |-
           pnpm run docs:build
 
-      - name: 部署文档到根目录
+      - name: 部署到根目录
         uses: JamesIves/github-pages-deploy-action@v4
         with:
-          # 这是文档部署到的分支名称
           branch: gh-pages
           folder: docs/.vitepress/dist
           
-  deploy-icc-ce-web:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          # 如果你文档需要 Git 子模块，取消注释下一行
-          # submodules: true
-
-      - name: 安装 pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          run_install: true
-          version: 8
-
-      - name: 设置 Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: 构建文档到icc-ce-web目录
-        env:
-          NODE_OPTIONS: --max_old_space_size=8192
-        run: |-
-          pnpm run docs:build --outDir docs/.vitepress/dist/icc-ce-web
-
-      - name: 部署文档到icc-ce-web文件夹
+      - name: 部署到icc-ce-web文件夹
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
-          folder: docs/.vitepress/dist/icc-ce-web
+          folder: docs/.vitepress/dist
+          target-folder: icc-ce-web
