@@ -67,16 +67,11 @@ jobs:
           node-version: 20
           cache: pnpm
 
-      - name: 构建文档
+      - name: 构建文档到icc-ce-web目录
         env:
           NODE_OPTIONS: --max_old_space_size=8192
         run: |-
-          pnpm run docs:build
-
-      - name: 创建并复制到icc-ce-web文件夹
-        run: |
-          mkdir -p docs/.vitepress/dist/icc-ce-web
-          cp -r docs/.vitepress/dist/* docs/.vitepress/dist/icc-ce-web/
+          pnpm run docs:build --outDir docs/.vitepress/dist/icc-ce-web
 
       - name: 部署文档到icc-ce-web文件夹
         uses: JamesIves/github-pages-deploy-action@v4
