@@ -4,9 +4,9 @@ export default {
   themeConfig: {
     logo: '/images/logo.png',
     nav: [
-      { text: '首页', link: '/index' },
-      { text: '指南', link: '/guide/getting-started' },
-      { text: '功能', link: '/features/overview' },
+      { text: '首页', link: '/icc-ce-web/index' },
+      { text: '指南', link: '/icc-ce-web/guide/getting-started' },
+      { text: '功能', link: '/icc-ce-web/features/overview' },
       { text: 'GitHub', link: 'https://github.com/awesome-iwb/icc-ce' },
     ],
     sidebar: {
@@ -14,10 +14,10 @@ export default {
         {
           text: '入门指南',
           items: [
-            { text: '快速开始', link: '/guide/getting-started' },
-            { text: '高级技巧', link: '/guide/advanced-tips' },
-            { text: '设置指南', link: '/guide/settings' },
-            { text: '故障排除', link: '/guide/troubleshooting' },
+            { text: '快速开始', link: '/icc-ce-web/guide/getting-started' },
+            { text: '高级技巧', link: '/icc-ce-web/guide/advanced-tips' },
+            { text: '设置指南', link: '/icc-ce-web/guide/settings' },
+            { text: '故障排除', link: '/icc-ce-web/guide/troubleshooting' },
           ],
         },
       ],
