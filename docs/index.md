@@ -17,7 +17,7 @@ hero:
       link: /icc-ce-web/features/overview
     - theme: alt
       text: 下载应用
-      link: https://github.com/awesome-iwb/icc-ce/releases
+      link: https://github.com/InkCanvasForClass/community/releases
 
 features:
   - icon: 🖊️
