@@ -47,10 +47,3 @@ jobs:
           branch: gh-pages
           folder: docs/.vitepress/dist
           target-folder: icc-ce-web
-
-      - name: 部署到icc-ce-web文件夹
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          branch: gh-pages
-          folder: docs/.vitepress/dist/icc-ce-web
-          target-folder: icc-ce-web
