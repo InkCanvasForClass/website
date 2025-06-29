@@ -129,7 +129,7 @@
 
 如果上述方法未能解决您的问题：
 
-1. 在[GitHub Issues](https://github.com/awesome-iwb/icc-ce/issues)上提交问题
+1. 在[GitHub Issues](https://github.com/InkCanvasForClass/community/issues)上提交问题
 2. 提供详细的问题描述和复现步骤
 3. 附上日志文件（如果已启用日志）
 4. 说明您的系统配置和 ICC-CE 版本
