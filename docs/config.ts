@@ -7,7 +7,7 @@ export default {
       { text: '首页', link: '/icc-ce-web/index' },
       { text: '指南', link: '/icc-ce-web/guide/getting-started' },
       { text: '功能', link: '/icc-ce-web/features/overview' },
-      { text: 'GitHub', link: 'https://github.com/awesome-iwb/icc-ce' },
+      { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' },
     ],
     sidebar: {
       '/guide/': [
