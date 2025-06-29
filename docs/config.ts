@@ -35,7 +35,7 @@ export default {
       ],
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/awesome-iwb/icc-ce' },
+      { icon: 'github', link: 'https://github.com/InkCanvasForClass/community' },
     ],
     footer: {
       message: '基于MIT许可证发布',
