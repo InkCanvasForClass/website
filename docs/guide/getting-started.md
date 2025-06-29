@@ -9,7 +9,7 @@
 
 ## 安装步骤
 
-1. 从[GitHub Releases 页面](https://github.com/awesome-iwb/icc-ce/releases)下载最新版本
+1. 从[GitHub Releases 页面](https://github.com/InkCanvasForClass/community/releases)下载最新版本
 2. 解压下载的 zip 文件到您选择的文件夹
 3. 运行`InkCanvasForClass.exe`启动应用程序
 4. 首次运行时，软件会提示您完成初始设置
