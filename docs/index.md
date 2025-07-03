@@ -6,15 +6,15 @@ hero:
   text: "智能课堂绘图增强工具"
   tagline: 为教师打造的高效交互式绘图解决方案
   image:
-    src: /icc-ce-web/images/logo.png
+    src: /images/logo.png
     alt: ICC-CE Logo
   actions:
     - theme: brand
       text: 快速开始
-      link: /icc-ce-web/guide/getting-started
+      link: /guide/getting-started
     - theme: alt
       text: 功能介绍
-      link: /icc-ce-web/features/overview
+      link: /features/overview
     - theme: alt
       text: 下载应用
       link: https://github.com/InkCanvasForClass/community/releases
