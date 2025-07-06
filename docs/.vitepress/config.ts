@@ -1,5 +1,5 @@
 export default {
-  base: '/icc-ce-web/',
+  base: '/website/',
   title: 'ICC-CE',
   description: '智能课堂绘图增强工具',
   head: [
