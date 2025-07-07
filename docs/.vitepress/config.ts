@@ -42,7 +42,7 @@ export default {
       { icon: 'github', link: 'https://github.com/InkCanvasForClass/community' },
     ],
     footer: {
-      message: '基于MIT许可证发布',
+      message: '基于GPLv3许可证发布',
       copyright: 'Copyright © 2023-现在 ICC-CE 团队',
     },
     search: {
