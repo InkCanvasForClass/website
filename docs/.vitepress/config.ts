@@ -1,6 +1,6 @@
 export default {
   base: '/website/',
-  title: 'ICC-CE',
+  title: 'ICC CE | 智能课堂绘图增强工具',
   description: '智能课堂绘图增强工具',
   head: [
     ['link', { rel: 'icon', href: '/icc-ce-web/images/logo.png' }],
