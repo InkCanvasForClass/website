@@ -106,7 +106,7 @@
       
       const repo = repos[channel];
       const corsProxy = 'https://corsproxy.io/?';
-      const apiUrl = encodeURIComponent(`https://bgithub.xyz/${repo.owner}/${repo.repo}/api/v1/repos/${repo.owner}/${repo.repo}/releases/latest`);
+      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
       
       fetch(`${corsProxy}${apiUrl}`)
         .then(response => {
