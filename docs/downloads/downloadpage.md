@@ -106,7 +106,7 @@
       
       const repo = repos[channel];
       const corsProxy = 'https://corsproxy.io/?';
-      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
+      const apiUrl = encodeURIComponent(`https://bgithub.xyz/${repo.owner}/${repo.repo}/api/v1/repos/${repo.owner}/${repo.repo}/releases/latest`);
       
       fetch(`${corsProxy}${apiUrl}`)
         .then(response => {
@@ -197,6 +197,15 @@
 </script>
 
 <style>
+:root {
+  --text-color-light: #333;
+  --text-color-dark: #ffffff;
+  --bg-soft-light: #f9f9f9;
+  --bg-soft-dark: #222;
+  --border-color-light: #ccc;
+  --border-color-dark: #444;
+}
+
 .download-container {
   max-width: 800px;
   margin: 0 auto;
@@ -212,9 +221,9 @@
 
 .version-selector button {
   padding: 10px 20px;
-  border: 1px solid var(--vp-c-border, #ccc);
-  background: var(--vp-c-bg-soft, #f5f5f5);
-  color: var(--vp-c-text, #333);
+  border: 1px solid var(--vp-c-border, var(--border-color-light));
+  background: var(--vp-c-bg-soft, var(--bg-soft-light));
+  color: var(--vp-c-text, var(--text-color-light));
   cursor: pointer;
   border-radius: 4px;
   font-size: 16px;
@@ -230,10 +239,10 @@
 .version-info {
   margin-bottom: 30px;
   padding: 15px;
-  background: var(--vp-c-bg-soft, #f9f9f9);
+  background: var(--vp-c-bg-soft, var(--bg-soft-light));
   border-radius: 4px;
   border-left: 4px solid var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-text, #333);
+  color: var(--vp-c-text, var(--text-color-light));
 }
 
 .download-button button {
@@ -266,7 +275,7 @@
 }
 
 .spinner {
-  border: 4px solid var(--vp-c-bg-soft, rgba(0, 0, 0, 0.1));
+  border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
   border-top: 4px solid var(--vp-c-brand, #0078d4);
   width: 30px;
@@ -279,9 +288,32 @@
   100% { transform: rotate(360deg); }
 }
 
-@media (prefers-color-scheme: dark) {
-  .version-info {
-    background: var(--vp-c-bg-soft, #222);
-  }
+html.dark .version-info,
+html.dark .version-selector button {
+  color: var(--text-color-dark);
+}
+
+html.dark .version-info {
+  background: var(--bg-soft-dark);
+  border-left-color: var(--vp-c-brand, #0078d4);
+}
+
+html.dark .version-selector button {
+  background: var(--bg-soft-dark);
+  border-color: var(--border-color-dark);
+}
+
+html.dark .spinner {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: var(--vp-c-brand, #0078d4);
+}
+
+html.dark .loading {
+  color: var(--text-color-dark);
+}
+
+html.dark h2,
+html.dark p {
+  color: var(--text-color-dark);
 }
 </style>
