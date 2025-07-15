@@ -17,7 +17,7 @@ hero:
       link: /features/overview
     - theme: alt
       text: 下载应用
-      link: https://github.com/InkCanvasForClass/community/releases
+      link: /downloads/downloadpage
 
 features:
   - icon: 🖊️
