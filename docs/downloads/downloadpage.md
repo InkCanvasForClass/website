@@ -21,6 +21,32 @@
   </div>
 </div>
 
+<div class="alternative-downloads">
+  <h3 class="section-title">其他下载地址</h3>
+
+  <div class="download-section">
+    <h4>正式版下载</h4>
+    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
+      <option value="">选择下载地址...</option>
+      <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
+      <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
+      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+    </select>
+  </div>
+
+  <div class="download-section">
+    <h4>测试版下载</h4>
+    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
+      <option value="">选择下载地址...</option>
+      <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
+      <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
+      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+      <option value="https://github.com/InkCanvasForClass/community/actions">GitHub Action</option>
+    </select>
+  </div>
+</div>
+
+
 <script>
 (function() {
   if (typeof window === 'undefined') return;
@@ -54,14 +80,14 @@
     
     // 版本文件URL
     const versionUrls = {
-      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt `,
-      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt `
+      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`,
+      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`
     };
     
     // 下载链接模板
     const downloadTemplates = {
-      stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/ {version}/InkCanvasForClass.CE.{version}.zip',
-      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/releases/download/ {version}/InkCanvasForClass.CE.{version}.zip'
+      stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/{version}/InkCanvasForClass.CE.{version}.zip',
+      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/releases/download/{version}/InkCanvasForClass.CE.{version}.zip'
     };
     
     let currentChannel = 'stable';
@@ -130,7 +156,8 @@
       console.log('尝试从GitHub API获取版本信息...');
       
       const repo = repos[channel];
-      const apiUrl = encodeURIComponent(`https://ghfile.geekertao.top/https://api.github.com/repos/ ${repo.owner}/${repo.repo}/releases/latest`);
+      const corsProxy = 'https://ghfile.geekertao.top/?';
+      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
       
       fetch(`${corsProxy}${apiUrl}`)
         .then(response => {
@@ -228,7 +255,7 @@
       console.log('从版本文件获取版本信息...');
       
       // 使用公共CORS代理服务获取版本文件内容
-      const corsProxy = 'https://ghfile.geekertao.top/? ';
+      const corsProxy = 'https://corsproxy.io/?';
       const targetUrl = encodeURIComponent(versionUrls[channel]);
       
       fetch(`${corsProxy}${targetUrl}`)
@@ -277,7 +304,7 @@
       console.log('尝试使用备用CORS代理...');
       
       // 备用CORS代理
-      const corsProxy = 'https://ghfile.geekertao.top/ ';
+      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
       const targetUrl = versionUrls[channel];
       
       fetch(`${corsProxy}${targetUrl}`, {
@@ -334,7 +361,7 @@
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
       } else {
-        latestVersion = '1.7.0.6';
+        latestVersion = '1.7.0.5';
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
       }
