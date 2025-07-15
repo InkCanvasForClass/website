@@ -38,23 +38,24 @@
       return;
     }
     
-    // 版本信息 - 由于跨域限制，这里使用模拟数据
-    // 实际应用中，应该使用后端代理或JSONP等方式获取
-    const versionInfo = {
+    // 仓库信息
+    const repos = {
       stable: {
-        version: "1.5.0",
-        desc: "这是稳定的正式发布版本，适合日常使用。"
+        owner: 'InkCanvasForClass',
+        repo: 'community',
+        versionFile: 'AutomaticUpdateVersionControl.txt'
       },
       beta: {
-        version: "1.6.0-beta.3",
-        desc: "这是测试版本，包含最新功能，但可能不稳定。"
+        owner: 'InkCanvasForClass',
+        repo: 'community-beta',
+        versionFile: 'AutomaticUpdateVersionControl.txt'
       }
     };
     
-    // 版本来源URL（仅用于构建下载链接）
+    // 版本文件URL
     const versionUrls = {
-      stable: 'https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt',
-      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt'
+      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`,
+      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`
     };
     
     // 下载链接模板
@@ -96,37 +97,18 @@
       }
     });
     
-    // 检查最新版本
+    // 检查最新版本 - 直接从版本文件获取
     function checkVersion(channel) {
       currentVersion.textContent = '检测中...';
       versionDesc.textContent = '';
       loadingIndicator.style.display = 'flex';
       downloadBtn.disabled = true;
       
-      // 模拟网络请求延迟
-      setTimeout(function() {
-        try {
-          // 获取版本信息
-          latestVersion = versionInfo[channel].version;
-          const description = versionInfo[channel].desc;
-          
-          // 更新UI
-          currentVersion.textContent = latestVersion;
-          versionDesc.textContent = description;
-          loadingIndicator.style.display = 'none';
-          downloadBtn.disabled = false;
-        } catch (error) {
-          // 错误处理
-          loadingIndicator.style.display = 'none';
-          currentVersion.textContent = '版本检测失败';
-          versionDesc.textContent = '无法获取最新版本信息，请稍后再试。';
-          console.error('获取版本信息失败:', error);
-        }
-      }, 1000); // 延迟1秒，模拟网络请求
+      // 使用公共CORS代理服务获取版本文件内容
+      const corsProxy = 'https://corsproxy.io/?';
+      const targetUrl = encodeURIComponent(versionUrls[channel]);
       
-      /* 
-      // 真实场景下的代码 - 需要服务器支持CORS或使用代理
-      fetch(versionUrls[channel])
+      fetch(`${corsProxy}${targetUrl}`)
         .then(response => {
           if (!response.ok) {
             throw new Error('网络错误');
@@ -137,6 +119,7 @@
           loadingIndicator.style.display = 'none';
           downloadBtn.disabled = false;
           
+          // 版本信息是纯文本格式
           latestVersion = data.trim();
           currentVersion.textContent = latestVersion;
           
@@ -147,12 +130,60 @@
           }
         })
         .catch(error => {
-          loadingIndicator.style.display = 'none';
-          currentVersion.textContent = '版本检测失败';
-          versionDesc.textContent = '无法获取最新版本信息，请稍后再试。';
           console.error('获取版本信息失败:', error);
+          
+          // 如果通过CORS代理获取失败，回退到备用方法（模拟数据）
+          loadingIndicator.style.display = 'none';
+          
+          if (channel === 'stable') {
+            latestVersion = '1.5.0';
+            currentVersion.textContent = latestVersion;
+            versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。(无法连接到服务器，显示备用数据)';
+          } else {
+            latestVersion = '1.6.0-beta.3';
+            currentVersion.textContent = latestVersion;
+            versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。(无法连接到服务器，显示备用数据)';
+          }
+          
+          downloadBtn.disabled = false;
         });
-      */
+    }
+    
+    // 备用方法：从GitHub API获取最新release信息
+    function getLatestReleaseFromGitHub(channel) {
+      const repo = repos[channel];
+      const corsProxy = 'https://corsproxy.io/?';
+      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
+      
+      fetch(`${corsProxy}${apiUrl}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('网络错误');
+          }
+          return response.json();
+        })
+        .then(data => {
+          loadingIndicator.style.display = 'none';
+          downloadBtn.disabled = false;
+          
+          // 从GitHub API响应中提取版本号（去掉v前缀）
+          latestVersion = data.tag_name.replace(/^v/, '');
+          currentVersion.textContent = latestVersion;
+          
+          // 设置描述信息
+          if (data.body) {
+            versionDesc.textContent = data.body.split('\n')[0]; // 使用release说明的第一行
+          } else if (channel === 'stable') {
+            versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
+          } else {
+            versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
+          }
+        })
+        .catch(error => {
+          console.error('从GitHub API获取版本信息失败:', error);
+          // 这里可以调用其他备用方法
+          checkVersion(channel); // 尝试直接从版本文件获取
+        });
     }
   });
 })();
