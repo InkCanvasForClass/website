@@ -1,0 +1,1 @@
+import{_ as a,c as o,o as e}from"./chunks/framework.CM1cNLQn.js";const i=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"downloads/downloadpage.md","filePath":"downloads/downloadpage.md"}'),t={name:"downloads/downloadpage.md"};function d(n,s,r,c,p,l){return e(),o("div")}const m=a(t,[["render",d]]);export{i as __pageData,m as default};
