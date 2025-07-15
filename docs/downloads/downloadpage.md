@@ -21,32 +21,6 @@
   </div>
 </div>
 
-<div class="alternative-downloads">
-  <h3 class="section-title">其他下载地址</h3>
-
-  <div class="download-section">
-    <h4>正式版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
-      <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-    </select>
-  </div>
-
-  <div class="download-section">
-    <h4>测试版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
-      <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-      <option value="https://github.com/InkCanvasForClass/community/actions">GitHub Action</option>
-    </select>
-  </div>
-</div>
-
-
 <script>
 (function() {
   if (typeof window === 'undefined') return;
@@ -361,7 +335,7 @@
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
       } else {
-        latestVersion = '1.7.0.5';
+        latestVersion = '1.7.0.6';
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
       }
@@ -493,3 +467,97 @@ html.dark p {
   color: var(--text-color-dark);
 }
 </style>
+
+
+<script setup>
+import { onMounted, ref } from 'vue';
+
+// 仓库信息 - 根据需要修改
+const owner = 'InkCanvasForClass'; // 仓库所有者
+const repo = 'community'; // 仓库名称
+
+const loading = ref(true);
+const error = ref(null);
+const latestRelease = ref(null);
+
+// 格式化日期
+const formatDate = (dateString) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat('zh-CN', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+};
+
+// 获取最新版本信息
+const fetchLatestRelease = async () => {
+  try {
+    // GitHub API 端点 - 获取最新发布
+    const url = `https://api.github.com/repos/${owner}/${repo}/releases/latest`;
+    
+    const response = await fetch(url, {
+      headers: {
+        // 添加 Accept 头以获取正确的响应格式
+        'Accept': 'application/vnd.github.v3+json',
+        // 建议添加 User-Agent 头，否则可能会收到 403 错误
+        'User-Agent': 'VitePress-App'
+      }
+    });
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    latestRelease.value = data;
+  } catch (err) {
+    error.value = err.message;
+    console.error('获取GitHub版本信息失败:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+// 在组件挂载后获取数据
+onMounted(() => {
+  fetchLatestRelease();
+});
+</script>
+
+<style scoped>
+.github-release {
+  padding: 1rem;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  margin: 1rem 0;
+}
+
+.loading {
+  color: #666;
+  font-style: italic;
+}
+
+.error {
+  color: #dc3545;
+  border: 1px solid #f5c6cb;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.release-info {
+  color: #333;
+}
+
+.release-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.release-link:hover {
+  text-decoration: underline;
+}
+</style>
+
