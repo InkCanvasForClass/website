@@ -39,7 +39,7 @@ export default {
       ],
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/InkCanvasForClass/community' },
+      { icon: 'github', link: '/download/downloadpage' },
     ],
     footer: {
       message: '基于GPLv3许可证发布',
