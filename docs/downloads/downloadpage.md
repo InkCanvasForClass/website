@@ -5,6 +5,7 @@
     <button id="stableBtn" class="active">正式版</button>
     <button id="betaBtn">测试版</button>
   </div>
+你可以帮我修改一下吗
   
   <div class="version-info">
     <h2>当前版本: <span id="currentVersion">检测中...</span></h2>
@@ -54,14 +55,14 @@
     
     // 版本文件URL
     const versionUrls = {
-      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`,
-      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`
+      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt `,
+      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt `
     };
     
     // 下载链接模板
     const downloadTemplates = {
-      stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/{version}/InkCanvasForClass.CE.{version}.zip',
-      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/releases/download/{version}/InkCanvasForClass.CE.{version}.zip'
+      stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/ {version}/InkCanvasForClass.CE.{version}.zip',
+      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/releases/download/ {version}/InkCanvasForClass.CE.{version}.zip'
     };
     
     let currentChannel = 'stable';
@@ -130,8 +131,8 @@
       console.log('尝试从GitHub API获取版本信息...');
       
       const repo = repos[channel];
-      const corsProxy = 'https://ghfile.geekertao.top/?';
-      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
+      const corsProxy = 'https://ghfile.geekertao.top/? ';
+      const apiUrl = encodeURIComponent(`https://api.github.com/repos/ ${repo.owner}/${repo.repo}/releases/latest`);
       
       fetch(`${corsProxy}${apiUrl}`)
         .then(response => {
@@ -229,7 +230,7 @@
       console.log('从版本文件获取版本信息...');
       
       // 使用公共CORS代理服务获取版本文件内容
-      const corsProxy = 'https://corsproxy.io/?';
+      const corsProxy = 'https://ghfile.geekertao.top/? ';
       const targetUrl = encodeURIComponent(versionUrls[channel]);
       
       fetch(`${corsProxy}${targetUrl}`)
@@ -278,7 +279,7 @@
       console.log('尝试使用备用CORS代理...');
       
       // 备用CORS代理
-      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
+      const corsProxy = 'https://ghfile.geekertao.top/ ';
       const targetUrl = versionUrls[channel];
       
       fetch(`${corsProxy}${targetUrl}`, {
