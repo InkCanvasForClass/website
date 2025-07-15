@@ -247,7 +247,6 @@
           
           try {
             // 解析版本文件内容，获取最新版本号
-            const text = await response.text();
             latestVersion = parseVersionData(data);
             console.log('解析得到最新版本:', latestVersion);
             
