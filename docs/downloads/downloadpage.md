@@ -333,11 +333,11 @@
       if (channel === 'stable') {
         latestVersion = '1.7.0.0';
         currentVersion.textContent = latestVersion;
-        versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。(无法连接到服务器，显示备用数据)';
+        versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
       } else {
         latestVersion = '1.7.0.5';
         currentVersion.textContent = latestVersion;
-        versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。(无法连接到服务器，显示备用数据)';
+        versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
       }
       
       downloadBtn.disabled = false;
