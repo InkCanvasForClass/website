@@ -21,32 +21,6 @@
   </div>
 </div>
 
-<div class="alternative-downloads">
-  <h3 class="section-title">其他下载地址</h3>
-
-  <div class="download-section">
-    <h4>正式版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
-      <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-    </select>
-  </div>
-
-  <div class="download-section">
-    <h4>测试版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
-      <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-      <option value="https://github.com/InkCanvasForClass/community/actions">GitHub Action</option>
-    </select>
-  </div>
-</div>
-
-
 <script>
 (function() {
   if (typeof window === 'undefined') return;
