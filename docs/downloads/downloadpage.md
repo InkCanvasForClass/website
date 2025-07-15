@@ -47,20 +47,102 @@
 </div>
 
 <style>
-/* 新增样式 */
+/* 主容器样式 */
 .download-container {
   display: flex;
   gap: 30px;
+  margin: 2rem 0;
 }
 
 .main-content {
   flex: 1;
 }
 
+/* 版本选择器样式 */
+.version-selector {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.version-selector button {
+  padding: 8px 16px;
+  background: var(--vp-c-bg-soft, #f5f5f5);
+  border: 1px solid var(--vp-c-border, #e0e0e0);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.version-selector button.active {
+  background: var(--vp-c-primary, #42b983);
+  color: white;
+  border-color: var(--vp-c-primary, #42b983);
+}
+
+/* 版本信息样式 */
+.version-info {
+  margin-bottom: 20px;
+}
+
+.version-info h2 {
+  margin: 0 0 10px 0;
+  color: var(--vp-c-text-1, #333);
+}
+
+.version-info p {
+  color: var(--vp-c-text-2, #666);
+  margin: 0;
+}
+
+/* 下载按钮样式 */
+.download-button button {
+  padding: 12px 24px;
+  background: var(--vp-c-primary, #42b983);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.download-button button:hover {
+  background: var(--vp-c-primary-dark, #359e75);
+}
+
+.download-button button:disabled {
+  background: var(--vp-c-gray-3, #ccc);
+  cursor: not-allowed;
+}
+
+/* 加载指示器样式 */
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--vp-c-text-2, #666);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 3px solid var(--vp-c-border, #e0e0e0);
+  border-top-color: var(--vp-c-primary, #42b983);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 右侧下载地址区域样式 */
 .alternative-downloads {
   min-width: 300px;
   padding: 20px;
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
+  background: var(--vp-c-bg-soft, #f5f5f5);
   border-radius: 4px;
   align-self: flex-start;
 }
@@ -71,32 +153,55 @@
 
 .download-section h3 {
   margin-bottom: 10px;
-  color: var(--vp-c-text, var(--text-color-light));
+  color: var(--vp-c-text, #333);
   font-size: 16px;
 }
 
 .download-select {
   width: 100%;
   padding: 10px;
-  border: 1px solid var(--vp-c-border, var(--border-color-light));
+  border: 1px solid var(--vp-c-border, #e0e0e0);
   border-radius: 4px;
   background: var(--vp-c-bg, white);
-  color: var(--vp-c-text, var(--text-color-light));
+  color: var(--vp-c-text, #333);
   font-size: 14px;
   cursor: pointer;
 }
 
+/* 深色模式适配 */
+html.dark .version-selector button {
+  background: var(--vp-c-bg-soft-dark, #2a2a2a);
+  border-color: var(--vp-c-border-dark, #444);
+  color: var(--vp-c-text-dark, #fff);
+}
+
+html.dark .version-info h2 {
+  color: var(--vp-c-text-1-dark, #fff);
+}
+
+html.dark .version-info p {
+  color: var(--vp-c-text-2-dark, #bbb);
+}
+
+html.dark .loading {
+  color: var(--vp-c-text-2-dark, #bbb);
+}
+
 html.dark .alternative-downloads {
-  background: var(--bg-soft-dark);
+  background: var(--vp-c-bg-soft-dark, #2a2a2a);
+}
+
+html.dark .download-section h3 {
+  color: var(--vp-c-text-dark, #fff);
 }
 
 html.dark .download-select {
   background: var(--vp-c-bg-dark, #1a1a1a);
-  border-color: var(--border-color-dark);
-  color: var(--text-color-dark);
+  border-color: var(--vp-c-border-dark, #444);
+  color: var(--vp-c-text-dark, #fff);
 }
 
-/* 响应式调整 */
+/* 响应式设计 */
 @media (max-width: 768px) {
   .download-container {
     flex-direction: column;
@@ -110,447 +215,220 @@ html.dark .download-select {
 
 <script>
 (function() {
-  if (typeof window === 'undefined') return;
+  // 版本通道和对应的版本信息URL
+  const versionUrls = {
+    stable: 'https://raw.githubusercontent.com/InkCanvasForClass/community/main/versions/stable.txt',
+    beta: 'https://raw.githubusercontent.com/InkCanvasForClass/community/main/versions/beta.txt'
+  };
   
-  window.addEventListener('load', function() {
-    const stableBtn = document.getElementById('stableBtn');
-    const betaBtn = document.getElementById('betaBtn');
-    const currentVersion = document.getElementById('currentVersion');
-    const versionDesc = document.getElementById('versionDesc');
-    const downloadBtn = document.getElementById('downloadBtn');
-    const loadingIndicator = document.getElementById('loadingIndicator');
+  // 下载链接模板
+  const downloadUrlTemplate = {
+    stable: 'https://github.com/InkCanvasForClass/community/releases/download/v{version}/ICC-CE_v{version}.exe',
+    beta: 'https://github.com/InkCanvasForClass/community/releases/download/v{version}-beta/ICC-CE_v{version}-beta.exe'
+  };
+  
+  // DOM元素
+  const stableBtn = document.getElementById('stableBtn');
+  const betaBtn = document.getElementById('betaBtn');
+  const currentVersion = document.getElementById('currentVersion');
+  const versionDesc = document.getElementById('versionDesc');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  
+  // 当前选中的通道
+  let currentChannel = 'stable';
+  // 最新版本号
+  let latestVersion = '';
+  // 首选的获取方法
+  let preferredMethod = 'API';
+  
+  // 初始化
+  init();
+  
+  function init() {
+    // 绑定按钮事件
+    stableBtn.addEventListener('click', () => switchChannel('stable'));
+    betaBtn.addEventListener('click', () => switchChannel('beta'));
+    downloadBtn.addEventListener('click', downloadLatestVersion);
     
-    if (!stableBtn || !betaBtn || !currentVersion || !versionDesc || !downloadBtn || !loadingIndicator) {
-      console.error('无法找到必要的DOM元素');
+    // 检查最新版本
+    checkLatestVersion(currentChannel);
+  }
+  
+  // 切换版本通道
+  function switchChannel(channel) {
+    if (channel === currentChannel) return;
+    
+    currentChannel = channel;
+    latestVersion = '';
+    
+    // 更新按钮状态
+    stableBtn.classList.toggle('active', channel === 'stable');
+    betaBtn.classList.toggle('active', channel === 'beta');
+    
+    // 重置UI
+    currentVersion.textContent = '检测中...';
+    versionDesc.textContent = '';
+    downloadBtn.disabled = true;
+    loadingIndicator.style.display = 'flex';
+    
+    // 检查最新版本
+    checkLatestVersion(channel);
+  }
+  
+  // 检查最新版本
+  function checkLatestVersion(channel) {
+    // 首先尝试从GitHub API获取
+    checkVersionFromAPI(channel);
+  }
+  
+  // 从GitHub API获取版本信息
+  function checkVersionFromAPI(channel) {
+    const apiUrl = channel === 'stable' 
+      ? 'https://api.github.com/repos/InkCanvasForClass/community/releases/latest'
+      : 'https://api.github.com/repos/InkCanvasForClass/community/releases';
+    
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`API请求失败 (状态码: ${response.status})`);
+        }
+        return response.json();
+      })
+      .then(data => {
+        loadingIndicator.style.display = 'none';
+        downloadBtn.disabled = false;
+        
+        let versionData;
+        if (channel === 'beta') {
+          // 测试版取第一个预发布版本
+          versionData = data.find(release => release.prerelease);
+        } else {
+          // 正式版取最新发布
+          versionData = data;
+        }
+        
+        if (!versionData) {
+          throw new Error('未找到版本信息');
+        }
+        
+        // 提取版本号（去除v前缀）
+        latestVersion = versionData.tag_name.replace('v', '');
+        currentVersion.textContent = latestVersion;
+        
+        if (channel === 'stable') {
+          versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
+        } else {
+          versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
+        }
+        
+        // 更新首选方法，因为成功了
+        preferredMethod = 'API';
+      })
+      .catch(error => {
+        console.error('从GitHub API获取版本信息失败:', error);
+        // 尝试从版本文件获取
+        checkVersionFromFile(channel);
+      });
+  }
+  
+  // 从版本文件获取版本信息
+  function checkVersionFromFile(channel) {
+    const corsProxy = 'https://corsproxy.io/?';
+    const targetUrl = encodeURIComponent(versionUrls[channel]);
+    
+    fetch(`${corsProxy}${targetUrl}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`网络错误 (状态码: ${response.status})`);
+        }
+        return response.text();
+      })
+      .then(data => {
+        loadingIndicator.style.display = 'none';
+        downloadBtn.disabled = false;
+        
+        console.log('成功获取版本文件内容:', data);
+        
+        try {
+          // 解析版本文件内容，获取最新版本号
+          latestVersion = parseVersionData(data);
+          console.log('解析得到最新版本:', latestVersion);
+          
+          currentVersion.textContent = latestVersion;
+          
+          if (channel === 'stable') {
+            versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
+          } else {
+            versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
+          }
+          
+          // 更新首选方法，因为成功了
+          preferredMethod = 'file';
+        } catch (parseError) {
+          console.error('解析版本文件失败:', parseError);
+          currentVersion.textContent = '获取失败';
+          versionDesc.textContent = '无法获取版本信息，请尝试其他下载方式。';
+        }
+      })
+      .catch(error => {
+        console.error('从版本文件获取版本信息失败:', error);
+        loadingIndicator.style.display = 'none';
+        currentVersion.textContent = '获取失败';
+        versionDesc.textContent = '无法获取版本信息，请尝试其他下载方式。';
+        downloadBtn.disabled = true;
+      });
+  }
+  
+  // 解析版本数据
+  function parseVersionData(data) {
+    // 简单解析：取第一行非空内容作为版本号
+    const lines = data.trim().split('\n');
+    for (const line of lines) {
+      const trimmedLine = line.trim();
+      if (trimmedLine) {
+        return trimmedLine.replace('v', '');
+      }
+    }
+    throw new Error('未在版本文件中找到有效版本号');
+  }
+  
+  // 比较版本号，返回最新版本
+  function compareVersions(a, b) {
+    const partsA = a.split('.').map(Number);
+    const partsB = b.split('.').map(Number);
+    
+    for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+      const numA = i < partsA.length ? partsA[i] : 0;
+      const numB = i < partsB.length ? partsB[i] : 0;
+      
+      if (numA > numB) return 1;
+      if (numA < numB) return -1;
+    }
+    
+    return 0; // 版本相同
+  }
+  
+  // 下载最新版本
+  function downloadLatestVersion() {
+    if (!latestVersion) {
+      alert('无法获取最新版本信息，请尝试其他下载方式');
       return;
     }
     
-    // 仓库信息
-    const repos = {
-      stable: {
-        owner: 'InkCanvasForClass',
-        repo: 'community',
-        versionFile: 'AutomaticUpdateVersionControl.txt'
-      },
-      beta: {
-        owner: 'InkCanvasForClass',
-        repo: 'community-beta',
-        versionFile: 'AutomaticUpdateVersionControl.txt'
-      }
-    };
+    // 构建下载链接
+    const downloadUrl = downloadUrlTemplate[currentChannel].replace(/{version}/g, latestVersion);
     
-    // 版本文件URL
-    const versionUrls = {
-      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`,
-      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`
-    };
-    
-    // 下载链接模板
-    const downloadTemplates = {
-      stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/{version}/InkCanvasForClass.CE.{version}.zip',
-      beta: 'https://bgithub.xyz/InkCanvasForClass/community-beta/releases/download/{version}/InkCanvasForClass.CE.{version}.zip'
-    };
-    
-    let currentChannel = 'stable';
-    let latestVersion = '';
-    
-    // 可选的获取方法
-    const fetchMethods = {
-      API: 'github_api',
-      FILE: 'version_file',
-      PROXY: 'cors_proxy'
-    };
-    
-    // 设置初始获取方法 - 可以改为您偏好的方法
-    let preferredMethod = fetchMethods.API;
-    
-    // 初始加载正式版信息
-    fetchVersionInfo('stable', preferredMethod);
-    
-    // 切换版本通道
-    stableBtn.addEventListener('click', function() {
-      if (currentChannel !== 'stable') {
-        currentChannel = 'stable';
-        stableBtn.classList.add('active');
-        betaBtn.classList.remove('active');
-        fetchVersionInfo('stable', preferredMethod);
-      }
-    });
-    
-    betaBtn.addEventListener('click', function() {
-      if (currentChannel !== 'beta') {
-        currentChannel = 'beta';
-        betaBtn.classList.add('active');
-        stableBtn.classList.remove('active');
-        fetchVersionInfo('beta', preferredMethod);
-      }
-    });
-    
-    // 下载按钮点击事件
-    downloadBtn.addEventListener('click', function() {
-      if (latestVersion) {
-        const downloadUrl = downloadTemplates[currentChannel].replace(/{version}/g, latestVersion);
-        window.location.href = downloadUrl;
-      }
-    });
-    
-    // 选择并执行版本获取方法
-    function fetchVersionInfo(channel, method) {
-      currentVersion.textContent = '检测中...';
-      versionDesc.textContent = '';
-      loadingIndicator.style.display = 'flex';
-      downloadBtn.disabled = true;
-      
-      console.log(`使用${method}方法获取${channel}通道的版本信息...`);
-      
-      if (method === fetchMethods.API) {
-        getLatestReleaseFromGitHub(channel);
-      } else if (method === fetchMethods.FILE) {
-        checkVersionFromFile(channel);
-      } else {
-        tryAlternativeCorsProxy(channel);
-      }
-    }
-    
-    // 方法1：从GitHub API获取最新release信息
-    function getLatestReleaseFromGitHub(channel) {
-      console.log('尝试从GitHub API获取版本信息...');
-      
-      const repo = repos[channel];
-      const corsProxy = 'https://ghfile.geekertao.top/?';
-      const apiUrl = encodeURIComponent(`https://api.github.com/repos/${repo.owner}/${repo.repo}/releases/latest`);
-      
-      fetch(`${corsProxy}${apiUrl}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`GitHub API错误 (状态码: ${response.status})`);
-          }
-          return response.json();
-        })
-        .then(data => {
-          loadingIndicator.style.display = 'none';
-          downloadBtn.disabled = false;
-          
-          console.log('成功从GitHub API获取数据:', data);
-          
-          try {
-            // 从GitHub API响应中提取版本号（去掉v前缀）
-            latestVersion = data.tag_name.replace(/^v/, '');
-            console.log('解析得到最新版本:', latestVersion);
-            
-            currentVersion.textContent = latestVersion;
-            
-            // 设置描述信息
-            if (data.body) {
-              versionDesc.textContent = data.body.split('\n')[0]; // 使用release说明的第一行
-            } else if (channel === 'stable') {
-              versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
-            } else {
-              versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
-            }
-            
-            // 更新首选方法，因为成功了
-            preferredMethod = fetchMethods.API;
-          } catch (parseError) {
-            console.error('解析GitHub API响应失败:', parseError);
-            // 尝试从版本文件获取
-            checkVersionFromFile(channel);
-          }
-        })
-        .catch(error => {
-          console.error('从GitHub API获取版本信息失败:', error);
-          // 尝试从版本文件获取
-          checkVersionFromFile(channel);
-        });
-    }
-    
-    // 比较版本号，返回最新版本
-    function compareVersions(a, b) {
-      const partsA = a.split('.').map(Number);
-      const partsB = b.split('.').map(Number);
-      
-      for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
-        const numA = i < partsA.length ? partsA[i] : 0;
-        const numB = i < partsB.length ? partsB[i] : 0;
-        
-        if (numA > numB) return 1;
-        if (numA < numB) return -1;
-      }
-      
-      return 0; // 版本相同
-    }
-    
-    // 从版本文件内容中获取最新版本
-    function parseVersionData(data) {
-      // 确保数据不为空
-      if (!data || data.trim() === '') {
-        throw new Error('版本文件内容为空');
-      }
-      
-      // 分割为行，去除空行
-      const lines = data.split('\n')
-        .map(line => line.trim())
-        .filter(line => line !== '');
-      
-      if (lines.length === 0) {
-        throw new Error('版本文件不包含有效版本号');
-      }
-      
-      // 如果只有一行，直接返回
-      if (lines.length === 1) {
-        return lines[0];
-      }
-      
-      // 多行情况，查找最新版本
-      console.log('版本文件包含多个版本:', lines);
-      
-      // 排序版本号（降序）
-      lines.sort((a, b) => compareVersions(b, a));
-      
-      // 返回最新版本
-      return lines[0];
-    }
-    
-    // 方法2：直接从版本文件获取
-    function checkVersionFromFile(channel) {
-      console.log('从版本文件获取版本信息...');
-      
-      // 使用公共CORS代理服务获取版本文件内容
-      const corsProxy = 'https://corsproxy.io/?';
-      const targetUrl = encodeURIComponent(versionUrls[channel]);
-      
-      fetch(`${corsProxy}${targetUrl}`)
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`网络错误 (状态码: ${response.status})`);
-          }
-          return response.text();
-        })
-        .then(data => {
-          loadingIndicator.style.display = 'none';
-          downloadBtn.disabled = false;
-          
-          console.log('成功获取版本文件内容:', data);
-          
-          try {
-            // 解析版本文件内容，获取最新版本号
-            latestVersion = parseVersionData(data);
-            console.log('解析得到最新版本:', latestVersion);
-            
-            currentVersion.textContent = latestVersion;
-            
-            if (channel === 'stable') {
-              versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
-            } else {
-              versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
-            }
-            
-            // 更新首选方法，因为成功了
-            preferredMethod = fetchMethods.FILE;
-          } catch (parseError) {
-            console.error('解析版本信息失败:', parseError);
-            // 尝试备用CORS代理
-            tryAlternativeCorsProxy(channel);
-          }
-        })
-        .catch(error => {
-          console.error('获取版本文件失败:', error);
-          // 尝试另一个CORS代理
-          tryAlternativeCorsProxy(channel);
-        });
-    }
-    
-    // 方法3：尝试另一个CORS代理
-    function tryAlternativeCorsProxy(channel) {
-      console.log('尝试使用备用CORS代理...');
-      
-      // 备用CORS代理
-      const corsProxy = 'https://cors-anywhere.herokuapp.com/';
-      const targetUrl = versionUrls[channel];
-      
-      fetch(`${corsProxy}${targetUrl}`, {
-        headers: {
-          'Origin': window.location.origin
-        }
-      })
-        .then(response => {
-          if (!response.ok) {
-            throw new Error(`备用代理网络错误 (状态码: ${response.status})`);
-          }
-          return response.text();
-        })
-        .then(data => {
-          loadingIndicator.style.display = 'none';
-          downloadBtn.disabled = false;
-          
-          console.log('通过备用代理成功获取版本信息:', data);
-          
-          try {
-            // 解析版本文件内容，获取最新版本号
-            latestVersion = parseVersionData(data);
-            console.log('通过备用代理解析得到最新版本:', latestVersion);
-            
-            currentVersion.textContent = latestVersion;
-            
-            if (channel === 'stable') {
-              versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
-            } else {
-              versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
-            }
-            
-            // 更新首选方法，因为成功了
-            preferredMethod = fetchMethods.PROXY;
-          } catch (parseError) {
-            console.error('解析版本信息失败:', parseError);
-            useFallbackData(channel);
-          }
-        })
-        .catch(error => {
-          console.error('备用代理获取失败:', error);
-          // 所有尝试都失败，使用备用数据
-          useFallbackData(channel);
-        });
-    }
-    
-    // 最后的备用方法：使用硬编码的备用数据
-    function useFallbackData(channel) {
-      console.log('所有网络请求失败，使用备用数据...');
-      loadingIndicator.style.display = 'none';
-      
-      if (channel === 'stable') {
-        latestVersion = '1.7.0.0';
-        currentVersion.textContent = latestVersion;
-        versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
-      } else {
-        latestVersion = '1.7.0.5';
-        currentVersion.textContent = latestVersion;
-        versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
-      }
-      
-      downloadBtn.disabled = false;
-    }
-  });
+    // 打开下载链接
+    window.open(downloadUrl, '_blank');
+  }
 })();
 </script>
 
-<style>
-:root {
-  --text-color-light: #333;
-  --text-color-dark: #ffffff;
-  --bg-soft-light: #f9f9f9;
-  --bg-soft-dark: #222;
-  --border-color-light: #ccc;
-  --border-color-dark: #444;
-}
+## 下载说明
 
-.download-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: var(--vp-font-family-base, "Segoe UI", Arial, sans-serif);
-}
+- 正式版：稳定可靠，适合日常教学使用
+- 测试版：包含最新功能，但可能存在不稳定因素，适合体验新功能
+- 所有版本均基于GPLv3许可证发布，确保用户的自由使用和修改权利
 
-.version-selector {
-  display: flex;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-
-.version-selector button {
-  padding: 10px 20px;
-  border: 1px solid var(--vp-c-border, var(--border-color-light));
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
-  color: var(--vp-c-text, var(--text-color-light));
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: all 0.3s;
-}
-
-.version-selector button.active {
-  background: var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-white, white);
-  border-color: var(--vp-c-brand, #0078d4);
-}
-
-.version-info {
-  margin-bottom: 30px;
-  padding: 15px;
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
-  border-radius: 4px;
-  border-left: 4px solid var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-text, var(--text-color-light));
-}
-
-.download-button button {
-  padding: 12px 30px;
-  background: var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-white, white);
-  border: none;
-  border-radius: 4px;
-  font-size: 18px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.download-button button:hover {
-  background: var(--vp-c-brand-dark, #005a9e);
-}
-
-.download-button button:disabled {
-  background: var(--vp-c-gray, #ccc);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  color: var(--vp-c-text-2, #666);
-}
-
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid var(--vp-c-brand, #0078d4);
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-html.dark .version-info,
-html.dark .version-selector button {
-  color: var(--text-color-dark);
-}
-
-html.dark .version-info {
-  background: var(--bg-soft-dark);
-  border-left-color: var(--vp-c-brand, #0078d4);
-}
-
-html.dark .version-selector button {
-  background: var(--bg-soft-dark);
-  border-color: var(--border-color-dark);
-}
-
-html.dark .spinner {
-  border-color: rgba(255, 255, 255, 0.1);
-  border-top-color: var(--vp-c-brand, #0078d4);
-}
-
-html.dark .loading {
-  color: var(--text-color-dark);
-}
-
-html.dark h2,
-html.dark p {
-  color: var(--text-color-dark);
-}
-</style>
+如果您在下载或使用过程中遇到任何问题，请参考我们的[故障排除指南](/guide/troubleshooting)或在GitHub上提交issue。
