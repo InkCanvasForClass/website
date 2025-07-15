@@ -130,8 +130,7 @@
       console.log('尝试从GitHub API获取版本信息...');
       
       const repo = repos[channel];
-      const corsProxy = 'https://ghfile.geekertao.top/? ';
-      const apiUrl = encodeURIComponent(`https://api.github.com/repos/ ${repo.owner}/${repo.repo}/releases/latest`);
+      const apiUrl = encodeURIComponent(`https://ghfile.geekertao.top/https://api.github.com/repos/ ${repo.owner}/${repo.repo}/releases/latest`);
       
       fetch(`${corsProxy}${apiUrl}`)
         .then(response => {
