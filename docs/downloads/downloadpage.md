@@ -22,8 +22,11 @@
 </div>
 
 <!-- 备选下载区 -->
+# 备选下载区
+<!-- markdownlint-disable MD033 MD047 -->
+<ClientOnly>
 <div class="vp-doc">
-  <div class="alternative-downloads">
+  <div class="alternative-downloads" style="float: right; width: 30%;">
     <h2>其他下载地址</h2>
 
     <div class="download-section">
@@ -45,9 +48,9 @@
         <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
         <option value="https://bgithub.xyz/InkCanvasForClass/community/actions">GitHub Action</option>
       </select>
-    </div>
   </div>
 </div>
+</ClientOnly>
 
 <style>
   .vp-doc {
@@ -87,6 +90,7 @@
     outline: none;
   }
 </style>
+<!-- Ensure the file ends with a single newline character -->
 
 <script>
 (function() {
