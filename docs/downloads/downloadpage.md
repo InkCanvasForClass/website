@@ -1,25 +1,112 @@
 # InkCanvasForClass 下载中心
 
 <div class="download-container">
-  <div class="version-selector">
-    <button id="stableBtn" class="active">正式版</button>
-    <button id="betaBtn">测试版</button>
+  <div class="main-content">
+    <div class="version-selector">
+      <button id="stableBtn" class="active">正式版</button>
+      <button id="betaBtn">测试版</button>
+    </div>
+    
+    <div class="version-info">
+      <h2>当前版本: <span id="currentVersion">检测中...</span></h2>
+      <p id="versionDesc"></p>
+    </div>
+    
+    <div class="download-button">
+      <button id="downloadBtn">下载最新版本</button>
+    </div>
+    
+    <div class="loading" id="loadingIndicator">
+      <div class="spinner"></div>
+      <p>正在检测最新版本...</p>
+    </div>
   </div>
   
-  <div class="version-info">
-    <h2>当前版本: <span id="currentVersion">检测中...</span></h2>
-    <p id="versionDesc"></p>
-  </div>
-  
-  <div class="download-button">
-    <button id="downloadBtn">下载最新版本</button>
-  </div>
-  
-  <div class="loading" id="loadingIndicator">
-    <div class="spinner"></div>
-    <p>正在检测最新版本...</p>
+  <div class="alternative-downloads">
+    <div class="download-section">
+      <h3>其他正式版下载地址</h3>
+      <select class="download-select" onchange="if(this.value) window.location.href=this.value">
+        <option value="">选择下载地址...</option>
+        <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
+        <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
+        <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+      </select>
+    </div>
+    
+    <div class="download-section">
+      <h3>其他测试版下载地址</h3>
+      <select class="download-select" onchange="if(this.value) window.location.href=this.value">
+        <option value="">选择下载地址...</option>
+        <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
+        <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
+        <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+        <option value="https://github.com/InkCanvasForClass/community/actions">GitHub Action</option>
+      </select>
+    </div>
   </div>
 </div>
+
+<style>
+/* 新增样式 */
+.download-container {
+  display: flex;
+  gap: 30px;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.alternative-downloads {
+  min-width: 300px;
+  padding: 20px;
+  background: var(--vp-c-bg-soft, var(--bg-soft-light));
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.download-section {
+  margin-bottom: 20px;
+}
+
+.download-section h3 {
+  margin-bottom: 10px;
+  color: var(--vp-c-text, var(--text-color-light));
+  font-size: 16px;
+}
+
+.download-select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--vp-c-border, var(--border-color-light));
+  border-radius: 4px;
+  background: var(--vp-c-bg, white);
+  color: var(--vp-c-text, var(--text-color-light));
+  font-size: 14px;
+  cursor: pointer;
+}
+
+html.dark .alternative-downloads {
+  background: var(--bg-soft-dark);
+}
+
+html.dark .download-select {
+  background: var(--vp-c-bg-dark, #1a1a1a);
+  border-color: var(--border-color-dark);
+  color: var(--text-color-dark);
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+  .download-container {
+    flex-direction: column;
+  }
+  
+  .alternative-downloads {
+    min-width: auto;
+  }
+}
+</style>
 
 <script>
 (function() {
