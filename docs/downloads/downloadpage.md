@@ -5,7 +5,6 @@
     <button id="stableBtn" class="active">正式版</button>
     <button id="betaBtn">测试版</button>
   </div>
-你可以帮我修改一下吗
   
   <div class="version-info">
     <h2>当前版本: <span id="currentVersion">检测中...</span></h2>
@@ -336,7 +335,7 @@
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是稳定的正式发布版本，适合日常使用。';
       } else {
-        latestVersion = '1.7.0.5';
+        latestVersion = '1.7.0.6';
         currentVersion.textContent = latestVersion;
         versionDesc.textContent = '这是测试版本，包含最新功能，但可能不稳定。';
       }
