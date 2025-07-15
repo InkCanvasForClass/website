@@ -21,68 +21,69 @@
   </div>
 </div>
 
-<div class="alternative-downloads">
-  <h3 class="section-title">其他下载地址</h3>
+<!-- 备选下载区 -->
+<div class="vp-doc">
+  <div class="alternative-downloads">
+    <h2>其他下载地址</h2>
 
-  <div class="download-section">
-    <h4 class="download-title">正式版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
-      <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-    </select>
-  </div>
+    <div class="download-section">
+      <h3>正式版下载</h3>
+      <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
+        <option value="">选择下载地址...</option>
+        <option value="https://cjk-mkp.lanzouw.com/b004imjaej">蓝奏云一 (密码55ah)</option>
+        <option value="https://www.ilanzou.com/s/DLYZ827G">蓝奏云二</option>
+        <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=oeqq176WTz8M9AuuJUdRDV&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+      </select>
+    </div>
 
-  <div class="download-section">
-    <h4 class="download-title">测试版下载</h4>
-    <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
-      <option value="">选择下载地址...</option>
-      <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
-      <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
-      <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
-      <option value="https://bgithub.xyz/InkCanvasForClass/community/actions">GitHub Action</option>
-    </select>
+    <div class="download-section">
+      <h3>测试版下载</h3>
+      <select class="download-select" onchange="if(this.value) window.open(this.value, '_blank')">
+        <option value="">选择下载地址...</option>
+        <option value="https://cjk-mkp.lanzouw.com/b004imjafa">蓝奏云一 (密码b3ts)</option>
+        <option value="https://www.ilanzou.com/s/IrPZ82Le">蓝奏云二</option>
+        <option value="https://docs.qq.com/aio/DR0JXWGVNTUVkZ1F6?no_promotion=1&p=p2y1Tvbd3fS4In3WMECHKW&_t=1752559307913&nlc=1&u=4a48533a5c554ac19bde80b8b4536db0">腾讯文档</option>
+        <option value="https://bgithub.xyz/InkCanvasForClass/community/actions">GitHub Action</option>
+      </select>
+    </div>
   </div>
 </div>
 
 <style>
-  .alternative-downloads {
-    font-family: Arial, sans-serif;
+  .vp-doc {
+    font-family: var(--vp-font-family-base, Arial, sans-serif);
     margin: 20px;
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
+    background-color: var(--vp-c-bg);
+    color: var(--vp-c-text);
   }
 
-  .section-title {
-    font-size: 1.5em;
-    color: #333;
-    margin-bottom: 15px;
+  .alternative-downloads h2 {
+    font-size: var(--vp-font-size-2);
+    margin-bottom: 20px;
   }
 
   .download-section {
     margin-bottom: 20px;
   }
 
-  .download-title {
-    font-size: 1.2em;
-    color: #555;
+  .download-section h3 {
+    font-size: var(--vp-font-size-1);
     margin-bottom: 10px;
   }
 
   .download-select {
     width: 100%;
     padding: 10px;
-    font-size: 1em;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    font-size: var(--vp-font-size-base);
+    border: 1px solid var(--vp-c-border);
+    border-radius: var(--vp-radius);
+    background-color: var(--vp-c-bg-secondary);
+    color: var(--vp-c-text);
   }
 
   .download-select:focus {
-    border-color: #007bff;
+    border-color: var(--vp-c-brand);
     outline: none;
   }
 </style>
