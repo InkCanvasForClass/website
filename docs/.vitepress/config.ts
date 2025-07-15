@@ -11,6 +11,7 @@ export default {
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/getting-started' },
       { text: '功能', link: '/features/overview' },
+      { text: '下载', link: '/downloads/downloadpage' },
       { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' },
     ],
     sidebar: {
@@ -39,7 +40,7 @@ export default {
       ],
     },
     socialLinks: [
-      { icon: 'github', link: '/download/downloadpage' },
+      { icon: 'github', link: 'https://github.com/InkCanvasForClass/community' },
     ],
     footer: {
       message: '基于GPLv3许可证发布',
