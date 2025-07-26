@@ -16,6 +16,8 @@ export default {
       { text: '功能', link: '/features/overview' },
       { text: '下载', link: '/downloads/downloadpage' },
       { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' },
+      { text: '团队', link: '/team' },
+      { text: '友情连接', link: '/links' }
     ],
     sidebar: {
       '/guide/': [
@@ -42,8 +44,6 @@ export default {
           ],
         },
       ],
-      { text: '团队', link: '/team' },
-      { text: '友情连接', link: '/links' }
     },
     search: {
       provider: "local",
