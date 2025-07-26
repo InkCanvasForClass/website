@@ -5,7 +5,7 @@
 ## 系统要求
 
 - <badge type="tip" text="操作系统" /> Windows 10/11
-- <badge type="info" text="内存" /> 至少 4GB
+- <badge type="tip" text="内存" /> 至少 4GB
 - <badge type="info" text="硬件" /> 支持触控输入的设备（推荐，但非必需）
 - <badge type="warning" text=".NET" /> Microsoft .NET Framework 4.7.2 或更高版本
 

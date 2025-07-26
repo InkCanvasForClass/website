@@ -32,6 +32,7 @@ export default {
       '/features/': [
         {
           text: '功能文档',
+          collapsed: false,
           items: [
             { text: '功能概览', link: '/features/overview' },
             { text: '智能笔迹处理', link: '/features/overview' },
@@ -41,6 +42,8 @@ export default {
           ],
         },
       ],
+      { text: '团队', link: '/team' },
+      { text: '友情连接', link: '/links' }
     },
     search: {
       provider: "local",
@@ -114,6 +117,8 @@ export default {
     skipToContentLabel: '跳转到内容'
   },
 
+  cleanUrls: true,
+  
   markdown: {
     config: (md) => {
       md.use(markdownItTaskCheckbox)
