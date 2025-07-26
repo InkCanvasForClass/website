@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress'
 import markdownItTaskCheckbox from 'markdown-it-task-checkbox'
 
 export default {
-  base: '/website/',
+  base: '/',
   title: 'ICC CE | 智能课堂绘图增强工具',
   description: '智能课堂绘图增强工具',
   head: [
