@@ -5,7 +5,6 @@ import DefaultTheme from 'vitepress/theme'
 import './style.css'
 import './style/index.css'
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import 'virtual:group-icons.css'
 import mediumZoom from 'medium-zoom'
 import BilibiliVideo from './components/BilibiliVideo.vue'
 import backtotop from "./components/backtotop.vue"

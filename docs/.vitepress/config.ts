@@ -1,5 +1,4 @@
 import { defineConfig } from 'vitepress'
-const { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } = await import('vitepress-plugin-group-icons')
 import markdownItTaskCheckbox from 'markdown-it-task-checkbox'
 
 export default {
@@ -117,8 +116,7 @@ export default {
 
   markdown: {
     config: (md) => {
-      md.use(markdownItTaskCheckbox);
-      md.use(groupIconMdPlugin)
+      md.use(markdownItTaskCheckbox)
     },
     theme: {
       light: 'github-light',
@@ -135,17 +133,5 @@ export default {
       detailsLabel: '详细信息'
     },
     lineNumbers: true
-  },
-  vite: { 
-    plugins: [
-      groupIconVitePlugin({ 
-        customIcon: {
-          ts: 'logos:typescript',
-          js: 'logos:javascript',
-          md: 'logos:markdown',
-          css: 'logos:css-3',
-        },
-      })
-    ],
   },
 };
