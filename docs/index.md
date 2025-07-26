@@ -33,3 +33,8 @@ features:
     title: 高度可定制
     details: 丰富的设置选项满足不同教学场景需求，包括UI定制、笔触参数和自动化功能
 ---
+<HomeUnderline />
+
+<div align="center">
+本站总访问量 <span id="busuanzi_value_site_pv" /> 次 | 本站访客数 <span id="busuanzi_value_site_uv" /> 人次
+</div>
