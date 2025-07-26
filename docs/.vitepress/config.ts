@@ -1,5 +1,5 @@
 import { defineConfig } from 'vitepress'
-import { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
+const { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } = await import('vitepress-plugin-group-icons')
 import markdownItTaskCheckbox from 'markdown-it-task-checkbox'
 
 export default {
