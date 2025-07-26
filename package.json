@@ -1,12 +1,16 @@
 {
-  "private": true,
-  "type": "module",
+  "devDependencies": {
+    "vitepress": "^1.6.3"
+  },
   "scripts": {
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
-  "devDependencies": {
-    "vitepress": "latest"
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "busuanzi.pure.js": "^1.0.3",
+    "medium-zoom": "^1.1.0",
+    "markdown-it-task-checkbox": "^1.0.6"
   }
 }

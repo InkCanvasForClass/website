@@ -1,15 +1,17 @@
 # 快速开始
 
+<ArticleMetadata />
+
 ## 系统要求
 
-- Windows 10/11 操作系统
-- 至少 4GB 内存
-- 支持触控输入的设备（推荐，但非必需）
-- Microsoft .NET Framework 4.7.2 或更高版本
+- <badge type="tip" text="操作系统" /> Windows 10/11
+- <badge type="tip" text="内存" /> 至少 4GB
+- <badge type="info" text="硬件" /> 支持触控输入的设备（推荐，但非必需）
+- <badge type="warning" text=".NET" /> Microsoft .NET Framework 4.7.2 或更高版本
 
 ## 安装步骤
 
-1. 从[GitHub Releases 页面](https://github.com/InkCanvasForClass/community/releases)下载最新版本
+1. 从 [GitHub Releases 页面](https://github.com/InkCanvasForClass/community/releases)下载最新版本
 2. 解压下载的 zip 文件到您选择的文件夹
 3. 运行`InkCanvasForClass.exe`启动应用程序
 4. 首次运行时，软件会提示您完成初始设置
