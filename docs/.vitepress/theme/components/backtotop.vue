@@ -97,7 +97,7 @@ onBeforeUnmount(() => {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: var(--vp-c-brand-1);
   padding: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   display: flex;
@@ -108,7 +108,7 @@ onBeforeUnmount(() => {
 }
 
 .vitepress-backTop-main:hover {
-  background-color: #4dabf7;
+  background-color: var(--vp-c-brand-2);
 }
 
 .progress-ring {
@@ -121,13 +121,13 @@ onBeforeUnmount(() => {
 
 .progress-ring-background {
   fill: none;
-  stroke: rgba(0, 123, 255, 0.15);
+  stroke: rgba(51, 166, 186, 0.15);
   stroke-width: 3;
 }
 
 .progress-ring-circle {
   fill: none;
-  stroke: #007bff;
+  stroke: var(--vp-c-brand-1);
   stroke-width: 3;
   stroke-dasharray: 264;
   stroke-linecap: round;
