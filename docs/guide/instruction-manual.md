@@ -1,4 +1,8 @@
-# ICC CE官方使用指南
+# 使用指南
+
+<ArticleMetadata />
+
+## 开始使用
 尊敬的用户您好，欢迎使用 ICC CE，本教程适用于从未接触过 ICC CE 系列批注软件的新手或者是还在使用老版本的用户，教程将详细讲述应当如何正确使用 ICC CE 来避免一些问题，我们会对内容进行分区说明，以下是温馨提示：  
 
 1. 本软件适用于 Windows7 及以上版本，且需要安装 `.NET Framework4.7.2`，如遇 win7 无法安装 `.NET Framework4.7.2` 请安装 `Windows6.1-KB3033929-x64`（需要 Windows 7 Sp1）。  
@@ -9,12 +13,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 
-<img src="https://github.com/user-attachments/assets/acdbddd6-7380-439b-a95e-1bdb156d9a4e" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://bgithub.xyz/user-attachments/assets/acdbddd6-7380-439b-a95e-1bdb156d9a4e" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 
-<img src="https://github.com/user-attachments/assets/1d2011be-4e1f-4b6e-af3d-db59aa81b90f" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+<img src="https://bgithub.xyz/user-attachments/assets/1d2011be-4e1f-4b6e-af3d-db59aa81b90f" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -24,7 +28,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://github.com/user-attachments/assets/63614ddb-0353-4090-84ca-0d9748efe19f" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://bgithub.xyz/user-attachments/assets/63614ddb-0353-4090-84ca-0d9748efe19f" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 ### 有关启动的相关设置：  
 在```启动```分区，您可以找到，有关自动更新与窗口无焦点化的相关选项。  
@@ -156,7 +160,7 @@ https://github.com/InkCanvasForClass/community/issues
 ### 初始状态  
 当你打开软件时您会看到一个浮动栏，本区域将向您介绍浮动栏上部分功能是如何使用的：  
 
- <img src="https://github.com/user-attachments/assets/3d2f9a4c-3eba-410a-a7cd-c6c3574240f9" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+ <img src="https://bgithub.xyz/user-attachments/assets/3d2f9a4c-3eba-410a-a7cd-c6c3574240f9" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 1. 如果你需要使用白板，请点击```白板```按钮  
 2. 当你点击```批注```按钮时，浮动栏将会展开并进入```画板模式```，如图所示：  
@@ -165,7 +169,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 3. 点击```工具```按钮以使用软件的其他功能  
 
-<img src="https://github.com/user-attachments/assets/6f68b54d-4729-47f6-8064-b66baf1d1714" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://bgithub.xyz/user-attachments/assets/6f68b54d-4729-47f6-8064-b66baf1d1714" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
@@ -174,7 +178,7 @@ https://github.com/InkCanvasForClass/community/issues
 接下来将对其中的常规操作进行讲解：  
 1. 单击批注按钮可以调整画笔颜色、粗细等参数。  
 
-<img src="https://github.com/user-attachments/assets/ce72e4e9-0f9a-430c-83de-4c6b1a6ae081" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://bgithub.xyz/user-attachments/assets/ce72e4e9-0f9a-430c-83de-4c6b1a6ae081" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 2. 软件支持两种橡皮，分别为`面积擦`和`线擦`，面积擦为在**面积范围内擦除**，而线擦为**逐笔画式的擦除**。此外，你也可以像在使用希沃白板那样在绘制模式下用手掌擦除。如果你在使用手掌擦除遇到问题，请前往先前的设置区查看有关讲解。[【点击此处以跳转】](#有关于高级设置的相关设置)  
 3. 套索选功能可以移动选中的墨迹，调整墨迹粗细、大小等。（仅触摸时可以使用克隆功能对墨迹进行克隆。）  
