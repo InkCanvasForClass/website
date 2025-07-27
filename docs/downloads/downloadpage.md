@@ -52,11 +52,6 @@
       }
     };
     
-    // 版本文件URL
-    const versionUrls = {
-      stable: `https://bgithub.xyz/InkCanvasForClass/community/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`,
-      beta: `https://bgithub.xyz/InkCanvasForClass/community-beta/raw/refs/heads/main/AutomaticUpdateVersionControl.txt`
-    };
     
     // 下载链接模板
     const downloadTemplates = {
@@ -67,15 +62,6 @@
     let currentChannel = 'stable';
     let latestVersion = '';
     
-    // 可选的获取方法
-    const fetchMethods = {
-      API: 'github_api',
-      FILE: 'version_file',
-      PROXY: 'cors_proxy'
-    };
-    
-    // 设置初始获取方法 - 可以改为您偏好的方法
-    let preferredMethod = fetchMethods.API;
     
     // 初始加载正式版信息
     fetchVersionInfo('stable', preferredMethod);
