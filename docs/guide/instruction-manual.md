@@ -72,7 +72,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 ### 有关崩溃后操作的相关设置：  
 在```崩溃处理```分区，您可以看到有关于软件遇到崩溃采取的措施的有关选项。  
-::: success
+::: info
 推荐启用此功能，以降低您在使用过程中的**异常崩溃**带来的影响。  
 :::
 
@@ -113,7 +113,7 @@ https://github.com/InkCanvasForClass/community/issues
 > 1.您可以设置随机点名的显示时间和导入名单功能；  
 > 2.您可以配置直接调用Classisland的点名功能；  
 > 3.您还可以配置有关点名背景的相关功能。  
-::: success
+::: info
 该功能需要用户安装**Classisland**并且配置**islandcaller插件**。
 :::
 
