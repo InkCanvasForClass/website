@@ -160,7 +160,7 @@ https://github.com/InkCanvasForClass/community/issues
 ### 初始状态  
 当你打开软件时您会看到一个浮动栏，本区域将向您介绍浮动栏上部分功能是如何使用的：  
 
- <img src="https://bgithub.xyz/user-attachments/assets/3d2f9a4c-3eba-410a-a7cd-c6c3574240f9" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+ <img src="https://github.com/user-attachments/assets/3d2f9a4c-3eba-410a-a7cd-c6c3574240f9" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 1. 如果你需要使用白板，请点击```白板```按钮  
 2. 当你点击```批注```按钮时，浮动栏将会展开并进入```画板模式```，如图所示：  
@@ -169,7 +169,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 3. 点击```工具```按钮以使用软件的其他功能  
 
-<img src="https://bgithub.xyz/user-attachments/assets/6f68b54d-4729-47f6-8064-b66baf1d1714" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/6f68b54d-4729-47f6-8064-b66baf1d1714" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
@@ -178,7 +178,7 @@ https://github.com/InkCanvasForClass/community/issues
 接下来将对其中的常规操作进行讲解：  
 1. 单击批注按钮可以调整画笔颜色、粗细等参数。  
 
-<img src="https://bgithub.xyz/user-attachments/assets/ce72e4e9-0f9a-430c-83de-4c6b1a6ae081" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/ce72e4e9-0f9a-430c-83de-4c6b1a6ae081" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 2. 软件支持两种橡皮，分别为`面积擦`和`线擦`，面积擦为在**面积范围内擦除**，而线擦为**逐笔画式的擦除**。此外，你也可以像在使用希沃白板那样在绘制模式下用手掌擦除。如果你在使用手掌擦除遇到问题，请前往先前的设置区查看有关讲解。[【点击此处以跳转】](#有关于高级设置的相关设置)  
 3. 套索选功能可以移动选中的墨迹，调整墨迹粗细、大小等。（仅触摸时可以使用克隆功能对墨迹进行克隆。）  
