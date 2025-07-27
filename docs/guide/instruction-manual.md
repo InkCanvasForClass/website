@@ -13,12 +13,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 
-<img src="https://bgithub.xyz/user-attachments/assets/acdbddd6-7380-439b-a95e-1bdb156d9a4e" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/acdbddd6-7380-439b-a95e-1bdb156d9a4e" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 
-<img src="https://bgithub.xyz/user-attachments/assets/1d2011be-4e1f-4b6e-af3d-db59aa81b90f" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+<img src="https://github.com/user-attachments/assets/1d2011be-4e1f-4b6e-af3d-db59aa81b90f" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -28,7 +28,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://bgithub.xyz/user-attachments/assets/63614ddb-0353-4090-84ca-0d9748efe19f" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/63614ddb-0353-4090-84ca-0d9748efe19f" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 ### 有关启动的相关设置：  
 在```启动```分区，您可以找到，有关自动更新与窗口无焦点化的相关选项。  
