@@ -1,10 +1,6 @@
-# 使用指南
-
-<ArticleMetadata />
-
-## 开始使用
-
+# ICC CE官方使用指南
 尊敬的用户您好，欢迎使用 ICC CE，本教程适用于从未接触过 ICC CE 系列批注软件的新手或者是还在使用老版本的用户，教程将详细讲述应当如何正确使用 ICC CE 来避免一些问题，我们会对内容进行分区说明，以下是温馨提示：  
+
 1. 本软件适用于 Windows7 及以上版本，且需要安装 `.NET Framework4.7.2`，如遇 win7 无法安装 `.NET Framework4.7.2` 请安装 `Windows6.1-KB3033929-x64`（需要 Windows 7 Sp1）。  
 
 > Windows6.1-KB3033929-x64：  
@@ -12,13 +8,13 @@
 >
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
-> 
-> <img src="https://bgithub.xyz/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+
+<img src="https://s3.hedgedoc.org/hd1-demo/uploads/2e39dadd-f445-4012-8491-eb54be8c2ae4.png" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
-> 
-> <img src="https://bgithub.xyz/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+
+<img src="https://s3.hedgedoc.org/hd1-demo/uploads/8643a234-c4a9-4020-9bca-446968ec6e22.png" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -28,9 +24,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://bgithub.xyz/user-attachments/assets/571d0efa-6839-4630-815e-b4ca21915d02" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
-
-
+<img src="https://s3.hedgedoc.org/hd1-demo/uploads/9e71c4c6-4a70-494c-ae08-ee92b5534d95.png" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 ### 有关启动的相关设置：  
 在```启动```分区，您可以找到，有关自动更新与窗口无焦点化的相关选项。  
@@ -42,6 +36,8 @@ https://github.com/InkCanvasForClass/community/issues
 ::: warning
 窗口无焦点化可能导致**部分置顶问题**，请用户决定是否使用。   
 ::: 
+
+
 
 ### 有关画板和墨迹的相关设置：  
 在```画板和墨迹```分区，您可以看到有关于画板设置的相关选项。  
@@ -57,10 +53,14 @@ https://github.com/InkCanvasForClass/community/issues
 **插入图片**功能目前存在一点问题，请用户酌情调整设置。  
 ::: 
 
+
+
 ### 有关手势的相关设置：  
 在```手势```分区，您可以看到有关于软件手势的有关选项。  
 > 1.双指移动功能默认启用，如果您不需要请关闭；  
 > 2.如果您发生了触摸使用过程中，批注变为橡皮且切换不回去的情况，请关闭手掌擦功能。  
+
+
 
 ### 有关墨迹纠正的相关设置  
 在```墨迹纠正```分区，您可以看到有关于墨迹识别与直线自动拉直的有关选项。  
@@ -69,11 +69,15 @@ https://github.com/InkCanvasForClass/community/issues
 如果您不需要**墨迹纠正**功能请关闭此项，此项可能会给您的计算机带来额外的性能开支。
 :::
 
+
+
 ### 有关崩溃后操作的相关设置：  
 在```崩溃处理```分区，您可以看到有关于软件遇到崩溃采取的措施的有关选项。  
-::: tip
+::: success
 推荐启用此功能，以降低您在使用过程中的**异常崩溃**带来的影响。  
 :::
+
+
 
 ### 有关于PPT联动的相关设置
 在```PPT联动```分区，您可以看到有关于软件与演示文稿联动的有关选项。  
@@ -89,6 +93,8 @@ https://github.com/InkCanvasForClass/community/issues
 如果你发现PPT在使用时OfficeCOM损坏导致软件无法进行PPT联动时请参考这个链接[【点击此处以跳转】](https://www.inkeys.top/tutorial/ppt-com.html)。  
 :::
 
+
+
 ### 有关于高级设置的相关设置
 在```高级设置```分区，您可以看到有关于屏幕触摸、日志、软件关闭提醒、实验性功能的有关选项，请按需修改。  
 > 1. 如果您在使用过程中发生了屏幕DPI变动，您可以尝试打开**ForceFullScreen**功能；分辨率变动，您可以尝试打开**ResolutionChangeDetection**功能；  
@@ -97,6 +103,8 @@ https://github.com/InkCanvasForClass/community/issues
 :::	info
 不推荐用户修改日志和备份相关内容。  
 :::
+
+
 
 ### 有关于自动化的相关设置
 在```自动化```分区，您可以找到有关程序自动化的相关功能。  
@@ -107,14 +115,18 @@ https://github.com/InkCanvasForClass/community/issues
 自动化相关内容您可以按需修改。  
 :::
 
+
+
 ### 有关随机点名的相关设置
 在```随机点名```分区，您可以找到有关于随机点名功能的相关设置。  
 > 1.您可以设置随机点名的显示时间和导入名单功能；  
 > 2.您可以配置直接调用Classisland的点名功能；  
 > 3.您还可以配置有关点名背景的相关功能。  
-::: tip
-该功能需要用户安装**Classisland**并且配置**islandcaller插件**。
+::: success
+该功能需要用户安装**Classisland**并且配置**islandcaller插件。**
 :::
+
+
 
 ### 有关个性化的相关设置
 在```个性化```分区，您可以找到有关个性化的相关功能。  
@@ -123,6 +135,8 @@ https://github.com/InkCanvasForClass/community/issues
 > 3.您可以在此管理您的白板页面的大小及内容显示；  
 > 4.您可以在此修改有关调色板中的笔尖模式的控件是否显示；  
 > 5.您可以在此管理是否启用侧边栏的快速面板和快速面板的展开按钮。  
+
+
 
 ### 有关关于的相关信息
 在```关于```分区，您可以找到有关版本信息，您的设备码，自动更新分级，开发者，仓库链接及开源协议相关信息
@@ -134,9 +148,80 @@ https://github.com/InkCanvasForClass/community/issues
 请不要试图篡改您的**设备ID**及**更新分级**，但是您的**历史版本回滚**功能及**版本修复**功能不受**更新分级**影响。
 :::
 
-## 功能区：
-这里将会引导您使用软件的一些功能。
-当你打开软件时您会看到一个浮动栏，本区域将向您介绍浮动栏上部分功能是如何使用的：
+
+
+## 功能区：  
+这里将会引导您使用软件的一些功能。  
+
+### 初始状态  
+当你打开软件时您会看到一个浮动栏，本区域将向您介绍浮动栏上部分功能是如何使用的：  
+
+ <img src="https://s3.hedgedoc.org/hd1-demo/uploads/a77b6b03-f1ae-4e63-8c57-c474dd69b05d.png" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+
+1. 如果你需要使用白板，请点击```白板```按钮  
+2. 当你点击```批注```按钮时，浮动栏将会展开并进入```画板模式```，如图所示：  
+
+![画板模式](https://s3.hedgedoc.org/hd1-demo/uploads/ddf06582-bc88-467c-9f76-2abd21d3eb13.png)  
+
+3. 点击```工具```按钮以使用软件的其他功能  
+
+<img src="https://s3.hedgedoc.org/hd1-demo/uploads/f4e4684f-1b8d-4b47-afd1-37bf282de05a.png" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+
+
+
+### 画板模式  
+**处于画板模式下您可以进行书写,擦除,选中,几何绘制等多项操作。**  
+接下来将对其中的常规操作进行讲解：  
+1. 单击批注按钮可以调整画笔颜色、粗细等参数。  
+
+<img src="https://s3.hedgedoc.org/hd1-demo/uploads/7a2cd133-a9e7-40f0-9379-91dae3a49644.png" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+
+2. 软件支持两种橡皮，分别为`面积擦`和`线擦`，面积擦为在**面积范围内擦除**，而线擦为**逐笔画式的擦除**。此外，你也可以像在使用希沃白板那样在绘制模式下用手掌擦除。如果你在使用手掌擦除遇到问题，请前往先前的设置区查看有关讲解。[【点击此处以跳转】](#有关于高级设置的相关设置)  
+3. 套索选功能可以移动选中的墨迹，调整墨迹粗细、大小等。（仅触摸时可以使用克隆功能对墨迹进行克隆。）  
+![套索选功能](https://s3.hedgedoc.org/hd1-demo/uploads/4671ccbd-d1ae-41fb-bce9-75c2f9a9e2cb.gif)  
+4. 清空与清并鼠，该功能适用于清空屏幕上的墨迹和清空墨迹后自动恢复至选择状态。  
+5. 本软件有丰富的几何图形预设，您可以点击软件上面的“几何按钮”使用。  
+![几何图形](https://s3.hedgedoc.org/hd1-demo/uploads/1b11c6d9-eb2e-4b41-9dca-c42b4944da97.gif)
+
+
+
+### 白板模式  
+**处于白板模式时您可以使用白板模式下独有的一些功能。**  
+接下来将对其中的常规操作进行讲解：  
+
+![白板模式](https://s3.hedgedoc.org/hd1-demo/uploads/d02d3f3b-6f65-4a0d-af56-1a89f0876cf7.png)
+
+1. 当您进入白板模式后您可以自行设置有关白板背景颜色。  
+
+![背景设置](https://s3.hedgedoc.org/hd1-demo/uploads/012f739d-4918-4170-b475-cc31b9b4000d.gif)
+
+2. 在白板模式可以使用手势对墨迹进行操作，也可以启用多指书写模式以此来支持多个手指同时书写。  
+![手势](https://s3.hedgedoc.org/hd1-demo/uploads/5cae1b1e-e093-4522-b850-2605ae6f925f.gif)
+
+3. 您还可以使用插入图片功能将图片插入到白板。  
+![插入图片](https://s3.hedgedoc.org/hd1-demo/uploads/5e916674-2c1d-4ecf-bfc7-af678da96dd2.gif)
+:::warning
+该功能目前存在问题，请您谨慎使用。
+:::
+
+
+
+4. 您可以在此新增白板的页数和选择您要跳转到的白板页数。  
+![白板翻页](https://s3.hedgedoc.org/hd1-demo/uploads/aff0013c-7053-4b75-a032-f33bfe2166ce.gif)
+
+**其他功能与常规画板模式相差不多，这里不再一一赘述。**  
+
+
+
+### PPT放映模式  
+**该模式是基于画板模式的，仅在PPT放映操作上有所区别。**  
+![PPT放映模式](https://s3.hedgedoc.org/hd1-demo/uploads/7e8855bd-9009-4f97-894f-c1b962d4b73e.png)
+
+1. 在左右两侧您可以看到翻页控件，该翻页控件可调，详情请参阅[【点此跳转】](#有关于PPT联动的相关设置)  
+
+2. 在放映时您还可以看到相应的退出按钮用于结束放映
+
+
 
 
 
