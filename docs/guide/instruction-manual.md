@@ -2,7 +2,7 @@
 
 <ArticleMetadata />
 
-# ICC CE官方使用指南
+## ICC CE官方使用指南
 
 尊敬的用户您好，欢迎使用 ICC CE，本教程适用于从未接触过 ICC CE 系列批注软件的新手或者是还在使用老版本的用户，教程将详细讲述应当如何正确使用 ICC CE 来避免一些问题，我们会对内容进行分区说明，以下是温馨提示：  
 1. 本软件适用于 Windows7 及以上版本，且需要安装 `.NET Framework4.7.2`，如遇 win7 无法安装 `.NET Framework4.7.2` 请安装 `Windows6.1-KB3033929-x64`（需要 Windows 7 Sp1）。  
