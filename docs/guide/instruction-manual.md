@@ -14,12 +14,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 > 
-> <img src="https://github.com/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+> <img src="https://bgithub.xyz/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 > 
-> <img src="https://github.com/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+> <img src="https://bgithub.xyz/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -29,7 +29,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://github.com/user-attachments/assets/571d0efa-6839-4630-815e-b4ca21915d02" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://bgithub.xyz/user-attachments/assets/571d0efa-6839-4630-815e-b4ca21915d02" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
@@ -72,7 +72,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 ### 有关崩溃后操作的相关设置：  
 在```崩溃处理```分区，您可以看到有关于软件遇到崩溃采取的措施的有关选项。  
-::: info
+::: tip
 推荐启用此功能，以降低您在使用过程中的**异常崩溃**带来的影响。  
 :::
 
@@ -113,7 +113,7 @@ https://github.com/InkCanvasForClass/community/issues
 > 1.您可以设置随机点名的显示时间和导入名单功能；  
 > 2.您可以配置直接调用Classisland的点名功能；  
 > 3.您还可以配置有关点名背景的相关功能。  
-::: info
+::: tip
 该功能需要用户安装**Classisland**并且配置**islandcaller插件**。
 :::
 
