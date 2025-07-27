@@ -15,9 +15,7 @@ export default {
       { text: '指南', link: '/guide/getting-started' },
       { text: '功能', link: '/features/overview' },
       { text: '下载', link: '/downloads/downloadpage' },
-      { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' },
-      { text: '团队', link: '/team' },
-      { text: '友情连接', link: '/links' }
+      { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' }
     ],
     sidebar: {
       '/guide/': [
@@ -72,6 +70,11 @@ export default {
         },
         link: 'https://qm.qq.com/q/iSI4386leo',
         ariaLabel: 'QQ 群'
+      },
+      { 
+        icon: 'discord',
+        link: 'https://discord.gg/ahj7eJWhEG',
+        ariaLabel: 'Discord'
       },
       { 
         icon: 'github',
