@@ -38,21 +38,7 @@
       return;
     }
     
-    // 仓库信息
-    const repos = {
-      stable: {
-        owner: 'InkCanvasForClass',
-        repo: 'community',
-        versionFile: 'AutomaticUpdateVersionControl.txt'
-      },
-      beta: {
-        owner: 'InkCanvasForClass',
-        repo: 'community-beta',
-        versionFile: 'AutomaticUpdateVersionControl.txt'
-      }
-    };
-    
-    
+
     // 下载链接模板
     const downloadTemplates = {
       stable: 'https://bgithub.xyz/InkCanvasForClass/community/releases/download/{version}/InkCanvasForClass.CE.{version}.zip',
@@ -92,24 +78,6 @@
         window.location.href = downloadUrl;
       }
     });
-    
-    // 选择并执行版本获取方法
-    function fetchVersionInfo(channel, method) {
-      currentVersion.textContent = '检测中...';
-      versionDesc.textContent = '';
-      loadingIndicator.style.display = 'flex';
-      downloadBtn.disabled = true;
-      
-      console.log(`使用${method}方法获取${channel}通道的版本信息...`);
-      
-      if (method === fetchMethods.API) {
-        getLatestReleaseFromGitHub(channel);
-      } else if (method === fetchMethods.FILE) {
-        checkVersionFromFile(channel);
-      } else {
-        tryAlternativeCorsProxy(channel);
-      }
-    }
     
     
     // 使用硬编码的备用数据
