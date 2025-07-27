@@ -227,6 +227,14 @@ https://github.com/InkCanvasForClass/community/issues
 
 
 
+## 获取帮助  
+如果您按照上述的教程调节设置时出现问题或者使用软件出现问题时，欢迎前往我们的社区以寻求帮助：  
+**GitHub仓库**：https://github.com/InkCanvasForClass/community
+**QQ群聊**：[1054377349](https://qm.qq.com/q/ogPNMANQVE)  
+**Discord频道**：https://discord.gg/ahj7eJWhEG  
+**智教联盟板块**：https://forum.smart-teach.cn/t/icc-ce  
+
+
 
 
 
