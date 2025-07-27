@@ -9,12 +9,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 
-<img src="https://s3.hedgedoc.org/hd1-demo/uploads/2e39dadd-f445-4012-8491-eb54be8c2ae4.png" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/acdbddd6-7380-439b-a95e-1bdb156d9a4e" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 
-<img src="https://s3.hedgedoc.org/hd1-demo/uploads/8643a234-c4a9-4020-9bca-446968ec6e22.png" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+<img src="https://github.com/user-attachments/assets/1d2011be-4e1f-4b6e-af3d-db59aa81b90f" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -24,7 +24,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://s3.hedgedoc.org/hd1-demo/uploads/9e71c4c6-4a70-494c-ae08-ee92b5534d95.png" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/63614ddb-0353-4090-84ca-0d9748efe19f" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 ### 有关启动的相关设置：  
 在```启动```分区，您可以找到，有关自动更新与窗口无焦点化的相关选项。  
@@ -73,7 +73,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 ### 有关崩溃后操作的相关设置：  
 在```崩溃处理```分区，您可以看到有关于软件遇到崩溃采取的措施的有关选项。  
-::: success
+::: tip
 推荐启用此功能，以降低您在使用过程中的**异常崩溃**带来的影响。  
 :::
 
@@ -122,7 +122,7 @@ https://github.com/InkCanvasForClass/community/issues
 > 1.您可以设置随机点名的显示时间和导入名单功能；  
 > 2.您可以配置直接调用Classisland的点名功能；  
 > 3.您还可以配置有关点名背景的相关功能。  
-::: success
+::: tip
 该功能需要用户安装**Classisland**并且配置**islandcaller插件。**
 :::
 
@@ -156,16 +156,16 @@ https://github.com/InkCanvasForClass/community/issues
 ### 初始状态  
 当你打开软件时您会看到一个浮动栏，本区域将向您介绍浮动栏上部分功能是如何使用的：  
 
- <img src="https://s3.hedgedoc.org/hd1-demo/uploads/a77b6b03-f1ae-4e63-8c57-c474dd69b05d.png" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+ <img src="https://github.com/user-attachments/assets/3d2f9a4c-3eba-410a-a7cd-c6c3574240f9" alt="浮动栏" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 1. 如果你需要使用白板，请点击```白板```按钮  
 2. 当你点击```批注```按钮时，浮动栏将会展开并进入```画板模式```，如图所示：  
 
-![画板模式](https://s3.hedgedoc.org/hd1-demo/uploads/ddf06582-bc88-467c-9f76-2abd21d3eb13.png)  
+![画板模式](https://github.com/user-attachments/assets/f47e80a8-05b8-44ab-8c70-6771e97375ea)  
 
 3. 点击```工具```按钮以使用软件的其他功能  
 
-<img src="https://s3.hedgedoc.org/hd1-demo/uploads/f4e4684f-1b8d-4b47-afd1-37bf282de05a.png" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/6f68b54d-4729-47f6-8064-b66baf1d1714" alt="更多功能" style="width: 60%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
@@ -174,14 +174,14 @@ https://github.com/InkCanvasForClass/community/issues
 接下来将对其中的常规操作进行讲解：  
 1. 单击批注按钮可以调整画笔颜色、粗细等参数。  
 
-<img src="https://s3.hedgedoc.org/hd1-demo/uploads/7a2cd133-a9e7-40f0-9379-91dae3a49644.png" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/ce72e4e9-0f9a-430c-83de-4c6b1a6ae081" alt="批注参数调节" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 2. 软件支持两种橡皮，分别为`面积擦`和`线擦`，面积擦为在**面积范围内擦除**，而线擦为**逐笔画式的擦除**。此外，你也可以像在使用希沃白板那样在绘制模式下用手掌擦除。如果你在使用手掌擦除遇到问题，请前往先前的设置区查看有关讲解。[【点击此处以跳转】](#有关于高级设置的相关设置)  
 3. 套索选功能可以移动选中的墨迹，调整墨迹粗细、大小等。（仅触摸时可以使用克隆功能对墨迹进行克隆。）  
-![套索选功能](https://s3.hedgedoc.org/hd1-demo/uploads/4671ccbd-d1ae-41fb-bce9-75c2f9a9e2cb.gif)  
+![套索选功能](https://github.com/user-attachments/assets/0acc309d-b181-46bf-b300-2f2a441651c5)  
 4. 清空与清并鼠，该功能适用于清空屏幕上的墨迹和清空墨迹后自动恢复至选择状态。  
 5. 本软件有丰富的几何图形预设，您可以点击软件上面的“几何按钮”使用。  
-![几何图形](https://s3.hedgedoc.org/hd1-demo/uploads/1b11c6d9-eb2e-4b41-9dca-c42b4944da97.gif)
+![几何图形](https://github.com/user-attachments/assets/1692ff60-e75a-406a-b7e1-c3fc6e873e0e)
 
 
 
@@ -189,17 +189,17 @@ https://github.com/InkCanvasForClass/community/issues
 **处于白板模式时您可以使用白板模式下独有的一些功能。**  
 接下来将对其中的常规操作进行讲解：  
 
-![白板模式](https://s3.hedgedoc.org/hd1-demo/uploads/d02d3f3b-6f65-4a0d-af56-1a89f0876cf7.png)
+![白板模式](https://github.com/user-attachments/assets/dd1f2b45-ae4e-416f-8539-e063fd1fd86e)
 
 1. 当您进入白板模式后您可以自行设置有关白板背景颜色。  
 
-![背景设置](https://s3.hedgedoc.org/hd1-demo/uploads/012f739d-4918-4170-b475-cc31b9b4000d.gif)
+![背景设置](https://github.com/user-attachments/assets/323eb5f6-c95b-47c9-af82-d5fa415a0fb4)
 
 2. 在白板模式可以使用手势对墨迹进行操作，也可以启用多指书写模式以此来支持多个手指同时书写。  
-![手势](https://s3.hedgedoc.org/hd1-demo/uploads/5cae1b1e-e093-4522-b850-2605ae6f925f.gif)
+![手势](https://github.com/user-attachments/assets/f64b8fe5-2561-41aa-af10-592f17f747da)
 
 3. 您还可以使用插入图片功能将图片插入到白板。  
-![插入图片](https://s3.hedgedoc.org/hd1-demo/uploads/5e916674-2c1d-4ecf-bfc7-af678da96dd2.gif)
+![插入图片](https://github.com/user-attachments/assets/3b29dff9-402d-402e-b5c8-dfcc8fdf9039)
 :::warning
 该功能目前存在问题，请您谨慎使用。
 :::
@@ -207,7 +207,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 
 4. 您可以在此新增白板的页数和选择您要跳转到的白板页数。  
-![白板翻页](https://s3.hedgedoc.org/hd1-demo/uploads/aff0013c-7053-4b75-a032-f33bfe2166ce.gif)
+![白板翻页](https://github.com/user-attachments/assets/4f497449-c23f-4b2d-98d0-05b67a53afe5)
 
 **其他功能与常规画板模式相差不多，这里不再一一赘述。**  
 
@@ -215,11 +215,12 @@ https://github.com/InkCanvasForClass/community/issues
 
 ### PPT放映模式  
 **该模式是基于画板模式的，仅在PPT放映操作上有所区别。**  
-![PPT放映模式](https://s3.hedgedoc.org/hd1-demo/uploads/7e8855bd-9009-4f97-894f-c1b962d4b73e.png)
+![PPT放映模式](https://github.com/user-attachments/assets/e0d614b9-54b4-4532-8312-c48549ef2f66)
 
 1. 在左右两侧您可以看到翻页控件，该翻页控件可调，详情请参阅[【点此跳转】](#有关于PPT联动的相关设置)  
 
 2. 在放映时您还可以看到相应的退出按钮用于结束放映
+
 
 
 
