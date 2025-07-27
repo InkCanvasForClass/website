@@ -14,12 +14,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 > 
-> <img src="[https://s3.hedgedoc.org/hd1-demo/uploads/7aeb6878-38c8-4b5e-b27e-0461ec5a29d2.png](https://github.com/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2)" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+> <img src="[https://github.com/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2]" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 > 
-> <img src="[https://s3.hedgedoc.org/hd1-demo/uploads/bebd2bf2-f95b-4f9a-8bf5-ea20e8114ae2.png](https://github.com/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6)" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+> <img src="[https://github.com/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6]" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
