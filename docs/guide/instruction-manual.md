@@ -14,12 +14,12 @@
 > .NET Framework4.7.2:  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/net472  
 > 
-> <img src="[https://github.com/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2]" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+> <img src="https://github.com/user-attachments/assets/a35b8fe7-fcfb-434b-9f1e-06aad16e88b2" alt="详细操作2" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 > 如果您尝试下载失败，可尝试下载离线安装包  
 > https://dotnet.microsoft.com/zh-cn/download/dotnet-framework/thank-you/net472-offline-installer  
 > 
-> <img src="[https://github.com/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6]" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
+> <img src="https://github.com/user-attachments/assets/8d706428-e604-47ba-ae62-3f8a7e5b2ae6" alt="详细操作1" style="width: 75%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">   
 
 2. 如遇问题请至ICC CE GitHub issues分区：  
 https://github.com/InkCanvasForClass/community/issues  
@@ -29,7 +29,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="[https://s3.hedgedoc.org/hd1-demo/uploads/9cc068a1-5186-436a-af5f-1213794c9b29.png](https://github.com/user-attachments/assets/571d0efa-6839-4630-815e-b4ca21915d02)" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/571d0efa-6839-4630-815e-b4ca21915d02" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
