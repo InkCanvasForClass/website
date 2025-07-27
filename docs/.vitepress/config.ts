@@ -26,6 +26,7 @@ export default {
             { text: '高级技巧', link: '/guide/advanced-tips' },
             { text: '设置指南', link: '/guide/settings' },
             { text: '故障排除', link: '/guide/troubleshooting' },
+            { text: '使用指南', link: '/guide/instruction-manual' },
           ],
         },
       ],
