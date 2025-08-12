@@ -21,6 +21,9 @@ hero:
     - theme: alt
       text: 下载应用
       link: /downloads/downloadpage
+    - theme: alt
+      text: 使用指南
+      theme: /guide/instruction-manual
 
 features:
   - icon: 🖊️
