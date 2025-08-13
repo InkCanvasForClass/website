@@ -28,9 +28,7 @@ https://github.com/InkCanvasForClass/community/issues
 ## 设置区：  
 首先，请在软件主页面找到```工具```选项，然后点击里面的```设置```选项，然后，你可以看见设置界面如图所示：  
 
-<img src="https://github.com/user-attachments/assets/1d9fa012-f19f-4ba2-9ad5-25419a25311d" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
-
-
+<img src="https://github.com/user-attachments/assets/e96dd57a-1454-4dc8-aa93-49ff9f93a906" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 ### 有关启动的相关设置：  
 在```启动```分区，您可以找到，有关自动更新与窗口无焦点化的相关选项。  
