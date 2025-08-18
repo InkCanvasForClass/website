@@ -10,7 +10,8 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "busuanzi.pure.js": "^1.0.3",
-    "medium-zoom": "^1.1.0",
-    "markdown-it-task-checkbox": "^1.0.6"
+    "markdown-it-task-checkbox": "^1.0.6",
+    "marked": "^16.2.0",
+    "medium-zoom": "^1.1.0"
   }
 }
