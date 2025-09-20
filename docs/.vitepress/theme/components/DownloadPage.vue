@@ -48,18 +48,6 @@
           </footer>
         </article>
       </div>
-      
-      <div class="release-navigation">
-        <button class="btn btn--outlined" :disabled="currentIndex === 0" @click="prevRelease">
-          <span class="material-symbols-outlined">arrow_back</span>
-          <span>上一版</span>
-        </button>
-        <span class="typescale-body-medium card-subtitle">{{ currentIndex + 1 }} / {{ paginatedReleases.length }}</span>
-        <button class="btn btn--outlined" :disabled="currentIndex === paginatedReleases.length - 1" @click="nextRelease">
-          <span>下一版</span>
-          <span class="material-symbols-outlined">arrow_forward</span>
-        </button>
-      </div>
     </div>
 
     <dialog class="modal" ref="downloadModalRef">
@@ -294,18 +282,6 @@ const toggleBeta = async () => {
     releasesBeta.value = fetchedReleases;
   }
   loading.value = false;
-};
-
-const prevRelease = () => {
-  if (currentIndex.value > 0) {
-    currentIndex.value--;
-  }
-};
-
-const nextRelease = () => {
-  if (currentIndex.value < paginatedReleases.value.length - 1) {
-    currentIndex.value++;
-  }
 };
 
 // --- 初始化 ---
@@ -630,7 +606,7 @@ onMounted(async () => {
 /* 通用布局与组件 */
 .download-container {
   padding: 1rem;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   color: var(--md-sys-color-on-surface);
   font-family: var(--md-sys-typescale-font-family);
@@ -664,13 +640,6 @@ onMounted(async () => {
   align-items: center;
   gap: 1rem;
   padding: 4rem 0;
-}
-.release-navigation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 1rem 0;
 }
 .modal {
   position: fixed;
@@ -741,10 +710,20 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
+  justify-items: center;
 }
 @media (min-width: 768px) {
   .release-grid {
     grid-template-columns: repeat(2, 1fr);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+}
+@media (min-width: 1200px) {
+  .release-grid {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 1000px;
+    margin: 0 auto;
   }
 }
 </style>
