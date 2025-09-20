@@ -607,7 +607,7 @@ onMounted(async () => {
 .download-container {
   padding: 1rem;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 0;
   color: var(--md-sys-color-on-surface);
   font-family: var(--md-sys-typescale-font-family);
 }
