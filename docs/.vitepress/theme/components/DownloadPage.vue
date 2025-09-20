@@ -715,15 +715,6 @@ onMounted(async () => {
 @media (min-width: 768px) {
   .release-grid {
     grid-template-columns: repeat(2, 1fr);
-    max-width: 900px;
-    margin: 0;
-  }
-}
-@media (min-width: 1200px) {
-  .release-grid {
-    grid-template-columns: repeat(2, 1fr);
-    max-width: 1000px;
-    margin: 0;
   }
 }
 </style>
