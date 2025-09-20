@@ -12,6 +12,7 @@ import Linkcard from "./components/Linkcard.vue"
 import ArticleMetadata from "./components/ArticleMetadata.vue"
 import HomeUnderline from "./components/HomeUnderline.vue"
 import busuanzi from 'busuanzi.pure.js'
+import DownloadPage from './components/DownloadPage.vue'
 
 export default {
   extends: DefaultTheme,
@@ -26,6 +27,7 @@ export default {
     app.component('Linkcard' , Linkcard);
     app.component('ArticleMetadata' , ArticleMetadata);
     app.component('HomeUnderline' , HomeUnderline);
+    app.component('DownloadPage', DownloadPage);
     if (inBrowser) {
       router.onAfterRouteChanged = () => {
         busuanzi.fetch()
