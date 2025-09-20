@@ -710,20 +710,20 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-  justify-items: center;
+  justify-items: start;
 }
 @media (min-width: 768px) {
   .release-grid {
     grid-template-columns: repeat(2, 1fr);
     max-width: 900px;
-    margin: 0 auto;
+    margin: 0;
   }
 }
 @media (min-width: 1200px) {
   .release-grid {
     grid-template-columns: repeat(2, 1fr);
     max-width: 1000px;
-    margin: 0 auto;
+    margin: 0;
   }
 }
 </style>
