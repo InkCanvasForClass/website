@@ -46,8 +46,13 @@
         <div class="modal-content">
           <button class="modal-close" @click="closeModal" aria-label="关闭弹窗">&times;</button>
           <h2>感谢您的下载！</h2>
-          <p>您的文件应该已经开始下载了。如果遇到任何问题，请随时通过社区或 GitHub Issues 联系我们。</p>
-          <p>祝您使用愉快！</p>
+          <p>您的文件将在 <strong>{{ countdown }}</strong> 秒后开始自动下载。</p>
+          <p v-if="manualDownloadTipVisible" style="margin-top:0.5rem;">若未开始，请使用下方手动下载：</p>
+          <div style="margin:0.75rem 0; display:flex; gap:0.5rem; justify-content:center; align-items:center;">
+            <a v-if="manualDownloadUrl" :href="manualDownloadUrl" @click.prevent="onManualDownload" class="download-link" style="padding:8px 14px; background:var(--vp-c-brand,#0078d4); color:white; border-radius:4px; text-decoration:none;">手动下载</a>
+            <button @click="closeModal" style="padding:8px 12px; border-radius:4px; background:transparent; border:1px solid var(--vp-c-border,#ccc);">关闭</button>
+          </div>
+          <p style="margin-top:0.5rem;">如果遇到任何问题，请通过社区或 GitHub Issues 联系我们。</p>
         </div>
       </div>
     </transition>
@@ -89,6 +94,23 @@ const downloadTemplates = {
   beta: 'https://github.com/InkCanvasForClass/community-beta/releases/download/{version}/InkCanvasForClass.CE.{version}.zip'
 };
 
+// --- 新增：镜像与国内优先相关常量与状态 ---
+const SMART_TEACH_DOMAIN = 'https://get.smart-teach.cn';
+const COMMUNITY_PATH = '/d/Ningbo-S3/shared/jiangling/community';
+const COMMUNITY_BETA_PATH = '/d/Ningbo-S3/shared/jiangling/community-beta';
+const GITHUB_API_BASE = 'https://api.github.com/repos/';
+const MIRROR_URLS = [
+  'https://gh.llkk.cc',
+  'https://ghfile.geekertao.top',
+  'https://gh.dpik.top',
+  'https://github.dpik.top',
+  'https://github.acmsz.top',
+  'https://git.yylx.win'
+];
+
+let fastestMirror = null;
+let smartTeachAvailable = false;
+
 // --- 方法定义 ---
 
 const selectChannel = (channel) => {
@@ -105,12 +127,9 @@ const fetchAllReleases = async (channel) => {
   const config = apiConfig[channel];
 
   try {
-    const response = await fetch(`https://api.github.com/repos/${config.repo}/releases`);
-    if (!response.ok) {
-      throw new Error(`GitHub API 请求失败: ${response.status}`);
-    }
-    const releases = await response.json();
-
+    // 构建候选 API URL 列表并尝试
+    const urls = buildApiUrls(`${config.repo}/releases`);
+    const releases = await fetchDataWithMirrors(urls, '未能获取版本列表');
     if (releases && releases.length > 0) {
       releasesHistory.value = releases;
       selectedVersionTag.value = releases[0].tag_name;
@@ -118,7 +137,6 @@ const fetchAllReleases = async (channel) => {
     } else {
       throw new Error('未找到任何发布版本。');
     }
-
   } catch (error) {
     console.error('获取版本列表失败:', error);
     useFallbackData(channel);
@@ -137,16 +155,17 @@ const updateVersionDetails = () => {
   const config = apiConfig[currentChannel.value];
   versionInfo.version = selectedRelease.tag_name;
   versionInfo.description = config.description;
-  versionInfo.releaseNotes = selectedRelease.body ? parseMarkdown(selectedRelease.body) : '';
+  versionInfo.releaseNotes = selectedRelease.body ? marked.parse(selectedRelease.body) : '';
 
   const asset = selectedRelease.assets.find(asset =>
     asset.name.includes('InkCanvasForClass.CE') && asset.name.endsWith('.zip')
   );
 
   if (asset) {
-    versionInfo.downloadUrl = asset.browser_download_url;
+    versionInfo.downloadUrl = convertDownloadUrl(asset.browser_download_url, currentChannel.value === 'beta');
   } else {
-    versionInfo.downloadUrl = downloadTemplates[currentChannel.value].replace(/{version}/g, selectedRelease.tag_name);
+    const rawUrl = downloadTemplates[currentChannel.value].replace(/{version}/g, selectedRelease.tag_name);
+    versionInfo.downloadUrl = convertDownloadUrl(rawUrl, currentChannel.value === 'beta');
   }
 };
 
@@ -166,28 +185,177 @@ const useFallbackData = (channel) => {
 };
 
 const parseMarkdown = (text) => {
-  return marked(text);
+  return marked.parse(text);
 };
 
+// --- 新增：倒计时与手动下载相关状态（修复 ReferenceError） ---
+const countdown = ref(5);
+const manualDownloadUrl = ref('');
+const manualDownloadTipVisible = ref(false);
+// 计时器句柄（非响应式）
+let countdownTimer = null;
+
 /**
- * 下载按钮点击事件处理, 并在之后显示弹窗
+ * 下载按钮点击事件处理, 启动弹窗倒计时并在倒计时结束后自动下载
  */
 const downloadFile = () => {
   if (versionInfo.downloadUrl) {
-    window.open(versionInfo.downloadUrl, '_blank');
-    showThankYouModal.value = true; // 显示弹窗
+    // 准备弹窗与倒计时
+    manualDownloadUrl.value = versionInfo.downloadUrl;
+    manualDownloadTipVisible.value = false;
+    countdown.value = 5;
+    showThankYouModal.value = true;
+
+    // 清理旧计时器
+    if (countdownTimer) {
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+    }
+
+    // 启动倒计时
+    countdownTimer = setInterval(() => {
+      countdown.value--;
+      if (countdown.value <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        // 自动触发下载
+        try {
+          const a = document.createElement('a');
+          a.href = manualDownloadUrl.value;
+          a.download = '';
+          a.style.display = 'none';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        } catch (e) {
+          console.error('自动下载触发失败:', e);
+        }
+        // 显示手动下载提示
+        manualDownloadTipVisible.value = true;
+      }
+    }, 1000);
   }
 };
 
 /**
- * 新增: 关闭弹窗的方法
+ * 手动下载处理：停止倒计时并立即下载，然后关闭弹窗
  */
-const closeModal = () => {
+const onManualDownload = () => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+  if (manualDownloadUrl.value) {
+    const a = document.createElement('a');
+    a.href = manualDownloadUrl.value;
+    a.download = '';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+  }
   showThankYouModal.value = false;
 };
 
-// --- 生命周期钩子 ---
-onMounted(() => {
+/**
+ * 关闭弹窗时清理计时器
+ */
+const closeModal = () => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+  showThankYouModal.value = false;
+};
+
+// --- 新增：构建 API 请求候选 URL 列表（优先最快镜像） ---
+const buildApiUrls = (endpoint) => {
+  const unique = new Set();
+  if (fastestMirror) unique.add(`${fastestMirror}/${GITHUB_API_BASE}${endpoint}`);
+  unique.add(`${GITHUB_API_BASE}${endpoint}`);
+  MIRROR_URLS.forEach(m => unique.add(`${m}/${GITHUB_API_BASE}${endpoint}`));
+  return Array.from(unique);
+};
+
+// --- 新增：测试智教镜像是否可用 ---
+const testSmartTeachAvailability = async () => {
+  try {
+    const testUrl = `${SMART_TEACH_DOMAIN}${COMMUNITY_PATH}/test.txt`;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    const res = await fetch(testUrl, { method: 'HEAD', signal: controller.signal, cache: 'no-store' });
+    clearTimeout(timeoutId);
+    return res && (res.status === 200 || res.status < 400);
+  } catch (e) {
+    return false;
+  }
+};
+
+// --- 新增：将 GitHub 下载 URL 转为智教或镜像 URL（优先智教，特殊处理 .exe） ---
+const buildSmartTeachUrl = (url, isBeta = false) => {
+  const fileName = url.split('/').pop();
+  const basePath = isBeta ? COMMUNITY_BETA_PATH : COMMUNITY_PATH;
+  return `${SMART_TEACH_DOMAIN}${basePath}/${fileName}`;
+};
+
+const convertDownloadUrl = (url, isBeta = false) => {
+  if (!url) return url;
+  // .exe 强制走镜像（不通过智教）
+  if (url.endsWith('.exe')) {
+    if (fastestMirror && url.startsWith('https://github.com/')) {
+      return url.replace('https://github.com/', `${fastestMirror}/https://github.com/`);
+    }
+    return url;
+  }
+  // 非 .exe：智教优先
+  if (smartTeachAvailable) return buildSmartTeachUrl(url, isBeta);
+  if (fastestMirror && url.startsWith('https://github.com/')) {
+    return url.replace('https://github.com/', `${fastestMirror}/https://github.com/`);
+  }
+  return url;
+};
+
+// --- 新增：按候选 URL 列表尝试获取数据 ---
+const fetchDataWithMirrors = async (urls, errorMessage = '获取数据失败') => {
+  for (const url of urls) {
+    try {
+      const res = await fetch(url, { cache: 'no-store' });
+      if (res.ok) return await res.json();
+      console.log(`镜像尝试失败: ${url}, status: ${res.status}`);
+    } catch (e) {
+      console.log(`镜像尝试失败: ${url}, error: ${e.message}`);
+    }
+  }
+  console.error(errorMessage);
+  return null;
+};
+
+// --- 新增：检测最快镜像（HEAD 请求测时长） ---
+const detectFastestMirror = async () => {
+  const endpoint = `${apiConfig.stable.repo}/releases/latest`;
+  const testUrls = [`${GITHUB_API_BASE}${endpoint}`, ...MIRROR_URLS.map(m => `${m}/${GITHUB_API_BASE}${endpoint}`)];
+  const results = await Promise.all(testUrls.map(u => new Promise(resolve => {
+    const start = performance.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+    fetch(u, { method: 'HEAD', cache: 'no-store', signal: controller.signal })
+      .then(() => resolve({ url: u, time: performance.now() - start }))
+      .catch(() => resolve({ url: u, time: Infinity }))
+      .finally(() => clearTimeout(timeoutId));
+  })));
+  const ok = results.filter(r => r.time !== Infinity).sort((a, b) => a.time - b.time);
+  return ok.length > 0 ? ok[0].url : null;
+};
+
+// --- 生命周期钩子：先检测智教与镜像，再拉取 releases ---
+onMounted(async () => {
+  // 1. 检查智教镜像可用性
+  smartTeachAvailable = await testSmartTeachAvailability();
+  if (!smartTeachAvailable) {
+    // 2. 智教不可用则检测最快镜像
+    fastestMirror = await detectFastestMirror();
+  }
+  // 3. 请求默认通道
   fetchAllReleases('stable');
 });
 </script>
