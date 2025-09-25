@@ -1,23 +1,19 @@
 <template>
   <div class="download-container">
     <div class="version-selector">
-      <button 
-        :class="{ active: currentChannel === 'stable' }" 
-        @click="selectChannel('stable')">
+      <button :class="{ active: currentChannel === 'stable' }" @click="selectChannel('stable')">
         正式版
       </button>
-      <button 
-        :class="{ active: currentChannel === 'beta' }" 
-        @click="selectChannel('beta')">
+      <button :class="{ active: currentChannel === 'beta' }" @click="selectChannel('beta')">
         测试版
       </button>
     </div>
-    
+
     <div class="loading" v-if="isLoading">
       <div class="spinner"></div>
       <p>正在检测版本信息...</p>
     </div>
-    
+
     <div v-else>
       <div class="history-selector" v-if="releasesHistory.length > 0">
         <label for="version-select">选择版本:</label>
@@ -31,13 +27,13 @@
       <div class="version-info">
         <h2>当前版本: <span>{{ versionInfo.version }}</span></h2>
         <p>{{ versionInfo.description }}</p>
-        
+
         <div class="release-notes" v-if="versionInfo.releaseNotes">
           <h3>更新说明:</h3>
           <div v-html="versionInfo.releaseNotes"></div>
         </div>
       </div>
-      
+
       <div class="download-button">
         <button @click="downloadFile" :disabled="!versionInfo.downloadUrl">
           下载所选版本 ({{ versionInfo.version }})
@@ -60,12 +56,13 @@
 
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
+import { marked } from 'marked';
 
 // --- 响应式状态定义 ---
 const currentChannel = ref('stable');
 const isLoading = ref(true);
-const releasesHistory = ref([]); 
-const selectedVersionTag = ref(''); 
+const releasesHistory = ref([]);
+const selectedVersionTag = ref('');
 const showThankYouModal = ref(false); // 新增: 控制弹窗显示
 
 const versionInfo = reactive({
@@ -106,14 +103,14 @@ const selectChannel = (channel) => {
 const fetchAllReleases = async (channel) => {
   isLoading.value = true;
   const config = apiConfig[channel];
-  
+
   try {
     const response = await fetch(`https://api.github.com/repos/${config.repo}/releases`);
     if (!response.ok) {
       throw new Error(`GitHub API 请求失败: ${response.status}`);
     }
     const releases = await response.json();
-    
+
     if (releases && releases.length > 0) {
       releasesHistory.value = releases;
       selectedVersionTag.value = releases[0].tag_name;
@@ -141,11 +138,11 @@ const updateVersionDetails = () => {
   versionInfo.version = selectedRelease.tag_name;
   versionInfo.description = config.description;
   versionInfo.releaseNotes = selectedRelease.body ? parseMarkdown(selectedRelease.body) : '';
-  
+
   const asset = selectedRelease.assets.find(asset =>
     asset.name.includes('InkCanvasForClass.CE') && asset.name.endsWith('.zip')
   );
-  
+
   if (asset) {
     versionInfo.downloadUrl = asset.browser_download_url;
   } else {
@@ -160,7 +157,7 @@ const useFallbackData = (channel) => {
     stable: { version: '1.7.3.0', desc: '这是稳定的正式发布版本，适合日常使用。' },
     beta: { version: '1.7.3.0', desc: '这是测试版本，包含最新功能，但可能不稳定。' }
   };
-  
+
   const data = fallbackData[channel];
   versionInfo.version = data.version;
   versionInfo.description = data.desc;
@@ -169,15 +166,7 @@ const useFallbackData = (channel) => {
 };
 
 const parseMarkdown = (text) => {
-  return text
-    .replace(/### (.*)/g, '<h4>$1</h4>')
-    .replace(/## (.*)/g, '<h3>$1</h3>')
-    .replace(/# (.*)/g, '<h2>$1</h2>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/- (.*)/g, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>')
-    .replace(/\n/g, '<br>');
+  return marked(text);
 };
 
 /**
@@ -257,6 +246,7 @@ html.dark .modal-content {
   color: var(--vp-c-text-2, #666);
   padding: 0;
 }
+
 html.dark .modal-close {
   color: var(--vp-c-text-dark-2, #aaa);
 }
@@ -266,6 +256,7 @@ html.dark .modal-close {
 .modal-fade-leave-active {
   transition: opacity 0.3s ease;
 }
+
 .modal-fade-enter-from,
 .modal-fade-leave-to {
   opacity: 0;
@@ -407,8 +398,13 @@ html.dark .history-selector select {
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 html.dark .version-info,
