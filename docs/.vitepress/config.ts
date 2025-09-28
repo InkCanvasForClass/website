@@ -1,9 +1,8 @@
 import { defineConfig } from 'vitepress'
-import markdownItTaskCheckbox from 'markdown-it-task-checkbox'
 
-export default {
+export default defineConfig({
   base: '/website/',
-  title: 'ICC CE | 智能课堂绘图增强工具',
+  title: 'ICC CE',
   description: '智能课堂绘图增强工具',
   head: [
     ['link', { rel: 'icon', href: '/icc-ce-web/images/logo.png' }],
@@ -11,11 +10,12 @@ export default {
   themeConfig: {
     logo: '/images/logo.png',
     nav: [
-      { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/getting-started' },
-      { text: '功能', link: '/features/overview' },
-      { text: '下载', link: '/downloads/downloadpage' },
-      { text: 'GitHub', link: 'https://github.com/InkCanvasForClass/community' }
+      { text: '<i class="fa-solid fa-house"></i> 首页', link: '/' },
+      { text: '<i class="fa-solid fa-book"></i> 指南', link: '/guide/getting-started' },
+      { text: '<i class="fa-solid fa-list-ul"></i> 功能', link: '/features/overview' },
+      { text: '<i class="fa-solid fa-download"></i> 下载', link: '/download' },
+      { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
+      { text: '<i class="fa-brands fa-github"></i> 源码仓库', link: 'https://github.com/InkCanvasForClass/community' }
     ],
     sidebar: {
       '/guide/': [
@@ -36,10 +36,6 @@ export default {
           collapsed: false,
           items: [
             { text: '功能概览', link: '/features/overview' },
-            { text: '智能笔迹处理', link: '/features/overview' },
-            { text: 'PowerPoint集成', link: '/features/overview' },
-            { text: '触控支持', link: '/features/overview' },
-            { text: '自动化功能', link: '/features/overview' },
           ],
         },
       ],
@@ -79,6 +75,13 @@ export default {
         icon: 'github',
         link: 'https://github.com/InkCanvasForClass/website',
         ariaLabel: 'GitHub 仓库'
+      },
+      { 
+        icon: {
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 919"><defs><style>.a{fill:#1068af}.b{fill:#26a03d}</style></defs><path class="a" d="M643.3 134s-30.4-16.6-59.6-8.4L98.8 260.4 227.6 35.3S246.5-1.3 319.3.03l405 .6-77.5 135.5z"/><path class="a" d="M803.8 43l-82.2 143.8s20.7 19 26.6 40.6l72.1 275.9-278.2 84.3 100.2-160-31.3-120.7s-16.4-47.7-64-42.1c-.7.1-1.5.2-2.2.3-49.3 7.4-507.2 135-507.2 135s-36 10.2-37.6 46.1c0 0-.6 38.7 22.6 74.1l203 349 74.6-130.4s-23.7-21.3-26-32.1l-82-292.9 274.9-78.6s14.9-7.4 20.9 5.6l-120 150.3 40.9 134.4s17.8 29.6 59.6 29.8l528.6-144.9s35.1-6.7 25.1-59.8c0 0 1.5-19.8-14.8-52.1L803.8 43z"/><path class="b" d="M371.2 780.6s28.1 12 46.3 11.2l510.7-140.6-117.2 204.8s-28.5 57.2-96.4 57.1l-422.5 5.7 79.1-138.2z"/>'
+        },
+        link: 'https://forum.smart-teach.cn/t/icc-ce',
+        ariaLabel: '智教联盟板块'
       }
     ],
     footer: {
@@ -123,7 +126,11 @@ export default {
   
   markdown: {
     config: (md) => {
-      md.use(markdownItTaskCheckbox)
+      md.renderer.rules.heading_close = (tokens, idx, options, env, slf) => {
+          let htmlResult = slf.renderToken(tokens, idx, options);
+          if (tokens[idx].tag === 'h1') htmlResult += `<ArticleMetadata />`; 
+          return htmlResult;
+      }
     },
     theme: {
       light: 'github-light',
@@ -141,4 +148,4 @@ export default {
     },
     lineNumbers: true
   },
-};
+});

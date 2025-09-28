@@ -17,11 +17,18 @@
     <div v-else>
       <div class="history-selector" v-if="releasesHistory.length > 0">
         <label for="version-select">选择版本:</label>
-        <select id="version-select" v-model="selectedVersionTag" @change="updateVersionDetails">
-          <option v-for="release in releasesHistory" :key="release.id" :value="release.tag_name">
-            {{ release.tag_name }} {{ release.prerelease ? '(Pre-release)' : '' }}
-          </option>
-        </select>
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <select id="version-select" v-model="selectedVersionTag" @change="updateVersionDetails">
+            <option v-for="release in releasesHistory" :key="release.id" :value="release.tag_name">
+              {{ release.tag_name }} {{ release.prerelease ? '(Pre-release)' : '' }}
+            </option>
+          </select>
+          <div class="download-button">
+            <button @click="downloadFile" :disabled="!versionInfo.downloadUrl">
+              下载
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="version-info">
@@ -32,12 +39,6 @@
           <h3>更新说明:</h3>
           <div v-html="versionInfo.releaseNotes"></div>
         </div>
-      </div>
-
-      <div class="download-button">
-        <button @click="downloadFile" :disabled="!versionInfo.downloadUrl">
-          下载所选版本 ({{ versionInfo.version }})
-        </button>
       </div>
     </div>
 
@@ -528,12 +529,12 @@ html.dark .history-selector select {
 }
 
 .download-button button {
-  padding: 12px 30px;
+  padding: 10px 20px;
   background: var(--vp-c-brand, #0078d4);
   color: var(--vp-c-white, white);
   border: none;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
   transition: background 0.3s;
 }
