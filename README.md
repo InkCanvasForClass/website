@@ -37,3 +37,8 @@
 - 提交更改
 - 推送到分支
 - 创建 Pull Request
+
+## 贡献者
+<a href="https://github.com/InkCanvasForClass/website/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=InkCanvasForClass/website" />
+</a>
