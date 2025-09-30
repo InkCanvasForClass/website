@@ -1,7 +1,5 @@
 # 快速开始
 
-<ArticleMetadata />
-
 ## 系统要求
 
 - <badge type="tip" text="操作系统" /> Windows 10/11
@@ -11,7 +9,7 @@
 
 ## 安装步骤
 
-1. 从 [GitHub Releases 页面](https://github.com/InkCanvasForClass/community/releases)下载最新版本
+1. 下载最新版本
 2. 解压下载的 zip 文件到您选择的文件夹
 3. 运行`InkCanvasForClass.exe`启动应用程序
 4. 首次运行时，软件会提示您完成初始设置
@@ -24,7 +22,7 @@
 
 ### 浮动工具栏
 
-![浮动工具栏]
+![浮动工具栏](https://github.com/user-attachments/assets/f47e80a8-05b8-44ab-8c70-6771e97375ea)
 
 浮动工具栏提供以下功能：
 
@@ -60,9 +58,3 @@ ICC-CE 可以与 PowerPoint 无缝集成，为演示文稿添加实时绘图功�
 2. 进入幻灯片放映模式
 3. ICC-CE 将自动检测 PowerPoint 并启用特殊集成功能
 4. 使用工具栏进行绘图，标注将显示在幻灯片上
-
-## 下一步
-
-- 查看[功能概览](/features/overview)了解 ICC-CE 的全部功能
-- 学习[高级技巧](/guide/advanced-tips)提升使用效率
-- 探索[设置项](/guide/settings)自定义软件行为

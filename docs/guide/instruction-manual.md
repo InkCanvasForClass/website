@@ -1,7 +1,5 @@
 # 使用指南
 
-<ArticleMetadata />
-
 ## 开始使用
 尊敬的用户您好，欢迎使用 ICC CE，本教程适用于从未接触过 ICC CE 系列批注软件的新手或者是还在使用老版本的用户，教程将详细讲述应当如何正确使用 ICC CE 来避免一些问题，我们会对内容进行分区说明，以下是温馨提示：  
 
@@ -229,18 +227,3 @@ https://github.com/InkCanvasForClass/community/issues
 1. 在左右两侧您可以看到翻页控件，该翻页控件可调，详情请参阅[【点此跳转】](#有关于PPT联动的相关设置)  
 
 2. 在放映时您还可以看到相应的退出按钮用于结束放映
-
-
-
-## 获取帮助  
-如果您按照上述的教程调节设置时出现问题或者使用软件出现问题时，欢迎前往我们的社区以寻求帮助：  
-**GitHub仓库**：https://github.com/InkCanvasForClass/community
-**QQ群聊**：[1054377349](https://qm.qq.com/q/ogPNMANQVE)  
-**Discord频道**：https://discord.gg/ahj7eJWhEG  
-**智教联盟板块**：https://forum.smart-teach.cn/t/icc-ce  
-
-
-
-
-
-

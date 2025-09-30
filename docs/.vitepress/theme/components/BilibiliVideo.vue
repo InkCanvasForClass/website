@@ -25,7 +25,7 @@ export default {
 
 <style>
 .bilibili-video-card {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 2rem auto;
   border: 2px solid #eee;
   border-radius: 12px;
