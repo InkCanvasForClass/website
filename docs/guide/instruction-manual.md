@@ -28,7 +28,7 @@ https://github.com/InkCanvasForClass/community/issues
 
 <img src="https://github.com/user-attachments/assets/abd32bf2-508a-4011-8ca5-4f77b89910a0" alt="设置界面" style="width: 50%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
-:::success
+:::tip
 在这个区域，您会看到模式切换和新设置的相关按钮，这两个功能正在**开发中！**  
 :::
 
