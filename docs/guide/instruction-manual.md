@@ -258,10 +258,8 @@ https://github.com/InkCanvasForClass/community/issues
 ### 其他功能  
 
 #### Dlass设置
-<img src="https://github.com/user-attachments/assets/4d1e6c93-a881-43ac-a452-6e9f70297e9b
-" alt="Dlass1" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
-<img src="https://github.com/user-attachments/assets/6cec8dfe-7c24-4547-be75-4d8fb2404aa6
-" alt="Dlass2" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/4d1e6c93-a881-43ac-a452-6e9f70297e9b" alt="Dlass1" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
+<img src="https://github.com/user-attachments/assets/6cec8dfe-7c24-4547-be75-4d8fb2404aa6" alt="Dlass2" style="width: 80%; box-shadow: 0 8px 32px rgba(0,0,0,0.25);">
 
 
 
