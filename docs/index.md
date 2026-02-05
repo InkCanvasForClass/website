@@ -21,6 +21,9 @@ hero:
     - theme: alt
       text: 使用指南
       link: /guide/instruction-manual
+    - theme: alt
+      text: 开发文档
+      link: /dev/uri
 
 features:
   - icon: 🖊️
