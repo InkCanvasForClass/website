@@ -39,6 +39,15 @@ export default defineConfig({
           ],
         },
       ],
+      '/dev/': [
+        {
+          text: '开发文档',
+          collapsed: false,
+          items: [
+            { text: 'URI 协议', link: '/dev/uri' },
+          ],
+        },
+      ],
     },
     search: {
       provider: "local",
