@@ -36,14 +36,35 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 | **计时器** | `icc://timer` | 打开**计时器/倒计时**工具。 |
 | **白板** | `icc://whiteboard` | 切换到**白板模式**（也可使用 `icc://board`）。 |
 
-### 3. 进阶功能命令 (隐藏功能)
+### 3. 工具状态命令
 
-以下功能专门用于解决与第三方侧边栏或悬浮窗程序的兼容性问题，未在常规设置界面显示。
+用于切换当前批注工具，或查询当前工具状态。URI 不区分大小写。
 
 | 命令 | 完整 URI | 作用 |
 | :--- | :--- | :--- |
-| **ThoroughHideOn** | `icc://thoroughHideOn` | **开启**“收起时彻底隐藏”功能。开启后，进入收纳模式时主窗口将完全不可见。 |
-| **ThoroughHideOff** | `icc://thoroughHideOff` | **关闭**“收起时彻底隐藏”功能。恢复默认的侧边栏边缘留痕模式。 |
+| **笔** | `icc://tool/pen` 或 `icc://tool/color` | 切换到**笔**（`color` 同笔/荧光笔入口）。 |
+| **鼠标** | `icc://tool/cursor` | 切换到**鼠标/光标**模式。 |
+| **面积橡皮擦** | `icc://tool/eraser` | 先进入批注模式，再切换到**面积橡皮擦**。 |
+| **笔画橡皮擦** | `icc://tool/eraserbystrokes` 或 `icc://tool/eraserstroke` | 先进入批注模式，再切换到**笔画橡皮擦**。 |
+| **获取当前工具** | `icc://tool/state` | 将当前工具状态写入临时文件，供第三方读取。见下方说明。 |
+
+#### `icc://tool/state` 返回值说明
+
+调用后不会在协议层返回内容，而是将当前工具名称写入文件：
+
+- **文件路径**：`%TEMP%\InkCanvasToolState.txt`（如 `C:\Users\<用户名>\AppData\Local\Temp\InkCanvasToolState.txt`）
+- **编码**：UTF-8，单行纯文本。
+
+可能的值：`cursor`（鼠标）、`pen`（笔）、`color`（荧光笔）、`eraser`（面积橡皮擦）、`eraserByStrokes`（笔画橡皮擦）、`select`（选择）、`shape`（图形）。默认或无法识别时为 `cursor`。
+
+### 4. 进阶功能命令（隐藏功能）
+
+以下功能专门用于解决与第三方侧边栏或悬浮窗程序的兼容性问题，未在常规设置界面显示。URI 不区分大小写，下表为小写形式。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **ThoroughHideOn** | `icc://thoroughhideon` | **开启**“收起时彻底隐藏”功能。开启后，进入收纳模式时主窗口将完全不可见。 |
+| **ThoroughHideOff** | `icc://thoroughhideoff` | **关闭**“收起时彻底隐藏”功能。恢复默认的侧边栏边缘留痕模式。 |
 | **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **切换**“收起时彻底隐藏”功能的开启/关闭状态。 |
 
 ---
@@ -64,14 +85,17 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 start icc://unfold
 ```
 
+### D. 第三方读取当前工具状态
+调用 `icc://tool/state` 后，读取 `%TEMP%\InkCanvasToolState.txt` 即可得到当前工具名称（如 `pen`、`cursor`、`eraser`）。
+
 ---
 
 ## 开发者说明
 
 ### 运行机制
 1. **唤醒启动**：如果 Ink Canvas 尚未运行，调用 URI 会直接启动程序并执行命令。
-2. **进程间通信 (IPC)**：如果程序已经在运行，外部调用会启动一个临时的指令传递进程，通过系统事件和临时文件将指令发送给已运行的实例，实现无缝控制。
+2. **进程间通信 (IPC)**：如果程序已经在运行，外部调用会通过系统事件和临时文件将指令发送给已运行的实例，实现无缝控制。
 
 ### 兼容性
 * 支持 Windows 7 及更高版本。
-* 注册表位置：`HKEY_CURRENT_USER\Software\Classes\icc` (无需管理员权限)。
+* 注册表位置：`HKEY_CURRENT_USER\Software\Classes\icc`（无需管理员权限）。
