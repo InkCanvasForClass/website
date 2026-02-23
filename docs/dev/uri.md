@@ -57,7 +57,50 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 
 可能的值：`cursor`（鼠标）、`pen`（笔）、`color`（荧光笔）、`eraser`（面积橡皮擦）、`eraserByStrokes`（笔画橡皮擦）、`select`（选择）、`shape`（图形）。默认或无法识别时为 `cursor`。
 
-### 4. 进阶功能命令（隐藏功能）
+### 4. 配置方案命令
+
+用于获取当前配置方案列表或通过 URI 切换当前生效的配置方案。URI 不区分大小写。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **获取方案列表** | `icc://config-profile/list` | 将当前所有配置方案名称及当前生效方案写入临时 JSON 文件，供第三方读取。 |
+| **切换方案** | `icc://config-profile/switch?name=方案名` | 切换到指定名称的配置方案并热重载，结果写入临时文件。 |
+
+#### `icc://config-profile/list` 返回值说明
+
+调用后不会在协议层返回内容，而是将列表写入文件：
+
+- **文件路径**：`%TEMP%\InkCanvasConfigProfileList.json`
+- **编码**：UTF-8，JSON 格式。
+
+示例内容：
+
+```json
+{
+  "list": [ "方案A", "方案B", "教室1" ],
+  "current": "方案A"
+}
+```
+
+- `list`：当前所有已保存的配置方案名称（字符串数组）。
+- `current`：当前生效的方案名称；若从未通过方案切换过则为空字符串。
+
+#### `icc://config-profile/switch` 说明
+
+- **查询参数**：`name`（必填），为要切换到的方案名称。方案名若含中文或特殊字符，需做 URL 编码（如 `name=%E6%95%99%E5%AE%A41`）。
+- **结果文件路径**：`%TEMP%\InkCanvasConfigProfileSwitchResult.txt`
+- **编码**：UTF-8，单行纯文本。
+- **可能内容**：
+  - `ok`：切换成功，已热重载。
+  - `error: 缺少参数 name`：未提供 `name` 参数。
+  - `error: 方案不存在或应用失败`：指定方案不存在或应用失败。
+
+示例：
+
+- 切换到名为“教室1”的方案：`icc://config-profile/switch?name=教室1`
+- 方案名含特殊字符时使用编码：`icc://config-profile/switch?name=%E6%96%B9%E6%A1%88A`
+
+### 5. 进阶功能命令（隐藏功能）
 
 以下功能专门用于解决与第三方侧边栏或悬浮窗程序的兼容性问题，未在常规设置界面显示。URI 不区分大小写，下表为小写形式。
 
@@ -87,6 +130,10 @@ start icc://unfold
 
 ### D. 第三方读取当前工具状态
 调用 `icc://tool/state` 后，读取 `%TEMP%\InkCanvasToolState.txt` 即可得到当前工具名称（如 `pen`、`cursor`、`eraser`）。
+
+### E. 第三方获取配置方案列表并切换
+1. 调用 `icc://config-profile/list` 后，读取 `%TEMP%\InkCanvasConfigProfileList.json` 获取 `list` 与 `current`。
+2. 调用 `icc://config-profile/switch?name=方案名` 切换方案，再读取 `%TEMP%\InkCanvasConfigProfileSwitchResult.txt` 判断是否成功（内容为 `ok` 即成功）。
 
 ---
 
