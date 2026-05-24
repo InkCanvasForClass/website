@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default defineConfig({
+export default withMermaid(defineConfig({
   base: '/website/',
   title: 'ICC CE',
   description: '智能课堂绘图增强工具',
@@ -41,12 +42,179 @@ export default defineConfig({
       ],
       '/dev/': [
         {
-          text: '开发文档',
+          text: '核心功能模块',
           collapsed: false,
           items: [
-            { text: 'URI 协议', link: '/dev/uri' },
-          ],
+            { text: '核心功能模块', link: '/dev/core-modules' },
+            {
+              text: '白板书写系统',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/whiteboard-system/' },
+                { text: 'InkCanvas 核心组件', link: '/dev/whiteboard-system/inkcanvas-core' },
+                { text: '笔迹平滑处理', link: '/dev/whiteboard-system/ink-smoothing' },
+                { text: '墨迹渐隐效果', link: '/dev/whiteboard-system/ink-fadeout' },
+                { text: '颜色和笔刷管理', link: '/dev/whiteboard-system/color-brush-management' },
+                { text: '页面和画布管理', link: '/dev/whiteboard-system/page-canvas-management' },
+              ]
+            },
+            {
+              text: '工具栏管理系统',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/toolbar-system/' },
+                { text: '架构设计', link: '/dev/toolbar-system/architecture' },
+                { text: '工具栏项实现', link: '/dev/toolbar-system/item-implementation' },
+                { text: '注册中心', link: '/dev/toolbar-system/registry' },
+                { text: '自定义与扩展', link: '/dev/toolbar-system/customization' },
+              ]
+            },
+            { text: '页面管理功能', link: '/dev/page-management' },
+            {
+              text: '颜色笔刷管理系统',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/color-brush-system/' },
+                { text: '笔刷类型管理', link: '/dev/color-brush-system/brush-types' },
+                { text: '笔刷效果调节', link: '/dev/color-brush-system/brush-effects' },
+                { text: '颜色选择器', link: '/dev/color-brush-system/color-picker' },
+                { text: '主题色彩系统', link: '/dev/color-brush-system/theme-colors' },
+              ]
+            },
+            {
+              text: 'PowerPoint 集成功能',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/ppt-integration/' },
+                { text: '连接管理机制', link: '/dev/ppt-integration/connection-management' },
+                { text: '事件处理系统', link: '/dev/ppt-integration/event-system' },
+                { text: '同步机制实现', link: '/dev/ppt-integration/sync-mechanism' },
+                { text: '故障处理与恢复', link: '/dev/ppt-integration/fault-recovery' },
+              ]
+            },
+            { text: '手势识别与交互', link: '/dev/gesture-interaction' },
+            { text: '形状绘制功能', link: '/dev/shape-drawing' },
+            { text: '擦除功能系统', link: '/dev/eraser-system' },
+          ]
         },
+        { text: '插件系统架构', link: '/dev/plugin-architecture' },
+        {
+          text: '用户界面系统',
+          collapsed: true,
+          items: [
+            { text: '概述', link: '/dev/ui-system/' },
+            { text: '弹窗系统', link: '/dev/ui-system/popup-system' },
+            { text: '多语言支持', link: '/dev/ui-system/multi-language' },
+            { text: '主题系统', link: '/dev/ui-system/theme-system' },
+            { text: '自定义控件库', link: '/dev/ui-system/custom-controls' },
+          ]
+        },
+        {
+          text: '系统架构设计',
+          collapsed: true,
+          items: [
+            { text: '概述', link: '/dev/system-architecture/' },
+            { text: '应用程序入口点', link: '/dev/system-architecture/app-entrypoint' },
+            { text: '事件驱动架构', link: '/dev/system-architecture/event-driven' },
+            { text: '监控与诊断系统', link: '/dev/system-architecture/monitoring-diagnostics' },
+            {
+              text: '全局服务架构',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/system-architecture/global-services/' },
+                { text: '服务通信模式', link: '/dev/system-architecture/global-services/service-communication' },
+                { text: '通知中心服务', link: '/dev/system-architecture/global-services/notification-service' },
+                { text: '遥测服务', link: '/dev/system-architecture/global-services/telemetry-service' },
+                { text: '异常处理服务', link: '/dev/system-architecture/global-services/exception-service' },
+              ]
+            },
+            {
+              text: '配置管理系统',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/system-architecture/config-management/' },
+                { text: '动态配置更新', link: '/dev/system-architecture/config-management/dynamic-config' },
+                { text: '配置安全与权限', link: '/dev/system-architecture/config-management/config-security' },
+                { text: '配置文件管理', link: '/dev/system-architecture/config-management/config-files' },
+                { text: '配置验证与迁移', link: '/dev/system-architecture/config-management/config-validation' },
+              ]
+            },
+          ]
+        },
+        {
+          text: '高级功能模块',
+          collapsed: true,
+          items: [
+            { text: '概述', link: '/dev/advanced-modules/' },
+            { text: '安全机制', link: '/dev/advanced-modules/security' },
+            { text: '国际化与本地化', link: '/dev/advanced-modules/internationalization' },
+            { text: '文件管理与存储', link: '/dev/advanced-modules/file-management' },
+            { text: '性能监控与遥测', link: '/dev/advanced-modules/performance-telemetry' },
+            { text: '异常处理与崩溃恢复', link: '/dev/advanced-modules/exception-recovery' },
+          ]
+        },
+        {
+          text: '开发者指南',
+          collapsed: false,
+          items: [
+            { text: '开发者指南', link: '/dev/dev-guide/' },
+            { text: '开发环境搭建', link: '/dev/dev-guide/environment-setup' },
+            { text: '代码规范与最佳实践', link: '/dev/dev-guide/code-standards' },
+            {
+              text: '插件开发指南',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/dev-guide/plugin-dev/' },
+                { text: '插件接口设计', link: '/dev/dev-guide/plugin-dev/interface-design' },
+                { text: '插件生命周期管理', link: '/dev/dev-guide/plugin-dev/lifecycle' },
+                { text: '插件宿主服务', link: '/dev/dev-guide/plugin-dev/host-service' },
+                { text: '插件配置系统', link: '/dev/dev-guide/plugin-dev/config-system' },
+                { text: '插件调试与测试', link: '/dev/dev-guide/plugin-dev/debugging' },
+                { text: '插件打包与分发', link: '/dev/dev-guide/plugin-dev/packaging' },
+              ]
+            },
+            {
+              text: '自定义控件开发',
+              collapsed: true,
+              items: [
+                { text: '概述', link: '/dev/dev-guide/custom-control-dev/' },
+                { text: 'WPF 控件基础', link: '/dev/dev-guide/custom-control-dev/wpf-basics' },
+                { text: '控件模板与样式', link: '/dev/dev-guide/custom-control-dev/templates-styles' },
+                { text: '数据绑定与交互', link: '/dev/dev-guide/custom-control-dev/data-binding' },
+                { text: '性能优化与最佳实践', link: '/dev/dev-guide/custom-control-dev/performance' },
+              ]
+            },
+            { text: 'IACore 辅助程序开发', link: '/dev/dev-guide/iacore-helper' },
+            { text: '调试与测试', link: '/dev/dev-guide/debugging-testing' },
+            { text: '贡献流程', link: '/dev/dev-guide/contribution-process' },
+          ]
+        },
+        {
+          text: 'API 参考文档',
+          collapsed: true,
+          items: [
+            { text: '概述', link: '/dev/api-reference/' },
+            { text: 'IPC 通信 API', link: '/dev/api-reference/ipc-api' },
+            { text: 'PowerPoint 集成 API', link: '/dev/api-reference/ppt-api' },
+            { text: '插件 API', link: '/dev/api-reference/plugin-api' },
+            { text: '工具栏 API', link: '/dev/api-reference/toolbar-api' },
+            { text: '配置 API', link: '/dev/api-reference/config-api' },
+          ]
+        },
+        {
+          text: '部署与运维',
+          collapsed: true,
+          items: [
+            { text: '概述', link: '/dev/deployment/' },
+            { text: '构建与发布', link: '/dev/deployment/build-release' },
+            { text: '系统部署', link: '/dev/deployment/system-deployment' },
+            { text: '监控与维护', link: '/dev/deployment/monitoring-maintenance' },
+            { text: '故障排除与支持', link: '/dev/deployment/troubleshooting-support' },
+          ]
+        },
+        { text: '故障排除与常见问题', link: '/dev/troubleshooting' },
+        { text: '贡献指南与社区', link: '/dev/community' },
+        { text: 'URI 协议', link: '/dev/uri' },
       ],
     },
     search: {
@@ -132,7 +300,9 @@ export default defineConfig({
   },
 
   cleanUrls: true,
-  
+
+  mermaid: {},
+
   markdown: {
     config: (md) => {
       md.renderer.rules.heading_close = (tokens, idx, options, env, slf) => {
@@ -157,4 +327,4 @@ export default defineConfig({
     },
     lineNumbers: true
   },
-});
+}));
