@@ -1,0 +1,148 @@
+# Ink Canvas 外部协议 (URI Scheme) 说明文档
+
+Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此功能，其他应用程序、网页脚本或系统快捷方式可以远程控制 Ink Canvas 的运行状态。
+
+## 启用方法
+
+在使用外部协议之前，必须先在软件设置中启用：
+1. 打开 **软件设置**。
+2. 进入 **高级选项** 面板。
+3. 找到 **外部协议调用** 区域。
+4. 开启 **“启用外部协议 (icc://)”** 开关。
+
+> **注意**：此操作会自动在系统注册表中为当前用户注册协议。如果手动关闭该功能，协议将被注销。
+
+---
+
+## 命令列表
+
+### 1. 基础控制命令
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **Fold** | `icc://fold` | 进入**收纳模式**。如果当前处于展开状态，将清空墨迹并折叠到侧边栏。 |
+| **Unfold** | `icc://unfold` | 退出**收纳模式**。如果当前已折叠，将展开浮动工具栏。 |
+| **Toggle** | `icc://toggle` | **切换**状态。已展开则收起，已收起则展开。 |
+| **Show** | `icc://show` | 与 `unfold` 作用相同，用于兼容旧版指令。 |
+
+### 2. 侧边栏工具命令
+
+以下命令对应收纳模式下侧边栏提供的快速工具。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **单次抽** | `icc://randone` | 打开随机点名窗口并执行**单次抽选**。 |
+| **随机抽** | `icc://rand` | 打开随机点名窗口并执行**随机抽选**。 |
+| **计时器** | `icc://timer` | 打开**计时器/倒计时**工具。 |
+| **白板** | `icc://whiteboard` | 切换到**白板模式**（也可使用 `icc://board`）。 |
+
+### 3. 工具状态命令
+
+用于切换当前批注工具，或查询当前工具状态。URI 不区分大小写。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **笔** | `icc://tool/pen` 或 `icc://tool/color` | 切换到**笔**（`color` 同笔/荧光笔入口）。 |
+| **鼠标** | `icc://tool/cursor` | 切换到**鼠标/光标**模式。 |
+| **面积橡皮擦** | `icc://tool/eraser` | 先进入批注模式，再切换到**面积橡皮擦**。 |
+| **笔画橡皮擦** | `icc://tool/eraserbystrokes` 或 `icc://tool/eraserstroke` | 先进入批注模式，再切换到**笔画橡皮擦**。 |
+| **获取当前工具** | `icc://tool/state` | 将当前工具状态写入临时文件，供第三方读取。见下方说明。 |
+
+#### `icc://tool/state` 返回值说明
+
+调用后不会在协议层返回内容，而是将当前工具名称写入文件：
+
+- **文件路径**：`%TEMP%\InkCanvasToolState.txt`（如 `C:\Users\<用户名>\AppData\Local\Temp\InkCanvasToolState.txt`）
+- **编码**：UTF-8，单行纯文本。
+
+可能的值：`cursor`（鼠标）、`pen`（笔）、`color`（荧光笔）、`eraser`（面积橡皮擦）、`eraserByStrokes`（笔画橡皮擦）、`select`（选择）、`shape`（图形）。默认或无法识别时为 `cursor`。
+
+### 4. 配置方案命令
+
+用于获取当前配置方案列表或通过 URI 切换当前生效的配置方案。URI 不区分大小写。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **获取方案列表** | `icc://config-profile/list` | 将当前所有配置方案名称及当前生效方案写入临时 JSON 文件，供第三方读取。 |
+| **切换方案** | `icc://config-profile/switch?name=方案名` | 切换到指定名称的配置方案并热重载，结果写入临时文件。 |
+
+#### `icc://config-profile/list` 返回值说明
+
+调用后不会在协议层返回内容，而是将列表写入文件：
+
+- **文件路径**：`%TEMP%\InkCanvasConfigProfileList.json`
+- **编码**：UTF-8，JSON 格式。
+
+示例内容：
+
+```json
+{
+  "list": [ "方案A", "方案B", "教室1" ],
+  "current": "方案A"
+}
+```
+
+- `list`：当前所有已保存的配置方案名称（字符串数组）。
+- `current`：当前生效的方案名称；若从未通过方案切换过则为空字符串。
+
+#### `icc://config-profile/switch` 说明
+
+- **查询参数**：`name`（必填），为要切换到的方案名称。方案名若含中文或特殊字符，需做 URL 编码（如 `name=%E6%95%99%E5%AE%A41`）。
+- **结果文件路径**：`%TEMP%\InkCanvasConfigProfileSwitchResult.txt`
+- **编码**：UTF-8，单行纯文本。
+- **可能内容**：
+  - `ok`：切换成功，已热重载。
+  - `error: 缺少参数 name`：未提供 `name` 参数。
+  - `error: 方案不存在或应用失败`：指定方案不存在或应用失败。
+
+示例：
+
+- 切换到名为“教室1”的方案：`icc://config-profile/switch?name=教室1`
+- 方案名含特殊字符时使用编码：`icc://config-profile/switch?name=%E6%96%B9%E6%A1%88A`
+
+### 5. 进阶功能命令（隐藏功能）
+
+以下功能专门用于解决与第三方侧边栏或悬浮窗程序的兼容性问题，未在常规设置界面显示。URI 不区分大小写，下表为小写形式。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **ThoroughHideOn** | `icc://thoroughhideon` | **开启**“收起时彻底隐藏”功能。开启后，进入收纳模式时主窗口将完全不可见。 |
+| **ThoroughHideOff** | `icc://thoroughhideoff` | **关闭**“收起时彻底隐藏”功能。恢复默认的侧边栏边缘留痕模式。 |
+| **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **切换**“收起时彻底隐藏”功能的开启/关闭状态。 |
+
+---
+
+## 使用示例
+
+### A. 在浏览器中调用
+可以直接在浏览器地址栏输入并回车，或在 HTML 中使用超链接：
+```html
+<a href="icc://fold">立即收纳 Ink Canvas</a>
+```
+
+### B. 在 Windows “运行”对话框中使用
+按下 `Win + R`，输入 `icc://toggle` 并回车。
+
+### C. 在批处理或命令行中使用
+```cmd
+start icc://unfold
+```
+
+### D. 第三方读取当前工具状态
+调用 `icc://tool/state` 后，读取 `%TEMP%\InkCanvasToolState.txt` 即可得到当前工具名称（如 `pen`、`cursor`、`eraser`）。
+
+### E. 第三方获取配置方案列表并切换
+1. 调用 `icc://config-profile/list` 后，读取 `%TEMP%\InkCanvasConfigProfileList.json` 获取 `list` 与 `current`。
+2. 调用 `icc://config-profile/switch?name=方案名` 切换方案，再读取 `%TEMP%\InkCanvasConfigProfileSwitchResult.txt` 判断是否成功（内容为 `ok` 即成功）。
+
+---
+
+## 开发者说明
+
+### 运行机制
+1. **唤醒启动**：如果 Ink Canvas 尚未运行，调用 URI 会直接启动程序并执行命令。
+2. **进程间通信 (IPC)**：如果程序已经在运行，外部调用会通过系统事件和临时文件将指令发送给已运行的实例，实现无缝控制。
+
+### 兼容性
+* 支持 Windows 7 及更高版本。
+* 注册表位置：`HKEY_CURRENT_USER\Software\Classes\icc`（无需管理员权限）。
