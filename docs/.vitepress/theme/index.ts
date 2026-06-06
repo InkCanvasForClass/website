@@ -8,7 +8,6 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import mediumZoom from 'medium-zoom'
 import busuanzi from 'busuanzi.pure.js'
 import BilibiliVideo from './components/BilibiliVideo.vue'
-import bsz from "./components/bsz.vue"
 import Linkcard from "./components/Linkcard.vue"
 import ArticleMetadata from "./components/ArticleMetadata.vue"
 import HomeUnderline from "./components/HomeUnderline.vue"

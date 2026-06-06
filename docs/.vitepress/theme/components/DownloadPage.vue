@@ -2,21 +2,21 @@
   <div class="download-container">
     <div class="version-selector">
       <button :class="{ active: currentChannel === 'stable' }" @click="selectChannel('stable')">
-        正式版
+        {{ lang === 'en-US' ? 'Stable' : '正式版' }}
       </button>
       <button :class="{ active: currentChannel === 'beta' }" @click="selectChannel('beta')">
-        测试版
+        {{ lang === 'en-US' ? 'Beta' : '测试版' }}
       </button>
     </div>
 
     <div class="loading" v-if="isLoading">
       <div class="spinner"></div>
-      <p>正在检测版本信息...</p>
+      <p>{{ lang === 'en-US' ? 'Checking version information...' : '正在检测版本信息...' }}</p>
     </div>
 
     <div v-else>
       <div class="history-selector" v-if="releasesHistory.length > 0">
-        <label for="version-select">选择版本:</label>
+        <label for="version-select">{{ lang === 'en-US' ? 'Select Version:' : '选择版本:' }}</label>
         <div style="display: flex; gap: 12px; align-items: center;">
           <select id="version-select" v-model="selectedVersionTag" @change="updateVersionDetails">
             <option v-for="release in releasesHistory" :key="release.id" :value="release.tag_name">
@@ -25,18 +25,18 @@
           </select>
           <div class="download-button">
             <button @click="downloadFile" :disabled="!versionInfo.downloadUrl">
-              下载
+              {{ lang === 'en-US' ? 'Download' : '下载' }}
             </button>
           </div>
         </div>
       </div>
 
       <div class="version-info">
-        <h2>当前版本: <span>{{ versionInfo.version }}</span></h2>
+        <h2>{{ lang === 'en-US' ? 'Current Version:' : '当前版本:' }} <span>{{ versionInfo.version }}</span></h2>
         <p>{{ versionInfo.description }}</p>
 
         <div class="release-notes" v-if="versionInfo.releaseNotes">
-          <h3>更新说明:</h3>
+          <h3>{{ lang === 'en-US' ? 'Release Notes:' : '更新说明:' }}</h3>
           <div v-html="versionInfo.releaseNotes"></div>
         </div>
       </div>
@@ -45,15 +45,24 @@
     <transition name="modal-fade">
       <div v-if="showThankYouModal" class="modal-overlay" @click.self="closeModal">
         <div class="modal-content">
-          <button class="modal-close" @click="closeModal" aria-label="关闭弹窗">&times;</button>
-          <h2>感谢您的下载！</h2>
-          <p>您的文件将在 <strong>{{ countdown }}</strong> 秒后开始自动下载。</p>
-          <p v-if="manualDownloadTipVisible" style="margin-top:0.5rem;">若未开始，请使用下方手动下载：</p>
+          <button class="modal-close" @click="closeModal" :aria-label="lang === 'en-US' ? 'Close dialog' : '关闭弹窗'">&times;</button>
+          <h2>{{ lang === 'en-US' ? 'Thank you for downloading!' : '感谢您的下载！' }}</h2>
+          <p v-if="lang === 'en-US'">Your file will start downloading automatically in <strong>{{ countdown }}</strong> seconds.</p>
+          <p v-else>您的文件将在 <strong>{{ countdown }}</strong> 秒后开始自动下载。</p>
+          <p v-if="manualDownloadTipVisible" style="margin-top:0.5rem;">
+            {{ lang === 'en-US' ? 'If the download didn\'t start, please use the manual link below:' : '若未开始，请使用下方手动下载：' }}
+          </p>
           <div style="margin:0.75rem 0; display:flex; gap:0.5rem; justify-content:center; align-items:center;">
-            <a v-if="manualDownloadUrl" :href="manualDownloadUrl" @click.prevent="onManualDownload" class="download-link" style="padding:8px 14px; background:var(--vp-c-brand,#0078d4); color:white; border-radius:4px; text-decoration:none;">手动下载</a>
-            <button @click="closeModal" style="padding:8px 12px; border-radius:4px; background:transparent; border:1px solid var(--vp-c-border,#ccc);">关闭</button>
+            <a v-if="manualDownloadUrl" :href="manualDownloadUrl" @click.prevent="onManualDownload" class="download-link" style="padding:8px 14px; background:var(--vp-c-brand,#0078d4); color:white; border-radius:4px; text-decoration:none;">
+              {{ lang === 'en-US' ? 'Manual Download' : '手动下载' }}
+            </a>
+            <button @click="closeModal" style="padding:8px 12px; border-radius:4px; background:transparent; border:1px solid var(--vp-c-border,#ccc);">
+              {{ lang === 'en-US' ? 'Close' : '关闭' }}
+            </button>
           </div>
-          <p style="margin-top:0.5rem;">如果遇到任何问题，请通过社区或 GitHub Issues 联系我们。</p>
+          <p style="margin-top:0.5rem;">
+            {{ lang === 'en-US' ? 'If you run into any issues, please contact us via community or GitHub Issues.' : '如果遇到任何问题，请通过社区或 GitHub Issues 联系我们。' }}
+          </p>
         </div>
       </div>
     </transition>
@@ -63,8 +72,10 @@
 <script setup>
 import { ref, onMounted, reactive } from 'vue';
 import { marked } from 'marked';
+import { useData } from 'vitepress';
 
 // --- 响应式状态定义 ---
+const { lang } = useData();
 const currentChannel = ref('stable');
 const isLoading = ref(true);
 const releasesHistory = ref([]);
@@ -82,11 +93,13 @@ const versionInfo = reactive({
 const apiConfig = {
   stable: {
     repo: 'InkCanvasForClass/community',
-    description: '这是稳定的正式发布版本，适合日常使用。'
+    description: '这是稳定的正式发布版本，适合日常使用。',
+    descriptionEn: 'This is the stable release version, suitable for daily use.'
   },
   beta: {
     repo: 'InkCanvasForClass/community-beta',
-    description: '这是测试版本，包含最新功能，但可能不稳定。'
+    description: '这是测试版本，包含最新功能，但可能不稳定。',
+    descriptionEn: 'This is the beta version, containing the latest features but may be unstable.'
   }
 };
 
@@ -155,7 +168,7 @@ const updateVersionDetails = () => {
 
   const config = apiConfig[currentChannel.value];
   versionInfo.version = selectedRelease.tag_name;
-  versionInfo.description = config.description;
+  versionInfo.description = lang.value === 'en-US' ? config.descriptionEn : config.description;
   versionInfo.releaseNotes = selectedRelease.body ? marked.parse(selectedRelease.body) : '';
 
   const asset = selectedRelease.assets.find(asset =>
@@ -174,13 +187,21 @@ const useFallbackData = (channel) => {
   console.log('GitHub API 请求失败，使用备用数据...');
   releasesHistory.value = [];
   const fallbackData = {
-    stable: { version: '1.7.3.0', desc: '这是稳定的正式发布版本，适合日常使用。' },
-    beta: { version: '1.7.3.0', desc: '这是测试版本，包含最新功能，但可能不稳定。' }
+    stable: { 
+      version: '1.7.3.0', 
+      desc: '这是稳定的正式发布版本，适合日常使用。',
+      descEn: 'This is the stable release version, suitable for daily use.'
+    },
+    beta: { 
+      version: '1.7.3.0', 
+      desc: '这是测试版本，包含最新功能，但可能不稳定。',
+      descEn: 'This is the beta version, containing the latest features but may be unstable.'
+    }
   };
 
   const data = fallbackData[channel];
   versionInfo.version = data.version;
-  versionInfo.description = data.desc;
+  versionInfo.description = lang.value === 'en-US' ? data.descEn : data.desc;
   versionInfo.releaseNotes = '';
   versionInfo.downloadUrl = downloadTemplates[channel].replace(/{version}/g, data.version);
 };
