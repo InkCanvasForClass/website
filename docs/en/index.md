@@ -23,7 +23,7 @@ hero:
       link: /en/guide/instruction-manual
     - theme: alt
       text: Dev Docs
-      link: /cn/dev/uri
+      link: /en/dev/uri
 
 features:
   - icon: 🖊️
