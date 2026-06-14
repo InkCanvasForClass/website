@@ -8,7 +8,7 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 1. 打开 **软件设置**。
 2. 进入 **高级选项** 面板。
 3. 找到 **外部协议调用** 区域。
-4. 开启 **“启用外部协议 (icc://)”** 开关。
+4. 开启 **"启用外部协议 (icc://)"** 开关。
 
 > **注意**：此操作会自动在系统注册表中为当前用户注册协议。如果手动关闭该功能，协议将被注销。
 
@@ -36,7 +36,34 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 | **计时器** | `icc://timer` | 打开**计时器/倒计时**工具。 |
 | **白板** | `icc://whiteboard` | 切换到**白板模式**（也可使用 `icc://board`）。 |
 
-### 3. 工具状态命令
+### 3. 应用生命周期命令
+
+控制 Ink Canvas 应用的重启与退出。执行前会先显示通知提示，延迟 300ms 后再执行操作。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **重启** | `icc://restart` | 以**当前权限**重启应用。 |
+| **管理员重启** | `icc://restart/admin` | 以**管理员身份**重启应用（会触发 UAC 提权弹窗）。 |
+| **普通重启** | `icc://restart/normal` | 以**普通用户权限**重启应用（即使当前为管理员也会降权）。 |
+| **退出** | `icc://exit` | 退出应用（也可使用 `icc://quit`）。 |
+
+### 4. 画布操作命令
+
+用于清除墨迹、撤销/重做操作，以及白板页面的导航与管理。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **清除墨迹** | `icc://clear` | 清除当前页面的墨迹（也可使用 `icc://clearink`）。 |
+| **清除墨迹和历史** | `icc://clearall` | 清除当前页面的墨迹并清空撤销历史（也可使用 `icc://clearinkandhistory`）。 |
+| **撤销** | `icc://undo` | 执行一次撤销操作。 |
+| **重做** | `icc://redo` | 执行一次重做操作。 |
+| **下一页** | `icc://nextpage` | 切换到**下一页**白板页（也可使用 `icc://page/next`）。 |
+| **上一页** | `icc://previouspage` | 切换到**上一页**白板页（也可使用 `icc://prevpage` 或 `icc://page/previous`）。 |
+| **新建页** | `icc://newpage` | 新建一个白板页（也可使用 `icc://page/add`）。 |
+| **删除页** | `icc://deletepage` | 删除当前白板页（仅在有多于一页时生效，也可使用 `icc://page/delete`）。 |
+| **截图** | `icc://screenshot` | 截取屏幕区域并插入画布。执行前会延迟 300ms 以避免通知遮挡截图区域。 |
+
+### 5. 工具状态命令
 
 用于切换当前批注工具，或查询当前工具状态。URI 不区分大小写。
 
@@ -46,6 +73,7 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 | **鼠标** | `icc://tool/cursor` | 切换到**鼠标/光标**模式。 |
 | **面积橡皮擦** | `icc://tool/eraser` | 先进入批注模式，再切换到**面积橡皮擦**。 |
 | **笔画橡皮擦** | `icc://tool/eraserbystrokes` 或 `icc://tool/eraserstroke` | 先进入批注模式，再切换到**笔画橡皮擦**。 |
+| **选择/套索** | `icc://tool/select` 或 `icc://tool/lasso` | 进入批注模式并切换到**套索选择**工具。 |
 | **获取当前工具** | `icc://tool/state` | 将当前工具状态写入临时文件，供第三方读取。见下方说明。 |
 
 #### `icc://tool/state` 返回值说明
@@ -57,7 +85,7 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 
 可能的值：`cursor`（鼠标）、`pen`（笔）、`color`（荧光笔）、`eraser`（面积橡皮擦）、`eraserByStrokes`（笔画橡皮擦）、`select`（选择）、`shape`（图形）。默认或无法识别时为 `cursor`。
 
-### 4. 配置方案命令
+### 6. 配置方案命令
 
 用于获取当前配置方案列表或通过 URI 切换当前生效的配置方案。URI 不区分大小写。
 
@@ -97,18 +125,32 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 
 示例：
 
-- 切换到名为“教室1”的方案：`icc://config-profile/switch?name=教室1`
+- 切换到名为"教室1"的方案：`icc://config-profile/switch?name=教室1`
 - 方案名含特殊字符时使用编码：`icc://config-profile/switch?name=%E6%96%B9%E6%A1%88A`
 
-### 5. 进阶功能命令（隐藏功能）
+### 7. 进阶功能命令（隐藏功能）
 
 以下功能专门用于解决与第三方侧边栏或悬浮窗程序的兼容性问题，未在常规设置界面显示。URI 不区分大小写，下表为小写形式。
 
 | 命令 | 完整 URI | 作用 |
 | :--- | :--- | :--- |
-| **ThoroughHideOn** | `icc://thoroughhideon` | **开启**“收起时彻底隐藏”功能。开启后，进入收纳模式时主窗口将完全不可见。 |
-| **ThoroughHideOff** | `icc://thoroughhideoff` | **关闭**“收起时彻底隐藏”功能。恢复默认的侧边栏边缘留痕模式。 |
-| **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **切换**“收起时彻底隐藏”功能的开启/关闭状态。 |
+| **ThoroughHideOn** | `icc://thoroughhideon` | **开启**"收起时彻底隐藏"功能。开启后，进入收纳模式时主窗口将完全不可见。 |
+| **ThoroughHideOff** | `icc://thoroughhideoff` | **关闭**"收起时彻底隐藏"功能。恢复默认的侧边栏边缘留痕模式。 |
+| **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **切换**"收起时彻底隐藏"功能的开启/关闭状态。 |
+
+### 8. 墨迹冻结命令
+
+用于控制墨迹冻结功能。URI 不区分大小写，支持多种等效写法。
+
+| 命令 | 完整 URI | 作用 |
+| :--- | :--- | :--- |
+| **冻结当前页** | `icc://freeze` | 冻结当前页面的墨迹（也可使用 `icc://lock`、`icc://ink-freeze`、`icc://ink/lock`）。支持 `?page=N` 参数指定页码。 |
+| **解冻当前页** | `icc://unfreeze` | 解冻当前页面的墨迹（也可使用 `icc://unlock`、`icc://ink-unfreeze`、`icc://ink/unlock`）。 |
+| **开始冻结课程** | `icc://freeze/start` | 开始墨迹冻结课程模式（记录页面，等待课程结束后自动冻结）。 |
+| **结束冻结课程** | `icc://freeze/end` | 结束墨迹冻结课程，冻结已记录的页面。 |
+| **取消冻结课程** | `icc://freeze/cancel` | 取消正在进行的冻结课程倒计时。 |
+
+> 以上 `freeze` 均可替换为 `lock`、`ink-freeze` 或 `ink/lock`，效果相同。
 
 ---
 
@@ -120,7 +162,7 @@ Ink Canvas 支持通过自定义协议 `icc://` 进行外部调用。通过此�
 <a href="icc://fold">立即收纳 Ink Canvas</a>
 ```
 
-### B. 在 Windows “运行”对话框中使用
+### B. 在 Windows "运行"对话框中使用
 按下 `Win + R`，输入 `icc://toggle` 并回车。
 
 ### C. 在批处理或命令行中使用
@@ -134,6 +176,32 @@ start icc://unfold
 ### E. 第三方获取配置方案列表并切换
 1. 调用 `icc://config-profile/list` 后，读取 `%TEMP%\InkCanvasConfigProfileList.json` 获取 `list` 与 `current`。
 2. 调用 `icc://config-profile/switch?name=方案名` 切换方案，再读取 `%TEMP%\InkCanvasConfigProfileSwitchResult.txt` 判断是否成功（内容为 `ok` 即成功）。
+
+### F. 自动化脚本示例
+以下示例展示如何通过批处理脚本控制 Ink Canvas：
+
+```cmd
+@echo off
+:: 清除墨迹并截图
+start icc://clear
+timeout /t 1
+start icc://screenshot
+timeout /t 2
+
+:: 切换到白板模式，新建一页，然后截图
+start icc://whiteboard
+timeout /t 1
+start icc://newpage
+timeout /t 1
+start icc://screenshot
+```
+
+### G. 通过快捷方式快速重启
+创建一个桌面快捷方式，目标设置为：
+```
+icc://restart
+```
+双击即可重启 Ink Canvas。如需管理员重启，使用 `icc://restart/admin`。
 
 ---
 
