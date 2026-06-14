@@ -1,79 +1,107 @@
-# Ink Canvas External Protocol (URI Scheme) Specification Document
+# Ink Canvas External Protocol (URI Scheme) Documentation
 
-Ink Canvas supports external calls via a custom protocol `icc://`. With this feature, other applications, webpage scripts, or system shortcuts can remotely control the running state of Ink Canvas.
+Ink Canvas supports external control via the custom `icc://` protocol. This feature allows other applications, web scripts, or system shortcuts to remotely control Ink Canvas.
 
-## Activation Method
+## Enabling the Protocol
 
-Before using the external protocol, it must be enabled in the software settings:
+Before using the external protocol, you must enable it in the application settings:
 1. Open **Settings**.
 2. Go to the **Advanced Options** panel.
-3. Find the **External Protocol Call** area.
-4. Enable the **"Enable External Protocol (icc://)"** switch.
+3. Find the **External Protocol** section.
+4. Turn on the **"Enable External Protocol (icc://)"** toggle.
 
-> **Note**: This action automatically registers the protocol in the system registry for the current user. If you manually turn off this feature, the protocol will be unregistered.
+> **Note**: This automatically registers the protocol in the Windows Registry for the current user. Disabling the feature will unregister the protocol.
 
 ---
 
-## Command List
+## Command Reference
 
 ### 1. Basic Control Commands
 
-| Command | Full URI | Description |
+| Command | URI | Description |
 | :--- | :--- | :--- |
-| **Fold** | `icc://fold` | Enters **collapse mode**. If currently expanded, it clears ink and collapses to the sidebar. |
-| **Unfold** | `icc://unfold` | Exits **collapse mode**. If currently collapsed, it expands the floating toolbar. |
-| **Toggle** | `icc://toggle` | **Toggles** state. Collapses if expanded, expands if collapsed. |
-| **Show** | `icc://show` | Functions identically to `unfold`, used for compatibility with older commands. |
+| **Fold** | `icc://fold` | Enter **fold mode**. If currently unfolded, clears ink and collapses to the sidebar. |
+| **Unfold** | `icc://unfold` | Exit **fold mode**. If currently folded, expands the floating toolbar. |
+| **Toggle** | `icc://toggle` | **Toggle** between folded and unfolded states. |
+| **Show** | `icc://show` | Same as `unfold`. Kept for backward compatibility. |
 
 ### 2. Sidebar Tool Commands
 
-The following commands correspond to the quick tools provided in the sidebar under collapse mode.
+These commands correspond to the quick tools available in the sidebar during fold mode.
 
-| Command | Full URI | Description |
+| Command | URI | Description |
 | :--- | :--- | :--- |
-| **Pick One** | `icc://randone` | Opens the random roll-call window and executes a **single pick**. |
-| **Random Pick** | `icc://rand` | Opens the random roll-call window and executes a **random pick**. |
-| **Timer** | `icc://timer` | Opens the **timer/countdown** tool. |
-| **Whiteboard** | `icc://whiteboard` | Switches to **whiteboard mode** (can also use `icc://board`). |
+| **Single Draw** | `icc://randone` | Open the random name picker and perform a **single draw**. |
+| **Random Draw** | `icc://rand` | Open the random name picker and perform a **random draw**. |
+| **Timer** | `icc://timer` | Open the **countdown timer** tool. |
+| **Whiteboard** | `icc://whiteboard` | Switch to **whiteboard mode** (also available as `icc://board`). |
 
-### 3. Tool State Commands
+### 3. Application Lifecycle Commands
 
-Used to switch the current annotation tool or query the current tool state. The URI is case-insensitive.
+Control restarting and exiting the Ink Canvas application. A notification is displayed before execution, with a 300ms delay to ensure the user sees the notification.
 
-| Command | Full URI | Description |
+| Command | URI | Description |
 | :--- | :--- | :--- |
-| **Pen** | `icc://tool/pen` or `icc://tool/color` | Switches to **Pen** (`color` corresponds to the pen/highlighter entry). |
-| **Mouse** | `icc://tool/cursor` | Switches to **Mouse/Cursor** mode. |
-| **Area Eraser** | `icc://tool/eraser` | Enters annotation mode first, then switches to the **Area Eraser**. |
-| **Stroke Eraser** | `icc://tool/eraserbystrokes` or `icc://tool/eraserstroke` | Enters annotation mode first, then switches to the **Stroke Eraser**. |
-| **Get Current Tool** | `icc://tool/state` | Writes the current tool state to a temporary file for third-party reading. See details below. |
+| **Restart** | `icc://restart` | Restart the application with **current privileges**. |
+| **Restart as Admin** | `icc://restart/admin` | Restart the application as **administrator** (triggers a UAC elevation prompt). |
+| **Restart as Normal** | `icc://restart/normal` | Restart the application as a **normal user** (drops privileges even if currently running as admin). |
+| **Exit** | `icc://exit` | Exit the application (also available as `icc://quit`). |
 
-#### `icc://tool/state` Return Value Explanation
+### 4. Canvas Operation Commands
 
-Calling this will not return content directly in the protocol layer. Instead, it writes the current tool name to a file:
+Used for clearing ink, undo/redo operations, and whiteboard page navigation and management.
 
-- **File Path**: `%TEMP%\InkCanvasToolState.txt` (e.g., `C:\Users\<Username>\AppData\Local\Temp\InkCanvasToolState.txt`)
+| Command | URI | Description |
+| :--- | :--- | :--- |
+| **Clear Ink** | `icc://clear` | Clear ink on the current page (also available as `icc://clearink`). |
+| **Clear Ink and History** | `icc://clearall` | Clear ink on the current page and purge the undo history (also available as `icc://clearinkandhistory`). |
+| **Undo** | `icc://undo` | Perform a single undo operation. |
+| **Redo** | `icc://redo` | Perform a single redo operation. |
+| **Next Page** | `icc://nextpage` | Switch to the **next** whiteboard page (also available as `icc://page/next`). |
+| **Previous Page** | `icc://previouspage` | Switch to the **previous** whiteboard page (also available as `icc://prevpage` or `icc://page/previous`). |
+| **New Page** | `icc://newpage` | Add a new whiteboard page (also available as `icc://page/add`). |
+| **Delete Page** | `icc://deletepage` | Delete the current whiteboard page (only effective when there is more than one page; also available as `icc://page/delete`). |
+| **Screenshot** | `icc://screenshot` | Capture a screen region and insert it into the canvas. A 300ms delay is applied to avoid the notification obscuring the capture area. |
+
+### 5. Tool State Commands
+
+Used to switch the current annotation tool or query the current tool state. URIs are case-insensitive.
+
+| Command | URI | Description |
+| :--- | :--- | :--- |
+| **Pen** | `icc://tool/pen` or `icc://tool/color` | Switch to the **pen** tool (`color` also routes to pen/highlighter). |
+| **Cursor** | `icc://tool/cursor` | Switch to **cursor/mouse** mode. |
+| **Area Eraser** | `icc://tool/eraser` | Enter annotation mode and switch to the **area eraser**. |
+| **Stroke Eraser** | `icc://tool/eraserbystrokes` or `icc://tool/eraserstroke` | Enter annotation mode and switch to the **stroke eraser**. |
+| **Select / Lasso** | `icc://tool/select` or `icc://tool/lasso` | Enter annotation mode and switch to the **lasso selection** tool. |
+| **Get Current Tool** | `icc://tool/state` | Write the current tool state to a temp file for third-party consumption. See below. |
+
+#### `icc://tool/state` Return Value
+
+This command does not return data via the protocol. Instead, it writes the current tool name to a file:
+
+- **File path**: `%TEMP%\InkCanvasToolState.txt` (e.g., `C:\Users\<username>\AppData\Local\Temp\InkCanvasToolState.txt`)
 - **Encoding**: UTF-8, single-line plain text.
 
-Possible values: `cursor` (Mouse), `pen` (Pen), `color` (Highlighter), `eraser` (Area Eraser), `eraserByStrokes` (Stroke Eraser), `select` (Select), `shape` (Shape). Defaults to `cursor` if unrecognized.
+Possible values: `cursor` (mouse), `pen` (pen), `color` (highlighter), `eraser` (area eraser), `eraserByStrokes` (stroke eraser), `select` (selection), `shape` (shapes). Defaults to `cursor` if unrecognizable.
 
-### 4. Configuration Profile Commands
+### 6. Configuration Profile Commands
 
-Used to obtain the list of current configuration profiles or switch the active configuration profile via URI. The URI is case-insensitive.
+Used to retrieve the list of configuration profiles or switch the active profile via URI. URIs are case-insensitive.
 
-| Command | Full URI | Description |
+| Command | URI | Description |
 | :--- | :--- | :--- |
-| **Get Profile List** | `icc://config-profile/list` | Writes the names of all current configuration profiles and the active profile to a temporary JSON file for third-party reading. |
-| **Switch Profile** | `icc://config-profile/switch?name=ProfileName` | Switches to the specified configuration profile and hot-reloads it, writing the result to a temporary file. |
+| **List Profiles** | `icc://config-profile/list` | Write all saved profile names and the currently active profile to a temp JSON file for third-party consumption. |
+| **Switch Profile** | `icc://config-profile/switch?name=<profile>` | Switch to the specified profile and hot-reload settings. Result is written to a temp file. |
 
-#### `icc://config-profile/list` Return Value Explanation
+#### `icc://config-profile/list` Return Value
 
-Calling this will not return content directly in the protocol layer. Instead, it writes the list to a file:
+This command writes the profile list to a file instead of returning data via the protocol:
 
-- **File Path**: `%TEMP%\InkCanvasConfigProfileList.json`
+- **File path**: `%TEMP%\InkCanvasConfigProfileList.json`
 - **Encoding**: UTF-8, JSON format.
 
-Example Content:
+Example content:
 
 ```json
 {
@@ -82,67 +110,107 @@ Example Content:
 }
 ```
 
-- `list`: Names of all currently saved configuration profiles (string array).
-- `current`: The currently active profile name; empty string if never switched via profiles.
+- `list`: Array of all saved configuration profile names.
+- `current`: The currently active profile name; empty string if no profile has been switched to.
 
-#### `icc://config-profile/switch` Explanation
+#### `icc://config-profile/switch` Details
 
-- **Query Parameter**: `name` (required), the name of the profile to switch to. If the profile name contains Chinese characters or special symbols, it must be URL-encoded (e.g., `name=%E6%95%99%E5%AE%A41`).
-- **Result File Path**: `%TEMP%\InkCanvasConfigProfileSwitchResult.txt`
+- **Query parameter**: `name` (required) — the profile name to switch to. If the name contains non-ASCII characters or special characters, URL-encode it (e.g., `name=Classroom%201`).
+- **Result file path**: `%TEMP%\InkCanvasConfigProfileSwitchResult.txt`
 - **Encoding**: UTF-8, single-line plain text.
-- **Possible Content**:
-  - `ok`: Switched successfully, hot-reloaded.
-  - `error: 缺少参数 name` (Missing parameter name): The `name` parameter was not provided.
-  - `error: 方案不存在或应用失败` (Profile does not exist or application failed): The specified profile does not exist or application failed.
+- **Possible contents**:
+  - `ok` — Switch successful, settings hot-reloaded.
+  - `error: 缺少参数 name` — `name` parameter not provided.
+  - `error: 方案不存在或应用失败` — Specified profile does not exist or failed to apply.
 
 Examples:
 
-- Switch to the profile named "Classroom1": `icc://config-profile/switch?name=Classroom1`
-- Use encoding when the profile name contains special characters: `icc://config-profile/switch?name=%E6%96%B9%E6%A1%88A`
+- Switch to profile "Classroom1": `icc://config-profile/switch?name=Classroom1`
+- URL-encoded profile name: `icc://config-profile/switch?name=Profile%20A`
 
-### 5. Advanced Feature Commands (Hidden Features)
+### 7. Advanced Commands (Hidden Features)
 
-The following features are specifically designed to resolve compatibility issues with third-party sidebar or floating window programs, and are not displayed in the standard settings interface. URIs are case-insensitive; the table below shows lowercase forms.
+These features are specifically designed for compatibility with third-party sidebar or floating window applications and are not shown in the standard settings UI. URIs are case-insensitive; the table shows lowercase forms.
 
-| Command | Full URI | Description |
+| Command | URI | Description |
 | :--- | :--- | :--- |
-| **ThoroughHideOn** | `icc://thoroughhideon` | **Enables** "Thorough hide when collapsed". Once enabled, the main window will be completely invisible when entering collapse mode. |
-| **ThoroughHideOff** | `icc://thoroughhideoff` | **Disables** "Thorough hide when collapsed". Restores the default sidebar edge-tracing mode. |
-| **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **Toggles** the enabled/disabled state of the "Thorough hide when collapsed" feature. |
+| **ThoroughHideOn** | `icc://thoroughhideon` | **Enable** "Hide completely when folded". When enabled, the main window becomes fully invisible in fold mode. |
+| **ThoroughHideOff** | `icc://thoroughhideoff` | **Disable** "Hide completely when folded". Restores the default sidebar edge peek behavior. |
+| **ThoroughHideToggle** | `icc://thoroughhidetoggle` | **Toggle** the "Hide completely when folded" feature on or off. |
+
+### 8. Ink Freeze Commands
+
+Used to control the ink freeze feature. URIs are case-insensitive and support multiple equivalent forms.
+
+| Command | URI | Description |
+| :--- | :--- | :--- |
+| **Freeze Page** | `icc://freeze` | Freeze ink on the current page (also available as `icc://lock`, `icc://ink-freeze`, `icc://ink/lock`). Supports `?page=N` to specify a page number. |
+| **Unfreeze Page** | `icc://unfreeze` | Unfreeze ink on the current page (also available as `icc://unlock`, `icc://ink-unfreeze`, `icc://ink/unlock`). |
+| **Start Freeze Course** | `icc://freeze/start` | Start ink freeze course mode (records the page, freezes it automatically when the course ends). |
+| **End Freeze Course** | `icc://freeze/end` | End the ink freeze course and freeze the recorded pages. |
+| **Cancel Freeze Course** | `icc://freeze/cancel` | Cancel an ongoing freeze course countdown. |
+
+> In the commands above, `freeze` can be replaced with `lock`, `ink-freeze`, or `ink/lock` — all have the same effect.
 
 ---
 
 ## Usage Examples
 
-### A. Calling in a Browser
-You can type the URI directly into the browser's address bar and press Enter, or use hyperlinks in HTML:
+### A. Calling from a Web Browser
+Type the URI directly in the browser address bar and press Enter, or use a hyperlink in HTML:
 ```html
-<a href="icc://fold">Collapse Ink Canvas immediately</a>
+<a href="icc://fold">Fold Ink Canvas</a>
 ```
 
-### B. Calling in the Windows "Run" Dialog
-Press `Win + R`, enter `icc://toggle`, and press Enter.
+### B. Using the Windows "Run" Dialog
+Press `Win + R`, type `icc://toggle`, and press Enter.
 
-### C. Calling in a Batch File or Command Line
+### C. Using from Batch Scripts or Command Line
 ```cmd
 start icc://unfold
 ```
 
-### D. Third-Party Reading of Current Tool State
+### D. Third-Party: Reading the Current Tool State
 After calling `icc://tool/state`, read `%TEMP%\InkCanvasToolState.txt` to get the current tool name (e.g., `pen`, `cursor`, `eraser`).
 
-### E. Third-Party Getting and Switching Profiles
-1. After calling `icc://config-profile/list`, read `%TEMP%\InkCanvasConfigProfileList.json` to obtain `list` and `current`.
-2. Call `icc://config-profile/switch?name=ProfileName` to switch profiles, then read `%TEMP%\InkCanvasConfigProfileSwitchResult.txt` to determine success (successful if the content is `ok`).
+### E. Third-Party: Listing and Switching Configuration Profiles
+1. Call `icc://config-profile/list`, then read `%TEMP%\InkCanvasConfigProfileList.json` for `list` and `current`.
+2. Call `icc://config-profile/switch?name=<profile>` to switch profiles, then read `%TEMP%\InkCanvasConfigProfileSwitchResult.txt` to check the result (content is `ok` on success).
+
+### F. Automation Script Example
+The following batch script demonstrates how to control Ink Canvas programmatically:
+
+```cmd
+@echo off
+:: Clear ink and take a screenshot
+start icc://clear
+timeout /t 1
+start icc://screenshot
+timeout /t 2
+
+:: Switch to whiteboard mode, add a new page, then take a screenshot
+start icc://whiteboard
+timeout /t 1
+start icc://newpage
+timeout /t 1
+start icc://screenshot
+```
+
+### G. Quick Restart via Desktop Shortcut
+Create a desktop shortcut with the target set to:
+```
+icc://restart
+```
+Double-click to restart Ink Canvas. Use `icc://restart/admin` for an administrator restart.
 
 ---
 
 ## Developer Notes
 
-### Running Mechanism
-1. **Wake-up Startup**: If Ink Canvas is not yet running, calling the URI will directly start the application and execute the command.
-2. **Inter-Process Communication (IPC)**: If the application is already running, external calls will send instructions to the running instance via system events and temporary files, achieving seamless control.
+### How It Works
+1. **Cold Start**: If Ink Canvas is not running, invoking the URI will launch the application and execute the command.
+2. **Inter-Process Communication (IPC)**: If the application is already running, the external call sends the command to the running instance via system events and temporary files, enabling seamless control.
 
 ### Compatibility
-* Supports Windows 7 and higher.
-* Registry Location: `HKEY_CURRENT_USER\Software\Classes\icc` (does not require administrator privileges).
+* Supports Windows 7 and later.
+* Registry location: `HKEY_CURRENT_USER\Software\Classes\icc` (no administrator privileges required).
