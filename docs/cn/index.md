@@ -48,6 +48,7 @@ features:
 
 ## 宣传视频
 <BilibiliVideo bvid="BV1LHKt6WEPN" />
+<BilibiliVideo bvid="BV1yH8ezcEKk" />
 
 <div align="center">
 本站总访问量 <span id="busuanzi_value_site_pv" /> 次 | 本站访客数 <span id="busuanzi_value_site_uv" /> 人次
