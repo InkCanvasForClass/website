@@ -48,6 +48,7 @@ features:
 
 ## Promo Video
 <BilibiliVideo bvid="BV1LHKt6WEPN" />
+<BilibiliVideo bvid="BV1yH8ezcEKk" />
 
 <div align="center">
 Total Views <span id="busuanzi_value_site_pv" /> | Total Visitors <span id="busuanzi_value_site_uv" />
