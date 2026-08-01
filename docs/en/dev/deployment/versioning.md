@@ -67,6 +67,16 @@ The download page relies on tags to correlate assets across the two repositories
 only portable zips, and installers are fetched from the main `community` repository under the **same tag**.
 The tags in both repositories must therefore match exactly, or the download page will find no installer.
 
+### `sdk-v*` &mdash; SDK package tags
+
+A separate tag line drives NuGet SDK releases:
+
+- Format `sdk-v<version>` (e.g. `sdk-v1.7.19.9`)
+- Pushing one triggers the workflow that publishes `InkCanvas.PluginSdk` and `InkCanvas.Controls` to nuget.org
+- **Independent** of application release tags; the two need not be in sync
+
+See [Publishing SDK Packages to NuGet](./nuget-publishing.md).
+
 ## How they relate
 
 ```
