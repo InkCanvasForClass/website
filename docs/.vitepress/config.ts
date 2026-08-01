@@ -32,6 +32,7 @@ export default withMermaid(defineConfig({
                 { text: '安装与更新通道', link: '/cn/guide/installation' },
                 { text: '手势与快捷操作', link: '/cn/guide/gestures-shortcuts' },
                 { text: 'PPT 联动指南', link: '/cn/guide/ppt-guide' },
+                { text: 'URL 命令调用', link: '/cn/guide/url-commands' },
                 { text: '配置文件与数据目录', link: '/cn/guide/files-and-data' },
                 { text: '高级技巧', link: '/cn/guide/advanced-tips' },
                 { text: '设置指南', link: '/cn/guide/settings' },

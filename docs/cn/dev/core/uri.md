@@ -5,12 +5,18 @@ description: icc:// 协议的注册、分发与全部命令
 
 # URI 协议调用
 
-程序注册了 `icc://` 协议，外部可以通过一条 URL 来控制它——收纳工具栏、切换工具、清空墨迹、打开设置页等等。批处理、快捷方式、一体机厂商的中控软件、浏览器都能调。
+<HelpUsImprove />
+
+程序注册了 `icc://` 协议，外部可以通过一条 URL 来控制它——收纳工具栏、切换工具、清空墨迹、打开设置页等等。
 
 两个关键文件：
 
 - `Helpers\UriSchemeHelper.cs`（118 行）— 注册/注销/检测协议
 - `MainWindow_cs\MW_UriHandler.cs`（506 行）— 解析与执行命令
+
+::: tip 只想知道怎么用？
+这篇讲的是实现原理。如果你只需要命令地址表和使用方法，看面向用户的 [URL 命令调用](/cn/guide/url-commands)。
+:::
 
 ## 协议名是 icc，不是 inkcanvas
 
@@ -48,8 +54,18 @@ string normalizedCurrentPath = System.IO.Path.GetFullPath(currentExePath);
 return string.Equals(normalizedRegisteredPath, normalizedCurrentPath, StringComparison.OrdinalIgnoreCase);
 ```
 
-::: warning 换个目录运行就会被判定为未注册
-绿色软件经常被整个目录拷来拷去。路径一变，`IsUriSchemeRegistered()` 返回 false，设置页的开关会显示成未开启，需要重新注册一次指向新路径。这是有意的行为——否则 URL 会启动旧路径下那个可能已经不存在的 exe。
+::: danger 换个目录后会静默失效，而且开关看不出来
+绿色软件经常被整个目录拷来拷去。路径一变，`IsUriSchemeRegistered()` 就返回 false，但注册表里的旧路径**还在**，`icc://` 依然指向旧位置的 exe。
+
+更麻烦的是设置页看不出问题。`LoadSettings()` 只读设置值：
+
+```csharp
+ToggleSwitchExternalProtocol.IsOn = settings.Advanced.IsEnableUriScheme;
+```
+
+它**不调用** `IsUriSchemeRegistered()`。所以移动目录后开关照旧显示为开启，用户以为功能正常，实际命令已经打不到新位置。
+
+恢复办法是把开关关掉再打开。关的时候 `IsUriSchemeRegistered()` 返回 false，走 `success = true` 分支，**并不会真的删除那个残留的旧键**；再打开时 `RegisterUriScheme()` 用新路径覆盖写入，这才恢复。
 :::
 
 ## 默认关闭，要手动开

@@ -5,6 +5,8 @@ description: IPluginHost 与各服务接口
 
 # 宿主服务
 
+<HelpUsImprove />
+
 插件通过 `IPluginHost` 与宿主交互。`IPluginHost` 本身提供日志、DI 容器、工具栏注册、IPC 四类能力，更细分的功能通过 DI 容器取具体服务接口。
 
 ## IPluginHost

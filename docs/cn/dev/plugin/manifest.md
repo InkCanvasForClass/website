@@ -5,6 +5,8 @@ description: manifest.json 字段说明
 
 # 清单文件
 
+<HelpUsImprove />
+
 每个插件必须在根目录放一个 `manifest.json`。宿主靠它发现插件、校验兼容性、解析依赖。
 
 ## 完整示例

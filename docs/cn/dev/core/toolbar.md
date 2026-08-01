@@ -5,6 +5,8 @@ description: 两套独立工具栏体系、项发现机制与布局持久化
 
 # 工具栏系统
 
+<HelpUsImprove />
+
 `Ink Canvas\Controls\Toolbar\` 下其实是**两套互不相干的体系**，没有共享接口或基类：
 
 ```

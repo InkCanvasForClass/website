@@ -5,6 +5,8 @@ description: 触发器 / 行动 / 规则的注册与扩展
 
 # 自动化系统
 
+<HelpUsImprove />
+
 自动化是「触发器 + 规则 + 行动」的组合：某个事件发生（触发器），满足某些条件（规则），执行某些操作（行动）。代码在 `Automation\` 目录，60 个文件约 5265 行。
 
 ::: danger 命名空间不是 Ink_Canvas.Automation

@@ -5,6 +5,8 @@ description: InkCanvas For Class 开发指南
 
 # 开发文档
 
+<HelpUsImprove />
+
 这份文档写给两类读者：
 
 1. **想要为 InkCanvas For Class 本体贡献代码的开发者**  

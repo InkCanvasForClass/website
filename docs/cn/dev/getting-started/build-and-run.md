@@ -5,6 +5,8 @@ description: 编译、版本号、CI 与打包
 
 # 构建与运行
 
+<HelpUsImprove />
+
 ## 本地构建
 
 ### 命令行

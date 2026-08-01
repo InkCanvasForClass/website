@@ -13,6 +13,7 @@ import ArticleMetadata from "./components/ArticleMetadata.vue"
 import HomeUnderline from "./components/HomeUnderline.vue"
 import DownloadPage from './components/DownloadPage.vue'
 import MyLayout from './components/MyLayout.vue'
+import HelpUsImprove from './components/HelpUsImprove.vue'
 
 export default {
   extends: DefaultTheme,
@@ -23,6 +24,7 @@ export default {
     app.component('ArticleMetadata' , ArticleMetadata);
     app.component('HomeUnderline' , HomeUnderline);
     app.component('DownloadPage', DownloadPage);
+    app.component('HelpUsImprove', HelpUsImprove);
     if (inBrowser) {
       router.onAfterRouteChanged = () => {
         busuanzi.fetch()
@@ -33,7 +35,7 @@ export default {
     const route = useRoute();
     const initZoom = () => {
       // mediumZoom('[data-zoomable]', { background: 'var(--vp-c-bg)' }); // 默认
-      mediumZoom('.main img', { background: 'var(--vp-c-bg)' }); // 不显式添加{data-zoomable}的情况下为所有图像启用此功能
+      mediumZoom('.main img:not(.no-zoom)', { background: 'var(--vp-c-bg)' }); // 不显式添加{data-zoomable}的情况下为所有图像启用此功能（带 .no-zoom 的装饰性图片除外）
     };
     onMounted(() => {
       initZoom();

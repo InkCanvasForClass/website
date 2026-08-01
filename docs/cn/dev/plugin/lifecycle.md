@@ -5,6 +5,8 @@ description: 从发现到卸载，插件在宿主里经历了什么
 
 # 生命周期
 
+<HelpUsImprove />
+
 宿主侧的实现集中在 `Ink Canvas/Plugins/PluginManager.cs`（约 1380 行）。理解这条链路能省掉大部分"插件为什么没加载"的排查时间。
 
 ## 目录约定
