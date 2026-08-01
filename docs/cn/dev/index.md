@@ -39,6 +39,7 @@ description: InkCanvas For Class 开发指南
 - [设置](/cn/dev/core/settings) — 持久化、设置页、约定
 - [PPT 联动](/cn/dev/core/ppt) — 4 套实现的取舍与降级
 - [自动化引擎](/cn/dev/core/automation) — Trigger/Rule/Action 三段式
+- [URI 协议调用](/cn/dev/core/uri) — `icc://` 命令清单与外部集成
 - [代码约定](/cn/dev/core/conventions) — 命名、XAML、分支策略
 
 ### 插件开发

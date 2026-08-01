@@ -73,6 +73,7 @@ export default withMermaid(defineConfig({
                 { text: '工具栏系统', link: '/cn/dev/core/toolbar' },
                 { text: 'PPT 联动', link: '/cn/dev/core/ppt' },
                 { text: '自动化系统', link: '/cn/dev/core/automation' },
+                { text: 'URI 协议调用', link: '/cn/dev/core/uri' },
                 { text: '代码规范', link: '/cn/dev/core/conventions' },
               ]
             },
@@ -456,7 +457,7 @@ export default withMermaid(defineConfig({
 
   cleanUrls: true,
 
-  srcExclude: ['**/dev-legacy/**', '**/_HANDOFF.md'],
+  srcExclude: ['**/_HANDOFF.md'],
 
   mermaid: {},
 
