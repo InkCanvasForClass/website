@@ -14,11 +14,14 @@ description: 插件能做什么，边界在哪
 | 在工具栏加一个按钮，点击弹出自己的面板 | `IPluginHost.RegisterToolbarItem` |
 | 提供一个主视图 / 设置页 | `IPlugin.GetMainView()` / `GetSettingsView()` |
 | 读写主程序设置 | `ISettingsService` |
-| 订阅白板模式切换、PPT 翻页等事件 | `IEventService` |
+| 订阅白板模式切换、PPT 翻页、墨迹变化等事件 | `IEventService` |
 | 发应用内通知 | `INotificationService` |
 | 注册全局热键 | `IHotkeyService` |
 | 控制窗口置顶、收纳、进出白板 | `IWindowService` |
 | 控制 PPT 放映与翻页 | `IPowerPointService` |
+| 读写画布墨迹、切换工具、控制白板分页与撤销重做 | `ICanvasInkService` |
+| 手写转文字、图形识别、手写体美化 | `IRecognitionService` |
+| 控制托盘图标显隐、往托盘右键菜单加菜单项 | `ITrayService` |
 | 往画布下方注入背景层，做 PDF 阅读器这类功能 | `ICanvasCompositionService` |
 | 接管画布双指手势 | `IPluginCanvasGestureHandler` |
 | 与其他插件/外部进程通信 | `IPluginIpcBus` |
@@ -120,6 +123,74 @@ object GetSettingsView();
 
 返回类型是 `object` 而不是 `FrameworkElement`。实际使用时返回 WPF 的 `UserControl` 即可，宿主会做类型转换。这个设计是为了让 SDK 在理论上不绑定 WPF，但 SDK 本身已经 `UseWPF=true` 并在别处引用了 `FrameworkElement`，所以这层抽象意义有限——照常返回 WPF 控件就行。
 
+## 墨迹、识别与托盘
+
+这三个服务是较新加入 SDK 的，都可以从任意线程调用，宿主内部负责切到 UI 线程。
+
+### ICanvasInkService
+
+读写主画布墨迹、切换工具、控制白板分页与撤销重做：
+
+```csharp
+var ink = GetService<ICanvasInkService>();   // PluginBase 便捷方法，取不到返回 null
+
+var strokes = ink.GetStrokes();                 // 克隆副本，改它不影响宿主画布
+ink.TryAddStrokes(strokes, new Point(400, 300)); // 按包围盒中心对齐插入
+ink.SelectTool(PluginInkTool.Pen);
+ink.SwitchToNextPage();
+```
+
+几个要点：
+
+- 插入/清除会写入 TimeMachine 历史，用户能用 Ctrl+Z 撤销。
+- 当前页处于**墨迹冻结**状态时，变更类操作（`TryAddStrokes`、`TryClearStrokes`、编辑类 `SelectTool`）会被拒绝，返回 `false`。先看 `IsPageFrozen`，或用 `ToggleInkFreeze()` 解冻。
+- `GetStrokes()` / `GetDefaultDrawingAttributes()` 返回克隆，不共享内部引用。
+- `CurrentWhiteboardPage` 从 1 开始，非白板模式下它和 `WhiteboardPageCount` 都是 0。
+- 坐标是画布坐标（设备无关像素），换算时参考 `CanvasSize`。
+
+### IRecognitionService
+
+包装宿主的 WinRT / IACore 双引擎，做手写转文字、图形识别和手写体美化：
+
+```csharp
+var recog = GetService<IRecognitionService>();
+
+var text = await recog.RecognizeHandwritingAsync(strokes);
+if (text.IsSuccess) Log(text.CombinedText);
+
+var shape = await recog.RecognizeShapeAsync(strokes, PluginRecognitionEngine.WinRT);
+// shape.StrokesToRemove 指明应从画布移除的原始笔画
+```
+
+`PluginRecognitionEngine.Auto` 在 Windows 10 及以上默认走 WinRT，IACore 需要 IPC 辅助进程。引擎不可用时返回 `IsSuccess=false` 的结果，**不抛异常**，所以判断成败看 `IsSuccess` 而不是 try/catch。
+
+### ITrayService
+
+控制托盘图标与主窗口显隐，并往托盘右键菜单注入菜单项：
+
+```csharp
+var tray = GetService<ITrayService>();
+
+tray.AddMenuItem("myplugin.open", "打开我的面板", () => ShowPanel());
+tray.LeftClicked += OnTrayLeftClicked;
+```
+
+注入的菜单项落在宿主固定菜单区（隐藏窗口/重启/关闭等）之间，不影响宿主菜单的动态状态更新。`id` 重复或参数无效时 `AddMenuItem` 返回 `false`；`Shutdown()` 里记得 `RemoveMenuItem` 清理。
+
+`IsIconVisible` 只是叠加控制——宿主自身的「启用托盘图标」设置（`Settings.Appearance.EnableTrayIcon`）关闭时仍会隐藏图标。
+
+### 配套的新事件
+
+`IEventService` 同期补了三个事件，用来跟上面的墨迹操作配套：
+
+```csharp
+event Action<StrokeCollection, StrokeCollection> StrokesChanged;  // added, removed
+event Action<int, int> WhiteboardPageChanged;                     // pageIndex(从 1 开始), pageCount
+event Action<bool, bool> UndoRedoStateChanged;                    // canUndo, canRedo
+```
+
+`StrokesChanged` 有个坑：插件自己经 `ICanvasInkService` 插入/清除也会触发它，在处理器里再写画布容易绕成死循环。冻结页回滚这类宿主内部的程序性回滚不会触发。
+
 ## 版本兼容
 
 宿主在 `HostApiRequirement` 里声明兼容边界：
@@ -136,4 +207,4 @@ public const string HostVersion = ThisAssembly.AssemblyFileVersion;
 
 - [快速上手](./quickstart) — 动手写第一个插件
 - [清单文件](./manifest) — manifest.json 完整字段
-- [宿主服务](./host-services) — 13 个服务接口详解
+- [宿主服务](./host-services) — 各服务接口详解

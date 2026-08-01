@@ -56,6 +56,5 @@ description: InkCanvas For Class 开发指南
 
 ## 贡献约定
 
-- **AI 生成代码必须完整审查**：提交前逐行审查，确保理解每一行的意图。项目维护者发现 AI 代码未经审查会将贡献者除名并永久禁止贡献。详见 [CONTRIBUTING.md](https://github.com/InkCanvas/InkCanvasForClass/blob/net6/CONTRIBUTING.md)
-- **提交到 net6 分支**：主分支是 `net6`，不要提交到 `master`
+- **AI 生成代码必须完整审查**：提交前逐行审查，确保理解每一行的意图。项目维护者发现 AI 代码未经审查会将贡献者除名并永久禁止贡献。详见 [CONTRIBUTING.md](https://github.com/InkCanvasForClass/community/blob/net6/CONTRIBUTING.md)
 - **代码规范**：见 [代码约定](/cn/dev/core/conventions)

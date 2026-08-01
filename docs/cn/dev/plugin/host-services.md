@@ -77,6 +77,9 @@ event Action       SlideShowStarted;
 event Action       SlideShowEnded;
 event Action<bool> TopMostChanged;
 event Action       AppExiting;
+event Action<StrokeCollection, StrokeCollection> StrokesChanged;   // added, removed
+event Action<int, int> WhiteboardPageChanged;                      // pageIndex（从 1 开始）, pageCount
+event Action<bool, bool> UndoRedoStateChanged;                     // canUndo, canRedo
 ```
 
 ::: tip 记得退订
@@ -263,6 +266,127 @@ host.RegisterIpcHandler("myplugin.getStatus", args => new { ok = true, count = 4
 ```
 
 注册前确保方法名未被占用，重复注册同一 `method` 的行为未定义。
+
+## ICanvasInkService
+
+读写主画布墨迹、切换工具、控制白板分页与撤销重做。所有方法都可以从任意线程调用，宿主内部负责切到 UI 线程。
+
+```csharp
+bool   IsPenMode { get; }
+bool   IsPageFrozen { get; }
+bool   CanUndo { get; }
+bool   CanRedo { get; }
+int    CurrentWhiteboardPage { get; }  // 从 1 开始，非白板模式返回 0
+int    WhiteboardPageCount { get; }
+Size   CanvasSize { get; }            // DIP，供坐标换算
+
+DrawingAttributes GetDefaultDrawingAttributes();   // 克隆，修改不影响宿主
+StrokeCollection  GetStrokes();                    // 克隆，不共享内部引用
+
+bool TryAddStrokes(StrokeCollection strokes);                   // 保持原坐标插入
+bool TryAddStrokes(StrokeCollection strokes, Point center);     // 包围盒中心对齐到 center
+bool TryClearStrokes();
+bool SelectTool(PluginInkTool tool);
+
+void Undo();
+void Redo();
+void SwitchToPreviousPage();
+void SwitchToNextPage();
+void AddWhiteboardPage();
+void DeleteWhiteboardPage();
+
+bool InsertImage();                   // 从文件插入图片流程
+void ChangeBackgroundColor();
+void ToggleGesture();                 // 双指手势开关
+void ExitWhiteboard();
+void ToggleInkFreeze();
+```
+
+```csharp
+var ink = GetService<ICanvasInkService>();
+
+// 读完当前页墨迹，做点处理再插回去
+var strokes = ink.GetStrokes();
+foreach (var s in strokes) s.DrawingAttributes.Color = Colors.Red;
+ink.TryAddStrokes(strokes);
+```
+
+几个要点：
+
+- 插入/清除会写入 TimeMachine 历史，用户能用 Ctrl+Z 撤销。
+- 当前页处于**墨迹冻结**时，变更类操作（`TryAddStrokes`、`TryClearStrokes`、编辑类 `SelectTool`）会被拒绝，返回 `false`。先看 `IsPageFrozen`，或用 `ToggleInkFreeze()` 解冻。
+- `PluginInkTool` 枚举：`Select`、`Pen`、`Eraser`、`StrokeEraser`、`Shape`、`Roaming`。
+- `CurrentWhiteboardPage` / `WhiteboardPageCount` 非白板模式下都是 0。
+- **`StrokesChanged` 事件自触发死循环风险**：经 `ICanvasInkService` 的插入/清除会触发 `IEventService.StrokesChanged`，在处理器里再调写入会绕成死循环。
+
+## IRecognitionService
+
+包装宿主的 WinRT / IACore 双引擎，做手写转文字、图形识别与手写体美化。引擎不可用时返回 `IsSuccess=false` 的结果，**不抛异常**。
+
+```csharp
+Task<PluginShapeRecognitionResult> RecognizeShapeAsync(StrokeCollection strokes,
+    PluginRecognitionEngine engine = PluginRecognitionEngine.Auto);
+
+Task<PluginHandwritingResult> RecognizeHandwritingAsync(StrokeCollection strokes,
+    PluginRecognitionEngine engine = PluginRecognitionEngine.Auto);
+
+Task<StrokeCollection> CorrectInkAsync(StrokeCollection strokes,
+    PluginRecognitionEngine engine = PluginRecognitionEngine.Auto,
+    bool applyHandwritingBeautify = false,
+    string handwritingFontFamilyList = null);
+
+bool   IsValidShapeType(string shapeName);
+string GetSystemInfo();
+```
+
+```csharp
+var recog = GetService<IRecognitionService>();
+
+var text = await recog.RecognizeHandwritingAsync(strokes);
+if (text.IsSuccess)
+{
+    Log($"识别结果: {text.CombinedText}");
+    foreach (var w in text.Words)
+        Log($"  词: {w.TextCandidates[0]} 框: {w.BoundingRectangle}");
+}
+```
+
+`PluginRecognitionEngine` 取值：`Auto`（Windows 10+ 默认 WinRT）、`IACore`（需 IPC 辅助进程）、`WinRT`。
+
+`PluginHandwritingResult` 提供 `CombinedText`（拼接全文）和 `Words`（分词列表，`TextCandidates` 按置信度降序）。`PluginShapeRecognitionResult` 提供 `ShapeName`、`StrokesToRemove`（应移除的原始笔画）、`HotPoints`、`Centroid` 等几何信息。
+
+`CorrectInk` 启用 `applyHandwritingBeautify` 时会把原始笔画替换为手写风格字体轮廓墨迹。`handwritingFontFamilyList` 为空则用宿主内置默认字体。
+
+## ITrayService
+
+控制托盘图标与主窗口显隐，并往托盘右键菜单注入菜单项。所有方法都可以从任意线程调用。
+
+```csharp
+bool   IsIconVisible { get; set; }
+bool   IsMainWindowVisible { get; set; }
+
+void   ShowContextMenu();
+
+bool   AddMenuItem(string id, string text, Action onClicked);
+bool   RemoveMenuItem(string id);
+bool   HasMenuItem(string id);
+
+event  Action LeftClicked;
+event  Action RightClicked;
+```
+
+```csharp
+var tray = GetService<ITrayService>();
+
+// 往托盘右键菜单加项，Shutdown 里记得 RemoveMenuItem
+tray.AddMenuItem("myplugin.open", "打开我的面板", () => ShowPanel());
+
+tray.LeftClicked += () => Log("托盘左键被点击");
+```
+
+注入的菜单项落在宿主固定菜单区（隐藏窗口/重启/关闭等）之间，不影响宿主菜单的动态状态更新。`id` 重复或参数无效时 `AddMenuItem` 返回 `false`。
+
+`IsIconVisible` 只是叠加控制——宿主自身的「启用托盘图标」设置（`Settings.Appearance.EnableTrayIcon`）关闭时，即使插件设为 `true` 也不会显示图标。
 
 ## IWindowOverviewService
 
