@@ -1,4 +1,4 @@
-c---
+---
 title: PPT 联动
 description: 三种联动架构、统一接口与 VSTO 加载项
 ---
