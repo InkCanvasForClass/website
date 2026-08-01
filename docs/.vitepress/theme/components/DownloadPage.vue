@@ -1,450 +1,1354 @@
 <template>
-  <div class="download-container">
-    <div class="version-selector">
-      <button :class="{ active: currentChannel === 'stable' }" @click="selectChannel('stable')">
-        {{ lang === 'en-US' ? 'Stable' : '正式版' }}
-      </button>
-      <button :class="{ active: currentChannel === 'beta' }" @click="selectChannel('beta')">
-        {{ lang === 'en-US' ? 'Beta' : '测试版' }}
+  <div class="dl">
+    <!-- 镜像状态 -->
+    <div class="mirror-status">
+      <span v-if="!mirrorReady" class="mirror-tag">
+        <i class="fa-solid fa-spinner fa-spin"></i>
+        {{ t('正在检测下载镜像…', 'Detecting download mirrors…') }}
+      </span>
+      <template v-else>
+        <span class="mirror-tag" :class="net.state.smartTeachAvailable ? 'mirror-tag--ok' : 'mirror-tag--off'">
+          <i :class="net.state.smartTeachAvailable ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark'"></i>
+          {{ net.state.smartTeachAvailable
+            ? t('智教联盟可用', 'Smart-Teach mirror available')
+            : t('智教联盟不可用', 'Smart-Teach mirror unavailable') }}
+        </span>
+        <span class="mirror-tag">
+          <i class="fa-solid fa-rocket"></i>
+          {{ net.state.fastestMirror
+            ? t('GitHub 加速：', 'GitHub proxy: ') + net.state.fastestMirror.replace(/^https?:\/\//, '')
+            : t('GitHub 官方直连', 'GitHub direct connection') }}
+        </span>
+      </template>
+    </div>
+
+    <!-- 通道切换 -->
+    <div class="segmented" role="tablist">
+      <button
+        v-for="key in CHANNEL_ORDER"
+        :key="key"
+        type="button"
+        role="tab"
+        class="segmented-btn"
+        :class="[`segmented-btn--${key}`, { 'is-active': key === currentChannel }]"
+        :aria-selected="key === currentChannel"
+        @click="selectChannel(key)"
+      >
+        <i :class="CHANNELS[key].icon"></i>
+        <span>{{ t(CHANNELS[key].shortLabel, CHANNELS[key].shortLabelEn) }}</span>
+        <span v-if="CHANNELS[key].recommended" class="segmented-badge">
+          {{ t('推荐', 'Recommended') }}
+        </span>
       </button>
     </div>
 
-    <div class="loading" v-if="isLoading">
+    <!-- 通道说明 -->
+    <div class="channel-desc" :class="`channel-desc--${currentChannel}`">
+      <i :class="channel.type === 'nightly' ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-info'"></i>
+      <span>
+        <span v-html="t(channel.desc, channel.descEn)"></span>
+        {{ t(' 数据来源：', ' Source: ') }}
+        <a
+          v-if="channel.type === 'nightly'"
+          :href="`${channel.repo.url}/actions/workflows/${CONFIG.NIGHTLY.workflow}`"
+          target="_blank"
+          rel="noopener"
+        >{{ CONFIG.NIGHTLY.workflow }} · {{ CONFIG.NIGHTLY.branch }}</a>
+        <a v-else :href="`${channel.repo.url}/releases`" target="_blank" rel="noopener">{{ channel.repo.name }}</a>
+        <br v-if="channel.installerFallbackRepo" />
+        <span v-if="channel.installerFallbackRepo" class="channel-desc-extra">
+          <i class="fa-solid fa-shuffle"></i>
+          {{ t('该通道发布绿色版与安装版，安装版按相同 tag 取自主仓库。',
+                'This channel provides both portable and installer builds; installers come from the main repository under the same tag.') }}
+        </span>
+      </span>
+    </div>
+
+    <!-- 加载中 -->
+    <div v-if="isLoading" class="loading">
       <div class="spinner"></div>
-      <p>{{ lang === 'en-US' ? 'Checking version information...' : '正在检测版本信息...' }}</p>
+      <p>{{ loadingText }}</p>
     </div>
 
-    <div v-else>
-      <div class="history-selector" v-if="releasesHistory.length > 0">
-        <label for="version-select">{{ lang === 'en-US' ? 'Select Version:' : '选择版本:' }}</label>
-        <div style="display: flex; gap: 12px; align-items: center;">
-          <select id="version-select" v-model="selectedVersionTag" @change="updateVersionDetails">
-            <option v-for="release in releasesHistory" :key="release.id" :value="release.tag_name">
-              {{ release.tag_name }} {{ release.prerelease ? '(Pre-release)' : '' }}
-            </option>
-          </select>
-          <div class="download-button">
-            <button @click="downloadFile" :disabled="!versionInfo.downloadUrl">
-              {{ lang === 'en-US' ? 'Download' : '下载' }}
+    <!-- 错误 -->
+    <div v-else-if="errorText" class="release-empty">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <p>{{ errorText }}</p>
+      <a class="btn btn--outlined" :href="`${channel.repo.url}/releases`" target="_blank" rel="noopener">
+        {{ t('前往 GitHub 下载', 'Open GitHub Releases') }}
+      </a>
+    </div>
+
+    <!-- Nightly 通道 -->
+    <article v-else-if="channel.type === 'nightly'" class="release-item release-item--nightly">
+      <header class="release-item-header">
+        <div class="release-item-heading">
+          <a
+            class="release-item-title"
+            :href="`${CONFIG.NIGHTLY.repo.url}/actions/workflows/${CONFIG.NIGHTLY.workflow}`"
+            target="_blank"
+            rel="noopener"
+          >
+            {{ t(`Nightly（${CONFIG.NIGHTLY.branch} 分支）`, `Nightly (${CONFIG.NIGHTLY.branch} branch)`) }}
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          </a>
+          <span class="release-item-date">
+            <i class="fa-solid fa-screwdriver-wrench"></i>
+            {{ t('由 GitHub Actions 自动构建', 'Built automatically by GitHub Actions') }}
+          </span>
+        </div>
+        <div class="release-item-badges">
+          <span class="chip chip--nightly"><i class="fa-solid fa-moon"></i>Nightly</span>
+          <span class="chip chip--prerelease"><i class="fa-solid fa-bug"></i>Debug</span>
+        </div>
+      </header>
+
+      <div class="alert alert--danger">
+        <div class="alert-title">
+          <i class="fa-solid fa-skull-crossbones"></i>
+          <span>{{ t('危险', 'Danger') }}</span>
+        </div>
+        <p v-if="isEn">
+          Nightly builds are <b>untested</b> Debug artifacts that may contain severe defects, crashes or risk of data
+          loss. <b>Do not use them in a real classroom.</b> If you hit problems, fall back to Beta or Stable.
+        </p>
+        <p v-else>
+          Nightly 为<b>未经测试</b>的 Debug 构建，可能包含严重缺陷、崩溃或数据丢失风险，<b>请勿在正式课堂环境使用</b>。
+          遇到问题请优先回退到 Beta 或正式版。
+        </p>
+      </div>
+
+      <div v-if="nightlyRun" class="nightly-run">
+        <div class="nightly-run-item">
+          <i class="fa-solid fa-hashtag"></i>
+          <span>{{ t('构建 #', 'Build #') }}{{ nightlyRun.run_number }}</span>
+        </div>
+        <div class="nightly-run-item">
+          <i class="fa-solid fa-code-commit"></i>
+          <a :href="`${CONFIG.NIGHTLY.repo.url}/commit/${nightlyRun.head_sha}`" target="_blank" rel="noopener">
+            {{ String(nightlyRun.head_sha).slice(0, 7) }}
+          </a>
+        </div>
+        <div class="nightly-run-item">
+          <i class="fa-regular fa-clock"></i>
+          <span>{{ formatDate(nightlyRun.updated_at) }}（{{ relativeTime(nightlyRun.updated_at, isEn) }}）</span>
+        </div>
+        <div class="nightly-run-item nightly-run-title">
+          <i class="fa-solid fa-note-sticky"></i>
+          <span>{{ String(nightlyRun.display_title || '').split('\n')[0] }}</span>
+        </div>
+      </div>
+      <p v-else class="card-subtitle">
+        {{ t('未能获取构建信息（可能触发 GitHub API 限流），但下载依然可用。',
+              'Could not fetch build info (possibly GitHub API rate limiting), but downloads still work.') }}
+      </p>
+
+      <div class="divider"></div>
+
+      <div class="nightly-proxy">
+        <span class="card-subtitle">
+          {{ t('下载加速（仅支持以下节点）：', 'Download proxy (only these nodes are supported):') }}
+        </span>
+        <div class="proxy-chips">
+          <button
+            v-for="p in CONFIG.NIGHTLY.proxies"
+            :key="p.key"
+            type="button"
+            class="proxy-chip"
+            :class="{ 'is-active': p.key === activeProxyKey }"
+            @click="selectProxy(p.key)"
+          >
+            {{ t(p.label, p.labelEn) }}
+          </button>
+        </div>
+      </div>
+
+      <footer class="release-item-actions">
+        <div class="asset-group">
+          <div class="asset-group-header">
+            <i class="fa-solid fa-file-zipper"></i>
+            <span class="asset-group-title">{{ t('构建产物', 'Build artifacts') }}</span>
+            <span class="asset-group-hint">{{ t('解压即用，无安装版', 'Extract and run; no installer available') }}</span>
+          </div>
+          <div class="asset-group-items">
+            <button
+              v-for="a in CONFIG.NIGHTLY.artifacts"
+              :key="a.arch"
+              type="button"
+              class="download-btn"
+              @click="onNightlyDownload(a)"
+            >
+              <i class="fa-solid fa-moon download-btn-icon"></i>
+              <span class="download-btn-text">
+                <span class="download-btn-title">
+                  {{ t(a.archLabel, a.archLabelEn) }}
+                  <span class="download-btn-version">Debug</span>
+                </span>
+                <span class="download-btn-meta">{{ t(a.note, a.noteEn) }}</span>
+              </span>
             </button>
           </div>
         </div>
-      </div>
+      </footer>
+    </article>
 
-      <div class="version-info">
-        <h2>{{ lang === 'en-US' ? 'Current Version:' : '当前版本:' }} <span>{{ versionInfo.version }}</span></h2>
-        <p>{{ versionInfo.description }}</p>
-
-        <div class="release-notes" v-if="versionInfo.releaseNotes">
-          <h3>{{ lang === 'en-US' ? 'Release Notes:' : '更新说明:' }}</h3>
-          <div v-html="versionInfo.releaseNotes"></div>
-        </div>
-      </div>
-    </div>
-
-    <transition name="modal-fade">
-      <div v-if="showThankYouModal" class="modal-overlay" @click.self="closeModal">
-        <div class="modal-content">
-          <button class="modal-close" @click="closeModal" :aria-label="lang === 'en-US' ? 'Close dialog' : '关闭弹窗'">&times;</button>
-          <h2>{{ lang === 'en-US' ? 'Thank you for downloading!' : '感谢您的下载！' }}</h2>
-          <p v-if="lang === 'en-US'">Your file will start downloading automatically in <strong>{{ countdown }}</strong> seconds.</p>
-          <p v-else>您的文件将在 <strong>{{ countdown }}</strong> 秒后开始自动下载。</p>
-          <p v-if="manualDownloadTipVisible" style="margin-top:0.5rem;">
-            {{ lang === 'en-US' ? 'If the download didn\'t start, please use the manual link below:' : '若未开始，请使用下方手动下载：' }}
-          </p>
-          <div style="margin:0.75rem 0; display:flex; gap:0.5rem; justify-content:center; align-items:center;">
-            <a v-if="manualDownloadUrl" :href="manualDownloadUrl" @click.prevent="onManualDownload" class="download-link" style="padding:8px 14px; background:var(--vp-c-brand,#0078d4); color:white; border-radius:4px; text-decoration:none;">
-              {{ lang === 'en-US' ? 'Manual Download' : '手动下载' }}
+    <!-- Release 通道 -->
+    <template v-else-if="currentEntry">
+      <article class="release-item">
+        <header class="release-item-header">
+          <div class="release-item-heading">
+            <a class="release-item-title" :href="currentEntry.release.html_url" target="_blank" rel="noopener">
+              {{ currentEntry.release.name || currentEntry.release.tag_name }}
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
-            <button @click="closeModal" style="padding:8px 12px; border-radius:4px; background:transparent; border:1px solid var(--vp-c-border,#ccc);">
-              {{ lang === 'en-US' ? 'Close' : '关闭' }}
-            </button>
+            <span class="release-item-date">
+              <i class="fa-regular fa-clock"></i>
+              {{ formatDate(currentEntry.release.published_at) }}（{{
+                relativeTime(currentEntry.release.published_at, isEn)
+              }}）
+            </span>
           </div>
-          <p style="margin-top:0.5rem;">
-            {{ lang === 'en-US' ? 'If you run into any issues, please contact us via community or GitHub Issues.' : '如果遇到任何问题，请通过社区或 GitHub Issues 联系我们。' }}
+          <div class="release-item-badges">
+            <span class="chip" :class="`chip--${channel.key}`">
+              <i :class="channel.icon"></i>{{ t(channel.label, channel.labelEn) }}
+            </span>
+            <span v-if="currentEntry.release.prerelease" class="chip chip--prerelease">
+              <i class="fa-solid fa-bolt"></i>Pre-release
+            </span>
+            <span v-if="index === 0" class="chip chip--latest">
+              <i class="fa-solid fa-certificate"></i>{{ t('最新', 'Latest') }}
+            </span>
+          </div>
+        </header>
+
+        <div class="markdown-body release-item-body" v-html="renderedNotes"></div>
+
+        <div class="divider"></div>
+
+        <h4 class="release-assets-title">
+          <i class="fa-solid fa-circle-down"></i>
+          <span>{{ t('下载', 'Download') }}</span>
+        </h4>
+
+        <footer class="release-item-actions">
+          <template v-if="currentEntry.assets.length">
+            <div v-for="g in assetGroups" :key="g.kind" class="asset-group">
+              <template v-if="g.items.length">
+                <div class="asset-group-header">
+                  <i :class="g.icon"></i>
+                  <span class="asset-group-title">{{ g.title }}</span>
+                  <span class="asset-group-hint">{{ g.hint }}</span>
+                </div>
+                <div class="asset-group-items">
+                  <button
+                    v-for="a in g.items"
+                    :key="a.name"
+                    type="button"
+                    class="download-btn"
+                    :class="{ 'is-checking': checkingAsset === a.name }"
+                    @click="onAssetDownload(a)"
+                  >
+                    <i class="fa-solid fa-download download-btn-icon"></i>
+                    <span class="download-btn-text">
+                      <span class="download-btn-title">
+                        {{ t(a.archLabel, a.archLabelEn) }}
+                        <span v-if="a.version" class="download-btn-version">v{{ a.version }}</span>
+                      </span>
+                      <span class="download-btn-meta">
+                        {{ t(a.kindLabel, a.kindLabelEn) }} · {{ formatSize(a.size) }}
+                        <span v-if="a.fromMainRepo" class="download-btn-tag">
+                          {{ t('主仓库', 'Main repo') }}
+                        </span>
+                      </span>
+                    </span>
+                  </button>
+                </div>
+              </template>
+            </div>
+          </template>
+          <p v-else class="card-subtitle">
+            {{ t('该版本暂无可用附件。', 'No downloadable assets for this release.') }}
           </p>
+        </footer>
+      </article>
+
+      <!-- 版本历史翻页 -->
+      <div class="release-navigation">
+        <button type="button" class="btn btn--outlined" :disabled="index === 0" @click="index--">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>{{ t('上一版', 'Newer') }}</span>
+        </button>
+        <span class="card-subtitle">{{ index + 1 }} / {{ entries.length }}</span>
+        <button
+          type="button"
+          class="btn btn--outlined"
+          :disabled="index === entries.length - 1"
+          @click="index++"
+        >
+          <span>{{ t('下一版', 'Older') }}</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </template>
+
+    <!-- 空状态 -->
+    <div v-else class="release-empty">
+      <i class="fa-solid fa-inbox"></i>
+      <p>{{ t('该通道暂无可用发布版本', 'No releases available on this channel') }}</p>
+    </div>
+
+    <!-- 下载弹窗 -->
+    <transition name="modal-fade">
+      <div
+        v-if="modal.open"
+        class="modal-overlay"
+        :class="{ 'modal--danger': modal.requireConfirm }"
+        @click.self="closeModal"
+      >
+        <div class="modal-content">
+          <button class="modal-close" :aria-label="t('关闭弹窗', 'Close dialog')" @click="closeModal">&times;</button>
+
+          <h2>{{ modal.title }}</h2>
+          <p class="modal-thanks">{{ modal.subtitle }}</p>
+
+          <p v-if="modal.fileName" class="modal-file">
+            <span class="chip" :class="`chip--${channel.key}`">
+              <i :class="channel.icon"></i>{{ t(channel.label, channel.labelEn) }}
+            </span>
+            <code>{{ modal.fileName }}</code>
+          </p>
+
+          <div v-if="modal.warning" class="alert" :class="modal.requireConfirm ? 'alert--danger' : 'alert--warning'">
+            <div class="alert-title">
+              <i :class="modal.requireConfirm ? 'fa-solid fa-skull-crossbones' : 'fa-solid fa-triangle-exclamation'"></i>
+              <span>{{ modal.requireConfirm ? t('危险', 'Danger') : t('注意', 'Notice') }}</span>
+            </div>
+            <p v-html="modal.warning"></p>
+          </div>
+
+          <!-- 危险构建：强制阅读 + 勾选确认 -->
+          <div v-if="modal.requireConfirm" class="modal-confirm">
+            <label class="confirm-check" :class="{ 'is-locked': cooldown > 0 }">
+              <input type="checkbox" v-model="riskAccepted" :disabled="cooldown > 0" />
+              <span>
+                {{ t('我已了解上述风险，并自行承担使用该构建的后果。',
+                      'I understand the risks above and accept full responsibility for using this build.') }}
+              </span>
+            </label>
+            <p v-if="cooldown > 0" class="confirm-cooldown">
+              {{ t(`请先阅读风险说明，${cooldown} 秒后可继续`, `Please read the warning; available in ${cooldown}s`) }}
+            </p>
+            <div class="modal-actions">
+              <button
+                type="button"
+                class="btn btn--filled"
+                :disabled="!riskAccepted || cooldown > 0"
+                @click="confirmDangerDownload"
+              >
+                {{ t('继续下载', 'Continue download') }}
+              </button>
+              <button type="button" class="btn btn--outlined" @click="closeModal">
+                {{ t('取消', 'Cancel') }}
+              </button>
+            </div>
+          </div>
+
+          <!-- 普通通道：倒计时自动下载 -->
+          <div v-else class="modal-auto">
+            <p v-if="countdown > 0">
+              <template v-if="isEn">
+                Your download will start automatically in <strong>{{ countdown }}</strong> seconds.
+              </template>
+              <template v-else>
+                您的文件将在 <strong>{{ countdown }}</strong> 秒后开始自动下载。
+              </template>
+            </p>
+            <p v-else class="manual-tip">
+              {{ t('若未开始，请使用下方手动下载：', "If the download didn't start, use the manual link below:") }}
+            </p>
+            <div class="modal-actions">
+              <a class="btn btn--filled" :href="modal.url" @click.prevent="onManualDownload">
+                {{ t('手动下载', 'Manual download') }}
+              </a>
+              <button type="button" class="btn btn--outlined" @click="closeModal">
+                {{ t('关闭', 'Close') }}
+              </button>
+            </div>
+            <p class="modal-help">
+              {{ t('如果遇到任何问题，请通过社区或 GitHub Issues 联系我们。',
+                    'If you run into any issues, please reach us via the community or GitHub Issues.') }}
+            </p>
+          </div>
         </div>
       </div>
     </transition>
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted, reactive } from 'vue';
-import { marked } from 'marked';
-import { useData } from 'vitepress';
+<script setup lang="ts">
+import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+import { marked } from 'marked'
+import { useData } from 'vitepress'
 
-// --- 响应式状态定义 ---
-const { lang } = useData();
-const currentChannel = ref('stable');
-const isLoading = ref(true);
-const releasesHistory = ref([]);
-const selectedVersionTag = ref('');
-const showThankYouModal = ref(false); // 新增: 控制弹窗显示
+import {
+  CHANNELS,
+  CHANNEL_ORDER,
+  CONFIG,
+  DEFAULT_CHANNEL,
+  type Channel,
+  type NightlyArtifact
+} from '../downloads/config'
+import * as net from '../downloads/network'
+import type { WorkflowRun } from '../downloads/network'
+import {
+  buildReleaseEntries,
+  formatDate,
+  formatSize,
+  relativeTime,
+  type AssetMeta,
+  type ReleaseEntry
+} from '../downloads/releases'
 
-const versionInfo = reactive({
-  version: '检测中...',
-  description: '',
-  releaseNotes: '',
-  downloadUrl: ''
-});
+const { lang } = useData()
+const isEn = computed(() => lang.value === 'en-US')
+const t = (cn: string, en: string) => (isEn.value ? en : cn)
 
-// --- API 和配置 ---
-const apiConfig = {
-  stable: {
-    repo: 'InkCanvasForClass/community',
-    description: '这是稳定的正式发布版本，适合日常使用。',
-    descriptionEn: 'This is the stable release version, suitable for daily use.'
-  },
-  beta: {
-    repo: 'InkCanvasForClass/community-beta',
-    description: '这是测试版本，包含最新功能，但可能不稳定。',
-    descriptionEn: 'This is the beta version, containing the latest features but may be unstable.'
-  }
-};
+// ---------- 状态 ----------
+const currentChannel = ref(DEFAULT_CHANNEL)
+const channel = computed<Channel>(() => CHANNELS[currentChannel.value])
 
-const downloadTemplates = {
-  stable: 'https://github.com/InkCanvasForClass/community/releases/download/{version}/InkCanvasForClass.CE.{version}.zip',
-  beta: 'https://github.com/InkCanvasForClass/community-beta/releases/download/{version}/InkCanvasForClass.CE.{version}.zip'
-};
+const isLoading = ref(true)
+const loadingText = ref('')
+const errorText = ref('')
+const mirrorReady = ref(false)
 
-// --- 新增：镜像与国内优先相关常量与状态 ---
-const SMART_TEACH_DOMAIN = 'https://get.smart-teach.cn';
-const COMMUNITY_PATH = '/d/Ningbo-S3/shared/jiangling/community';
-const COMMUNITY_BETA_PATH = '/d/Ningbo-S3/shared/jiangling/community-beta';
-const GITHUB_API_BASE = 'https://api.github.com/repos/';
-const MIRROR_URLS = [
-  'https://gh.llkk.cc',
-  'https://ghfile.geekertao.top',
-  'https://gh.dpik.top',
-  'https://github.dpik.top',
-  'https://github.acmsz.top',
-  'https://git.yylx.win'
-];
+const entries = ref<ReleaseEntry[]>([])
+const index = ref(0)
+const currentEntry = computed<ReleaseEntry | undefined>(() => entries.value[index.value])
 
-let fastestMirror = null;
-let smartTeachAvailable = false;
+const nightlyRun = ref<WorkflowRun | null>(null)
+const activeProxyKey = ref(CONFIG.NIGHTLY.proxies[0].key)
 
-// --- 方法定义 ---
+const checkingAsset = ref<string | null>(null)
 
-const selectChannel = (channel) => {
-  if (currentChannel.value !== channel) {
-    currentChannel.value = channel;
-    releasesHistory.value = [];
-    selectedVersionTag.value = '';
-    fetchAllReleases(channel);
-  }
-};
+const renderedNotes = computed(() =>
+  currentEntry.value?.release.body ? marked.parse(currentEntry.value.release.body) : ''
+)
 
-const fetchAllReleases = async (channel) => {
-  isLoading.value = true;
-  const config = apiConfig[channel];
-
-  try {
-    // 构建候选 API URL 列表并尝试
-    const urls = buildApiUrls(`${config.repo}/releases`);
-    const releases = await fetchDataWithMirrors(urls, '未能获取版本列表');
-    if (releases && releases.length > 0) {
-      releasesHistory.value = releases;
-      selectedVersionTag.value = releases[0].tag_name;
-      updateVersionDetails();
-    } else {
-      throw new Error('未找到任何发布版本。');
-    }
-  } catch (error) {
-    console.error('获取版本列表失败:', error);
-    useFallbackData(channel);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-const updateVersionDetails = () => {
-  const selectedRelease = releasesHistory.value.find(
-    release => release.tag_name === selectedVersionTag.value
-  );
-
-  if (!selectedRelease) return;
-
-  const config = apiConfig[currentChannel.value];
-  versionInfo.version = selectedRelease.tag_name;
-  versionInfo.description = lang.value === 'en-US' ? config.descriptionEn : config.description;
-  versionInfo.releaseNotes = selectedRelease.body ? marked.parse(selectedRelease.body) : '';
-
-  const asset = selectedRelease.assets.find(asset =>
-    asset.name.includes('InkCanvasForClass.CE') && asset.name.endsWith('.zip')
-  );
-
-  if (asset) {
-    versionInfo.downloadUrl = convertDownloadUrl(asset.browser_download_url, currentChannel.value === 'beta');
-  } else {
-    const rawUrl = downloadTemplates[currentChannel.value].replace(/{version}/g, selectedRelease.tag_name);
-    versionInfo.downloadUrl = convertDownloadUrl(rawUrl, currentChannel.value === 'beta');
-  }
-};
-
-const useFallbackData = (channel) => {
-  console.log('GitHub API 请求失败，使用备用数据...');
-  releasesHistory.value = [];
-  const fallbackData = {
-    stable: { 
-      version: '1.7.3.0', 
-      desc: '这是稳定的正式发布版本，适合日常使用。',
-      descEn: 'This is the stable release version, suitable for daily use.'
+const assetGroups = computed(() => {
+  const assets = currentEntry.value?.assets || []
+  return [
+    {
+      kind: 'installer' as const,
+      icon: 'fa-solid fa-desktop',
+      title: t('安装版', 'Installer'),
+      hint: t('自动安装并创建快捷方式，推荐日常使用', 'Installs automatically and creates shortcuts; recommended'),
+      items: assets.filter((a) => a.kind === 'installer')
     },
-    beta: { 
-      version: '1.7.3.0', 
-      desc: '这是测试版本，包含最新功能，但可能不稳定。',
-      descEn: 'This is the beta version, containing the latest features but may be unstable.'
+    {
+      kind: 'portable' as const,
+      icon: 'fa-solid fa-file-zipper',
+      title: t('绿色版', 'Portable'),
+      hint: t('解压即用，不写入系统', 'Extract and run; nothing written to the system'),
+      items: assets.filter((a) => a.kind === 'portable')
     }
-  };
+  ]
+})
 
-  const data = fallbackData[channel];
-  versionInfo.version = data.version;
-  versionInfo.description = lang.value === 'en-US' ? data.descEn : data.desc;
-  versionInfo.releaseNotes = '';
-  versionInfo.downloadUrl = downloadTemplates[channel].replace(/{version}/g, data.version);
-};
-
-const parseMarkdown = (text) => {
-  return marked.parse(text);
-};
-
-// --- 新增：倒计时与手动下载相关状态（修复 ReferenceError） ---
-const countdown = ref(5);
-const manualDownloadUrl = ref('');
-const manualDownloadTipVisible = ref(false);
-// 计时器句柄（非响应式）
-let countdownTimer = null;
-
-/**
- * 下载按钮点击事件处理, 启动弹窗倒计时并在倒计时结束后自动下载
- */
-const downloadFile = () => {
-  if (versionInfo.downloadUrl) {
-    // 准备弹窗与倒计时
-    manualDownloadUrl.value = versionInfo.downloadUrl;
-    manualDownloadTipVisible.value = false;
-    countdown.value = 5;
-    showThankYouModal.value = true;
-
-    // 清理旧计时器
-    if (countdownTimer) {
-      clearInterval(countdownTimer);
-      countdownTimer = null;
-    }
-
-    // 启动倒计时
-    countdownTimer = setInterval(() => {
-      countdown.value--;
-      if (countdown.value <= 0) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-        // 自动触发下载
-        try {
-          const a = document.createElement('a');
-          a.href = manualDownloadUrl.value;
-          a.download = '';
-          a.style.display = 'none';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-        } catch (e) {
-          console.error('自动下载触发失败:', e);
-        }
-        // 显示手动下载提示
-        manualDownloadTipVisible.value = true;
-      }
-    }, 1000);
-  }
-};
-
-/**
- * 手动下载处理：停止倒计时并立即下载，然后关闭弹窗
- */
-const onManualDownload = () => {
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
-  }
-  if (manualDownloadUrl.value) {
-    const a = document.createElement('a');
-    a.href = manualDownloadUrl.value;
-    a.download = '';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-  }
-  showThankYouModal.value = false;
-};
-
-/**
- * 关闭弹窗时清理计时器
- */
-const closeModal = () => {
-  if (countdownTimer) {
-    clearInterval(countdownTimer);
-    countdownTimer = null;
-  }
-  showThankYouModal.value = false;
-};
-
-// --- 新增：构建 API 请求候选 URL 列表（优先最快镜像） ---
-const buildApiUrls = (endpoint) => {
-  const unique = new Set();
-  if (fastestMirror) unique.add(`${fastestMirror}/${GITHUB_API_BASE}${endpoint}`);
-  unique.add(`${GITHUB_API_BASE}${endpoint}`);
-  MIRROR_URLS.forEach(m => unique.add(`${m}/${GITHUB_API_BASE}${endpoint}`));
-  return Array.from(unique);
-};
-
-// --- 新增：测试智教镜像是否可用 ---
-const testSmartTeachAvailability = async () => {
+// ---------- localStorage ----------
+function readStorage(key: string): string | null {
   try {
-    const testUrl = `${SMART_TEACH_DOMAIN}${COMMUNITY_PATH}/test.txt`;
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-    const res = await fetch(testUrl, { method: 'HEAD', signal: controller.signal, cache: 'no-store' });
-    clearTimeout(timeoutId);
-    return res && (res.status === 200 || res.status < 400);
+    return localStorage.getItem(key)
+  } catch {
+    return null
+  }
+}
+
+function writeStorage(key: string, value: string) {
+  try {
+    localStorage.setItem(key, value)
+  } catch {
+    /* ignore */
+  }
+}
+
+// ---------- 通道加载 ----------
+async function loadChannel(key: string, force = false) {
+  if (!CHANNELS[key]) key = DEFAULT_CHANNEL
+  if (key === currentChannel.value && !force) return
+
+  currentChannel.value = key
+  writeStorage(CONFIG.STORAGE_KEYS.channel, key)
+
+  const ch = CHANNELS[key]
+  errorText.value = ''
+  entries.value = []
+  index.value = 0
+  isLoading.value = true
+  loadingText.value = t(`正在获取 ${ch.label} …`, `Loading ${ch.labelEn}…`)
+
+  if (ch.type === 'nightly') {
+    if (!net.state.nightlyProxy) {
+      const p = await net.detectNightlyProxy()
+      activeProxyKey.value = p.key
+    }
+    if (!nightlyRun.value) nightlyRun.value = await net.getLatestNightlyRun()
+    isLoading.value = false
+    return
+  }
+
+  const releases = await net.getReleases(ch.repo)
+  const fallbackReleases = ch.installerFallbackRepo ? await net.getReleases(ch.installerFallbackRepo) : null
+
+  if (!releases.length) {
+    isLoading.value = false
+    errorText.value = t(
+      `未能获取 ${ch.label} 的发布信息，请稍后重试或直接前往 GitHub。`,
+      `Failed to load ${ch.labelEn} releases. Please retry later or visit GitHub directly.`
+    )
+    return
+  }
+
+  entries.value = buildReleaseEntries(releases, ch, fallbackReleases)
+  index.value = 0
+  isLoading.value = false
+}
+
+const selectChannel = (key: string) => loadChannel(key)
+
+function selectProxy(key: string) {
+  const found = CONFIG.NIGHTLY.proxies.find((p) => p.key === key)
+  if (!found) return
+  net.state.nightlyProxy = found
+  activeProxyKey.value = key
+  writeStorage(CONFIG.STORAGE_KEYS.nightlyProxy, key)
+}
+
+// ---------- 下载弹窗 ----------
+const modal = reactive({
+  open: false,
+  url: '',
+  title: '',
+  subtitle: '',
+  fileName: '',
+  warning: '',
+  requireConfirm: false
+})
+
+const countdown = ref(CONFIG.DOWNLOAD_COUNTDOWN)
+const cooldown = ref(0)
+const riskAccepted = ref(false)
+
+let countdownTimer: ReturnType<typeof setInterval> | null = null
+let cooldownTimer: ReturnType<typeof setInterval> | null = null
+let downloadStarted = false
+
+function clearTimers() {
+  if (countdownTimer) {
+    clearInterval(countdownTimer)
+    countdownTimer = null
+  }
+  if (cooldownTimer) {
+    clearInterval(cooldownTimer)
+    cooldownTimer = null
+  }
+}
+
+function triggerDownload(url: string) {
+  try {
+    const a = document.createElement('a')
+    a.href = url
+    a.download = ''
+    a.rel = 'noopener'
+    a.style.display = 'none'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
   } catch (e) {
-    return false;
+    console.error('触发下载失败:', e)
   }
-};
+}
 
-// --- 新增：将 GitHub 下载 URL 转为智教或镜像 URL（优先智教，特殊处理 .exe） ---
-const buildSmartTeachUrl = (url, isBeta = false) => {
-  const fileName = url.split('/').pop();
-  const basePath = isBeta ? COMMUNITY_BETA_PATH : COMMUNITY_PATH;
-  return `${SMART_TEACH_DOMAIN}${basePath}/${fileName}`;
-};
+function closeModal() {
+  clearTimers()
+  modal.open = false
+}
 
-const convertDownloadUrl = (url, isBeta = false) => {
-  if (!url) return url;
-  // .exe 强制走镜像（不通过智教）
-  if (url.endsWith('.exe')) {
-    if (fastestMirror && url.startsWith('https://github.com/')) {
-      return url.replace('https://github.com/', `${fastestMirror}/https://github.com/`);
+function openModal(info: {
+  url: string
+  version: string
+  fileName: string
+  warning?: string
+  requireConfirm?: boolean
+  warningTitle?: string
+}) {
+  clearTimers()
+  downloadStarted = false
+  riskAccepted.value = false
+
+  modal.url = info.url
+  modal.fileName = info.fileName
+  modal.warning = info.warning || ''
+  modal.requireConfirm = !!info.requireConfirm
+  modal.open = true
+
+  if (info.requireConfirm) {
+    modal.title = info.warningTitle || t('确认下载风险', 'Confirm download risks')
+    modal.subtitle = t(
+      `您即将下载 InkCanvasForClass CE ${info.version}`,
+      `You are about to download InkCanvasForClass CE ${info.version}`
+    )
+    // 强制阅读冷静期，期间勾选框与下载按钮均不可用
+    cooldown.value = CONFIG.CONFIRM_COOLDOWN
+    cooldownTimer = setInterval(() => {
+      cooldown.value--
+      if (cooldown.value <= 0) clearTimers()
+    }, 1000)
+    return
+  }
+
+  modal.title = t('感谢下载', 'Thank you for downloading')
+  modal.subtitle = t(
+    `感谢您下载 InkCanvasForClass CE ${info.version}`,
+    `Thanks for downloading InkCanvasForClass CE ${info.version}`
+  )
+
+  countdown.value = CONFIG.DOWNLOAD_COUNTDOWN
+  countdownTimer = setInterval(() => {
+    countdown.value--
+    if (countdown.value > 0) return
+    clearTimers()
+    if (!downloadStarted) {
+      downloadStarted = true
+      triggerDownload(modal.url)
     }
-    return url;
-  }
-  // 非 .exe：智教优先
-  if (smartTeachAvailable) return buildSmartTeachUrl(url, isBeta);
-  if (fastestMirror && url.startsWith('https://github.com/')) {
-    return url.replace('https://github.com/', `${fastestMirror}/https://github.com/`);
-  }
-  return url;
-};
+  }, 1000)
+}
 
-// --- 新增：按候选 URL 列表尝试获取数据 ---
-const fetchDataWithMirrors = async (urls, errorMessage = '获取数据失败') => {
-  for (const url of urls) {
-    try {
-      const res = await fetch(url, { cache: 'no-store' });
-      if (res.ok) return await res.json();
-      console.log(`镜像尝试失败: ${url}, status: ${res.status}`);
-    } catch (e) {
-      console.log(`镜像尝试失败: ${url}, error: ${e.message}`);
-    }
-  }
-  console.error(errorMessage);
-  return null;
-};
+function onManualDownload() {
+  clearTimers()
+  downloadStarted = true
+  triggerDownload(modal.url)
+  closeModal()
+}
 
-// --- 新增：检测最快镜像（HEAD 请求测时长） ---
-const detectFastestMirror = async () => {
-  const endpoint = `${apiConfig.stable.repo}/releases/latest`;
-  const testUrls = [`${GITHUB_API_BASE}${endpoint}`, ...MIRROR_URLS.map(m => `${m}/${GITHUB_API_BASE}${endpoint}`)];
-  const results = await Promise.all(testUrls.map(u => new Promise(resolve => {
-    const start = performance.now();
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 3000);
-    fetch(u, { method: 'HEAD', cache: 'no-store', signal: controller.signal })
-      .then(() => resolve({ url: u, time: performance.now() - start }))
-      .catch(() => resolve({ url: u, time: Infinity }))
-      .finally(() => clearTimeout(timeoutId));
-  })));
-  const ok = results.filter(r => r.time !== Infinity).sort((a, b) => a.time - b.time);
-  return ok.length > 0 ? ok[0].url : null;
-};
+function confirmDangerDownload() {
+  if (!riskAccepted.value || cooldown.value > 0) return
+  triggerDownload(modal.url)
+  closeModal()
+}
 
-// --- 生命周期钩子：先检测智教与镜像，再拉取 releases ---
+// ---------- 下载入口 ----------
+async function onAssetDownload(asset: AssetMeta) {
+  checkingAsset.value = asset.name
+  // 点击时才做智教联盟存在性校验，避免给出 404 链接
+  const url = await net.resolveDownloadUrl(asset.url, asset.repo)
+  checkingAsset.value = null
+
+  openModal({
+    url,
+    version: asset.version ? `v${asset.version}` : '',
+    fileName: asset.name,
+    warning:
+      channel.value.key === 'beta'
+        ? t(
+            'Beta 版包含 pre-release，若遇到问题可切换到 <b>Preview</b> 或 <b>正式版</b>。',
+            'Beta includes pre-releases. If you hit problems, switch to <b>Preview</b> or <b>Stable</b>.'
+          )
+        : ''
+  })
+}
+
+function onNightlyDownload(artifact: NightlyArtifact) {
+  openModal({
+    url: net.nightlyUrl(artifact.url),
+    version: nightlyRun.value ? `Nightly #${nightlyRun.value.run_number}` : 'Nightly',
+    fileName: artifact.url.split('/').pop() || '',
+    requireConfirm: true,
+    warningTitle: t('确认下载 Debug 构建', 'Confirm downloading a Debug build'),
+    warning: t(
+      '这是由 CI 自动产出的 <b>未经测试的 Debug 构建</b>，可能包含严重缺陷、崩溃或数据丢失风险，' +
+        '<b>开发者不承担任何责任，请勿用于正式课堂</b>。<br>如需稳定使用，请返回选择 <b>Beta 版</b> 通道。',
+      'This is an <b>untested Debug build</b> produced automatically by CI. It may contain severe defects, crashes or ' +
+        'risk of data loss. <b>The developers accept no liability &mdash; do not use it in a real classroom.</b><br>' +
+        'For stable use, go back and pick the <b>Beta</b> channel.'
+    )
+  })
+}
+
+// 语言切换后刷新当前通道的本地化文案
+watch(isEn, () => {
+  if (!isLoading.value && !errorText.value) return
+  loadChannel(currentChannel.value, true)
+})
+
 onMounted(async () => {
-  // 1. 检查智教镜像可用性
-  smartTeachAvailable = await testSmartTeachAvailability();
-  if (!smartTeachAvailable) {
-    // 2. 智教不可用则检测最快镜像
-    fastestMirror = await detectFastestMirror();
+  // 恢复记忆的通道与 Nightly 加速节点
+  const savedChannel = readStorage(CONFIG.STORAGE_KEYS.channel)
+  if (savedChannel && CHANNELS[savedChannel]) currentChannel.value = savedChannel
+
+  const savedProxy = readStorage(CONFIG.STORAGE_KEYS.nightlyProxy)
+  if (savedProxy) {
+    const found = CONFIG.NIGHTLY.proxies.find((p) => p.key === savedProxy)
+    if (found) {
+      net.state.nightlyProxy = found
+      activeProxyKey.value = found.key
+    }
   }
-  // 3. 请求默认通道
-  fetchAllReleases('stable');
-});
+
+  // 先探测镜像，再拉取 release
+  loadingText.value = t('正在检测下载镜像…', 'Detecting download mirrors…')
+  await net.detectMirrors()
+  mirrorReady.value = true
+
+  await loadChannel(currentChannel.value, true)
+})
+
+onBeforeUnmount(clearTimers)
 </script>
 
 <style scoped>
-/* --- 新增的弹窗样式 --- */
+.dl {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------- 镜像状态 ---------- */
+.mirror-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mirror-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+
+.mirror-tag--ok {
+  color: var(--vp-c-green-1);
+  border-color: var(--vp-c-green-soft);
+}
+
+.mirror-tag--off {
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 通道切换 ---------- */
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.segmented-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.segmented-btn:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.segmented-btn.is-active {
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: #fff;
+}
+
+.segmented-badge {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: var(--vp-c-warning-soft);
+  color: var(--vp-c-warning-1);
+}
+
+.segmented-btn.is-active .segmented-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* ---------- 通道说明 ---------- */
+.channel-desc {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--vp-c-bg-soft);
+  border-left: 4px solid var(--vp-c-brand-1);
+  color: var(--vp-c-text-2);
+}
+
+.channel-desc--nightly {
+  border-left-color: var(--vp-c-danger-1);
+  background: var(--vp-c-danger-soft);
+}
+
+.channel-desc-extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 加载与空态 ---------- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--vp-c-text-2);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.release-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--vp-c-text-2);
+}
+
+.release-empty i {
+  font-size: 32px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- Release 卡片 ---------- */
+.release-item {
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.release-item--nightly {
+  border-color: var(--vp-c-danger-soft);
+}
+
+.release-item-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.release-item-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--vp-c-text-1) !important;
+  text-decoration: none !important;
+}
+
+.release-item-title:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+.release-item-title i {
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.release-item-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.release-item-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+}
+
+.chip--beta {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.chip--preview {
+  background: var(--vp-c-purple-soft);
+  color: var(--vp-c-purple-1);
+}
+
+.chip--stable {
+  background: var(--vp-c-green-soft);
+  color: var(--vp-c-green-1);
+}
+
+.chip--nightly,
+.chip--prerelease {
+  background: var(--vp-c-danger-soft);
+  color: var(--vp-c-danger-1);
+}
+
+.chip--latest {
+  background: var(--vp-c-tip-soft);
+  color: var(--vp-c-tip-1);
+}
+
+.release-item-body {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.release-item-body :deep(h1),
+.release-item-body :deep(h2),
+.release-item-body :deep(h3),
+.release-item-body :deep(h4) {
+  margin: 14px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  padding: 0;
+}
+
+.release-item-body :deep(ul),
+.release-item-body :deep(ol) {
+  margin: 6px 0;
+  padding-left: 22px;
+}
+
+.release-item-body :deep(code) {
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--vp-c-divider);
+  margin: 20px 0;
+}
+
+.release-assets-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------- 附件分组 ---------- */
+.asset-group + .asset-group {
+  margin-top: 18px;
+}
+
+.asset-group-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.asset-group-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.asset-group-hint {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+
+.asset-group-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.download-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-1px);
+}
+
+.download-btn.is-checking {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.download-btn-icon {
+  font-size: 18px;
+  color: var(--vp-c-brand-1);
+}
+
+.download-btn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.download-btn-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.download-btn-version {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+}
+
+.download-btn-meta {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+
+.download-btn-tag {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--vp-c-default-soft);
+}
+
+/* ---------- 翻页 ---------- */
+.release-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: all 0.2s;
+}
+
+.btn--outlined {
+  border: 1px solid var(--vp-c-divider);
+  background: transparent;
+  color: var(--vp-c-text-1);
+}
+
+.btn--outlined:hover:not(:disabled) {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.btn--filled {
+  border: 1px solid var(--vp-c-brand-1);
+  background: var(--vp-c-brand-1);
+  color: #fff !important;
+}
+
+.btn--filled:hover:not(:disabled) {
+  background: var(--vp-c-brand-2);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 提示块 ---------- */
+.alert {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert--warning {
+  background: var(--vp-c-warning-soft);
+  border-left-color: var(--vp-c-warning-1);
+}
+
+.alert--danger {
+  background: var(--vp-c-danger-soft);
+  border-left-color: var(--vp-c-danger-1);
+}
+
+.alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.alert--warning .alert-title {
+  color: var(--vp-c-warning-1);
+}
+
+.alert--danger .alert-title {
+  color: var(--vp-c-danger-1);
+}
+
+/* ---------- Nightly ---------- */
+.nightly-run {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.nightly-run-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.nightly-run-title {
+  grid-column: 1 / -1;
+}
+
+.nightly-run-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nightly-proxy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.proxy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.proxy-chip {
+  padding: 5px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.proxy-chip.is-active {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+/* ---------- 弹窗 ---------- */
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.6);
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  padding: 20px;
 }
 
 .modal-content {
   position: relative;
-  background: var(--vp-c-bg-soft, white);
-  color: var(--vp-c-text-1, black);
-  padding: 30px 40px;
-  border-radius: 8px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 32px;
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
   text-align: center;
-  max-width: 90%;
-  width: 500px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
 }
 
-html.dark .modal-content {
-  background: var(--bg-soft-dark, #222);
-  color: var(--text-color-dark, white);
+.modal--danger .modal-content {
+  border-top: 4px solid var(--vp-c-danger-1);
 }
 
 .modal-content h2 {
-  margin-top: 0;
-  color: var(--vp-c-brand, #0078d4);
+  margin: 0 0 8px;
+  font-size: 20px;
+  border: none;
+  padding: 0;
+  color: var(--vp-c-brand-1);
 }
 
-.modal-content p {
-  margin-bottom: 10px;
-  line-height: 1.6;
+.modal--danger .modal-content h2 {
+  color: var(--vp-c-danger-1);
+}
+
+.modal-thanks {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.modal-file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.modal-file code {
+  font-size: 12px;
+  word-break: break-all;
 }
 
 .modal-close {
   position: absolute;
   top: 10px;
-  right: 15px;
+  right: 14px;
   border: none;
   background: transparent;
-  font-size: 28px;
+  font-size: 26px;
   line-height: 1;
   cursor: pointer;
-  color: var(--vp-c-text-2, #666);
-  padding: 0;
+  color: var(--vp-c-text-3);
 }
 
-html.dark .modal-close {
-  color: var(--vp-c-text-dark-2, #aaa);
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
 }
 
-/* 弹窗过渡动画 */
+.modal-help,
+.manual-tip {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.modal-confirm {
+  text-align: left;
+}
+
+.confirm-check {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.confirm-check.is-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.confirm-check input {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.confirm-cooldown {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--vp-c-danger-1);
+}
+
+/* 弹窗过渡 */
 .modal-fade-enter-active,
 .modal-fade-leave-active {
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .modal-fade-enter-from,
@@ -452,178 +1356,13 @@ html.dark .modal-close {
   opacity: 0;
 }
 
-/* --- 原有样式 --- */
-.history-selector {
-  margin-bottom: 20px;
-}
-
-.history-selector label {
-  margin-right: 10px;
-  font-weight: bold;
-  color: var(--vp-c-text, var(--text-color-light));
-}
-
-.history-selector select {
-  padding: 8px 12px;
-  border-radius: 4px;
-  border: 1px solid var(--vp-c-border, var(--border-color-light));
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
-  color: var(--vp-c-text, var(--text-color-light));
-  font-size: 16px;
-  cursor: pointer;
-}
-
-html.dark .history-selector label,
-html.dark .history-selector select {
-  background: var(--bg-soft-dark);
-  border-color: var(--border-color-dark);
-  color: var(--text-color-dark);
-}
-
-:root {
-  --text-color-light: #333;
-  --text-color-dark: #ffffff;
-  --bg-soft-light: #f9f9f9;
-  --bg-soft-dark: #222;
-  --border-color-light: #ccc;
-  --border-color-dark: #444;
-}
-
-.download-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: var(--vp-font-family-base, "Segoe UI", Arial, sans-serif);
-}
-
-.version-selector {
-  display: flex;
-  margin-bottom: 20px;
-  gap: 10px;
-}
-
-.version-selector button {
-  padding: 10px 20px;
-  border: 1px solid var(--vp-c-border, var(--border-color-light));
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
-  color: var(--vp-c-text, var(--text-color-light));
-  cursor: pointer;
-  border-radius: 4px;
-  font-size: 16px;
-  transition: all 0.3s;
-}
-
-.version-selector button.active {
-  background: var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-white, white);
-  border-color: var(--vp-c-brand, #0078d4);
-}
-
-.version-info {
-  margin-bottom: 30px;
-  padding: 15px;
-  background: var(--vp-c-bg-soft, var(--bg-soft-light));
-  border-radius: 4px;
-  border-left: 4px solid var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-text, var(--text-color-light));
-}
-
-.release-notes {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid var(--vp-c-border, var(--border-color-light));
-}
-
-.release-notes h3 {
-  margin: 0 0 10px 0;
-  color: var(--vp-c-brand, #0078d4);
-}
-
-:deep(.release-notes h4) {
-  margin: 10px 0 5px 0;
-  font-size: 14px;
-}
-
-:deep(.release-notes ul) {
-  margin: 5px 0;
-  padding-left: 20px;
-}
-
-.download-button button {
-  padding: 10px 20px;
-  background: var(--vp-c-brand, #0078d4);
-  color: var(--vp-c-white, white);
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.download-button button:hover:not(:disabled) {
-  background: var(--vp-c-brand-dark, #005a9e);
-}
-
-.download-button button:disabled {
-  background: var(--vp-c-gray, #ccc);
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 20px;
-  color: var(--vp-c-text-2, #666);
-}
-
-.spinner {
-  border: 4px solid rgba(0, 0, 0, 0.1);
-  border-radius: 50%;
-  border-top: 4px solid var(--vp-c-brand, #0078d4);
-  width: 30px;
-  height: 30px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+@media (max-width: 640px) {
+  .asset-group-items {
+    grid-template-columns: 1fr;
   }
 
-  100% {
-    transform: rotate(360deg);
+  .modal-content {
+    padding: 24px 20px;
   }
-}
-
-html.dark .version-info,
-html.dark .version-selector button,
-html.dark .release-notes {
-  color: var(--text-color-dark);
-}
-
-html.dark .version-info {
-  background: var(--bg-soft-dark);
-  border-left-color: var(--vp-c-brand, #0078d4);
-}
-
-html.dark .version-selector button {
-  background: var(--bg-soft-dark);
-  border-color: var(--border-color-dark);
-}
-
-html.dark .spinner {
-  border-color: rgba(255, 255, 255, 0.1);
-  border-top-color: var(--vp-c-brand, #0078d4);
-}
-
-html.dark .loading {
-  color: var(--text-color-dark);
-}
-
-html.dark h2,
-html.dark p {
-  color: var(--text-color-dark);
 }
 </style>

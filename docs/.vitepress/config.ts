@@ -4,7 +4,7 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 export default withMermaid(defineConfig({
   base: '/website/',
   head: [
-    ['link', { rel: 'icon', href: '/icc-ce-web/images/logo.png' }],
+    ['link', { rel: 'icon', href: '/website/images/logo.png' }],
   ],
   locales: {
     cn: {
@@ -18,6 +18,7 @@ export default withMermaid(defineConfig({
           { text: '<i class="fa-solid fa-house"></i> 首页', link: '/cn/' },
           { text: '<i class="fa-solid fa-book"></i> 指南', link: '/cn/guide/getting-started' },
           { text: '<i class="fa-solid fa-list-ul"></i> 功能', link: '/cn/features/overview' },
+          { text: '<i class="fa-solid fa-code"></i> 开发', link: '/cn/dev/project-structure' },
           { text: '<i class="fa-solid fa-download"></i> 下载', link: '/cn/download' },
           { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
           { text: '<i class="fa-brands fa-github"></i> 源码仓库', link: 'https://github.com/InkCanvasForClass/community' }
@@ -28,8 +29,13 @@ export default withMermaid(defineConfig({
               text: '入门指南',
               items: [
                 { text: '快速开始', link: '/cn/guide/getting-started' },
+                { text: '安装与更新通道', link: '/cn/guide/installation' },
+                { text: '手势与快捷操作', link: '/cn/guide/gestures-shortcuts' },
+                { text: 'PPT 联动指南', link: '/cn/guide/ppt-guide' },
+                { text: '配置文件与数据目录', link: '/cn/guide/files-and-data' },
                 { text: '高级技巧', link: '/cn/guide/advanced-tips' },
                 { text: '设置指南', link: '/cn/guide/settings' },
+                { text: '常见问题', link: '/cn/guide/faq' },
                 { text: '故障排除', link: '/cn/guide/troubleshooting' },
                 { text: '使用指南', link: '/cn/guide/instruction-manual' },
               ],
@@ -45,6 +51,7 @@ export default withMermaid(defineConfig({
             },
           ],
           '/cn/dev/': [
+            { text: '仓库结构总览', link: '/cn/dev/project-structure' },
             {
               text: '核心功能模块',
               collapsed: false,
@@ -211,6 +218,7 @@ export default withMermaid(defineConfig({
               items: [
                 { text: '概述', link: '/cn/dev/deployment/' },
                 { text: '构建与发布', link: '/cn/dev/deployment/build-release' },
+                { text: '版本号体系', link: '/cn/dev/deployment/versioning' },
                 { text: '系统部署', link: '/cn/dev/deployment/system-deployment' },
                 { text: '监控与维护', link: '/cn/dev/deployment/monitoring-maintenance' },
                 { text: '故障排除与支持', link: '/cn/dev/deployment/troubleshooting-support' },
@@ -267,6 +275,7 @@ export default withMermaid(defineConfig({
           { text: '<i class="fa-solid fa-house"></i> Home', link: '/en/' },
           { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
           { text: '<i class="fa-solid fa-list-ul"></i> Features', link: '/en/features/overview' },
+          { text: '<i class="fa-solid fa-code"></i> Development', link: '/en/dev/project-structure' },
           { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
           { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
           { text: '<i class="fa-brands fa-github"></i> Repository', link: 'https://github.com/InkCanvasForClass/community' }
@@ -277,8 +286,13 @@ export default withMermaid(defineConfig({
               text: 'Guide',
               items: [
                 { text: 'Getting Started', link: '/en/guide/getting-started' },
+                { text: 'Installation & Update Channels', link: '/en/guide/installation' },
+                { text: 'Gestures & Shortcuts', link: '/en/guide/gestures-shortcuts' },
+                { text: 'PowerPoint Guide', link: '/en/guide/ppt-guide' },
+                { text: 'Files & Data Locations', link: '/en/guide/files-and-data' },
                 { text: 'Advanced Tips', link: '/en/guide/advanced-tips' },
                 { text: 'Settings Guide', link: '/en/guide/settings' },
+                { text: 'FAQ', link: '/en/guide/faq' },
                 { text: 'Troubleshooting', link: '/en/guide/troubleshooting' },
                 { text: 'Instruction Manual', link: '/en/guide/instruction-manual' },
               ],
@@ -294,6 +308,7 @@ export default withMermaid(defineConfig({
             },
           ],
           '/en/dev/': [
+            { text: 'Repository Structure', link: '/en/dev/project-structure' },
             {
               text: 'Core Modules',
               collapsed: false,
@@ -460,6 +475,7 @@ export default withMermaid(defineConfig({
               items: [
                 { text: 'Overview', link: '/en/dev/deployment/' },
                 { text: 'Build & Release', link: '/en/dev/deployment/build-release' },
+                { text: 'Versioning Scheme', link: '/en/dev/deployment/versioning' },
                 { text: 'System Deployment', link: '/en/dev/deployment/system-deployment' },
                 { text: 'Monitoring & Maintenance', link: '/en/dev/deployment/monitoring-maintenance' },
                 { text: 'Troubleshooting & Support', link: '/en/dev/deployment/troubleshooting-support' },

@@ -5,24 +5,24 @@
 ## 快速开始
 - 环境要求
   - Node.js 20+
-  - pnpm
+  - npm
 - 安装依赖
   ```bash
-  pnpm install
+  npm install
   ```
 - 启动开发服务器
   ```bash
-  pnpm run docs:dev
+  npm run docs:dev
   ```
   开发服务器将运行在 [http://localhost:5173](http://localhost:5173)
 - 构建生产版本
   ```bash
-  pnpm run docs:build
+  npm run docs:build
   ```
   构建结果将输出到 .vitepress/dist 目录
 - 预览生产版本
   ```bash
-  pnpm run docs:preview
+  npm run docs:preview
 - 内容编写指南
   - 所有文档使用 Markdown 格式编写
   - 在 docs 目录下创建新的 .md 文件即可自动生成对应页面
