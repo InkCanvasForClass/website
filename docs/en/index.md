@@ -44,6 +44,8 @@ features:
     link: /en/features/overview#ui-customization
 ---
 
+<HelpUsImprove title="This documentation site is currently undergoing a large-scale update!" text="If you really need to view it at this time... be sure to carefully read the notices above each item! Of course, contributions from others are always welcome!" type="content" />
+
 <HomeUnderline />
 
 ## Promo Video

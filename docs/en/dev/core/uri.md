@@ -5,7 +5,7 @@ description: Registration, dispatch, and the full command list for the icc:// pr
 
 # URI Protocol
 
-<UnderConstruction />
+<HelpUsImprove />
 
 The program registers the `icc://` protocol so that it can be controlled from the outside with a single URL — folding the toolbar, switching tools, clearing ink, opening a settings page, and so on.
 

@@ -5,7 +5,7 @@ description: ICC-CE 的三种工作模式、界面布局、工具栏功能介绍
 
 # 使用说明
 
-<UnderConstruction />
+<KnownBugs />
 
 ## 三种工作模式
 

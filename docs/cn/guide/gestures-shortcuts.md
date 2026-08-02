@@ -5,7 +5,7 @@ description: ICC-CE 屏幕批注和白板模式下的触控手势支持，以及
 
 # 手势与快捷键
 
-<UnderConstruction />
+<KnownBugs />
 
 ## 触控手势
 

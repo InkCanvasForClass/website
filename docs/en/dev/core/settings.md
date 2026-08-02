@@ -5,7 +5,7 @@ description: The Settings model, atomic saving, and how plugins access settings
 
 # Settings System
 
-<UnderConstruction />
+<HelpUsImprove />
 
 Settings form one large object tree rooted at the `Settings` type (`Resources\Settings.cs`, 1711 lines), serialized to `Configs\Settings.json`. The global singleton hangs off `SettingsManager.Settings`:
 

@@ -5,7 +5,7 @@ description: Tools and environment needed to develop InkCanvas For Class
 
 # Environment Setup
 
-<UnderConstruction />
+<HelpUsImprove />
 
 ## Required tools
 

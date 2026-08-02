@@ -5,7 +5,7 @@ description: Two independent toolbar systems, item discovery, and layout persist
 
 # Toolbar System
 
-<UnderConstruction />
+<HelpUsImprove />
 
 What lives under `Ink Canvas\Controls\Toolbar\` is really **two unrelated systems** with no shared interface or base class:
 

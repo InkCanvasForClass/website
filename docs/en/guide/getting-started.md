@@ -5,7 +5,7 @@ description: ICC-CE (Ink Canvas for Class Community Edition) is a free and open-
 
 # Getting Started
 
-<UnderConstruction />
+<KnownBugs />
 
 ICC-CE (Ink Canvas for Class Community Edition) is a free and open-source screen annotation and whiteboard software, designed for classroom teaching and presentation scenarios. It allows you to write and annotate in real-time over any software interface (PPT, PDF, browser, video, etc.), or switch to full-screen whiteboard mode for board writing.
 

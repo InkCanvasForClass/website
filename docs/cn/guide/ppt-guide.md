@@ -5,7 +5,7 @@ description: ICC-CE 与 PowerPoint/WPS 联动的完整使用指南，包括放�
 
 # PPT 联动指南
 
-<UnderConstruction />
+<KnownBugs />
 
 ## PPT 联动模式
 

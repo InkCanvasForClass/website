@@ -5,7 +5,7 @@ description: 构造函数分支、单实例、主窗口创建与心跳看门狗
 
 # 启动流程
 
-<UnderConstruction />
+<HelpUsImprove />
 
 `App.xaml.cs` 有 1956 行，启动逻辑分两段：构造函数 `App()` 处理进程级的事和特殊模式分流，`App_Startup` 处理真正的应用启动。
 

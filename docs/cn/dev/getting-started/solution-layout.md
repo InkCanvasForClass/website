@@ -5,7 +5,7 @@ description: 各项目的职责与依赖关系
 
 # 解决方案结构
 
-<UnderConstruction />
+<HelpUsImprove />
 
 `Ink Canvas.sln` 包含 6 个项目。磁盘上另有 2 个项目（`InkCanvas.PowerPointAddIn`、`InkCanvas.NativeInk.Tests`）**未加入解决方案**，需要单独打开构建。
 

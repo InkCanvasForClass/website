@@ -5,7 +5,7 @@ description: Frequently asked questions about ICC-CE, covering installation, run
 
 # FAQ
 
-<UnderConstruction />
+<KnownBugs />
 
 ## Installation & Runtime
 

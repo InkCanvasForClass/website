@@ -5,7 +5,7 @@ description: 分支策略、提交规范、PR 检查与代码规范
 
 # 贡献流程
 
-<UnderConstruction />
+<HelpUsImprove />
 
 主开发分支是 `net6`。`main` 是历史遗留分支，实际上已不活跃。所有 PR 都应提交到 `net6`。
 

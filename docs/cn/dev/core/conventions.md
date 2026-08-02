@@ -5,7 +5,7 @@ description: rules 目录的强制规范、WPF 陷阱与提交前检查
 
 # 代码规范
 
-<UnderConstruction />
+<HelpUsImprove />
 
 规范的权威来源是 `community/rules/` 目录下的 10 个 Markdown 文件，共约 1900 行。本页把最常踩到的部分整理出来，细节以原文为准。
 

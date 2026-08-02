@@ -5,7 +5,7 @@ description: Registering and extending triggers, actions, and rules
 
 # Automation
 
-<UnderConstruction />
+<HelpUsImprove />
 
 Automation is a combination of "trigger + rule + action": some event happens (trigger), certain conditions are met (rule), and certain operations are performed (action). The code lives in the `Automation\` directory — 60 files, roughly 5,265 lines.
 

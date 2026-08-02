@@ -5,7 +5,7 @@ description: The mandatory rules in the rules directory, WPF pitfalls, and the p
 
 # Code Conventions
 
-<UnderConstruction />
+<HelpUsImprove />
 
 The authoritative source for the conventions is the 10 Markdown files under `community/rules/`, roughly 1,900 lines in total. This page collects the parts you are most likely to trip over; for details, defer to the originals.
 

@@ -5,7 +5,7 @@ description: ICC-CE system requirements, differences between installer and porta
 
 # Installation & Update Channels
 
-<UnderConstruction />
+<KnownBugs />
 
 ## System Requirements
 

@@ -5,7 +5,7 @@ description: icc:// 协议的注册、分发与全部命令
 
 # URI 协议调用
 
-<UnderConstruction />
+<HelpUsImprove />
 
 程序注册了 `icc://` 协议，外部可以通过一条 URL 来控制它——收纳工具栏、切换工具、清空墨迹、打开设置页等等。
 

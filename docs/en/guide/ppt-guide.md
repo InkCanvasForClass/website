@@ -5,7 +5,7 @@ description: A complete guide for ICC-CE integration with PowerPoint/WPS, includ
 
 # PowerPoint Guide
 
-<UnderConstruction />
+<KnownBugs />
 
 ## PPT Integration Mode
 

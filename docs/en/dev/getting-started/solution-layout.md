@@ -5,7 +5,7 @@ description: Responsibilities and dependencies of each project
 
 # Solution Layout
 
-<UnderConstruction />
+<HelpUsImprove />
 
 `Ink Canvas.sln` contains 6 projects. Two more projects exist on disk (`InkCanvas.PowerPointAddIn`, `InkCanvas.NativeInk.Tests`) that are **not part of the solution** and must be opened and built separately.
 

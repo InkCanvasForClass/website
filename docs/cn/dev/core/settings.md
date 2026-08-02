@@ -5,7 +5,7 @@ description: Settings 模型、原子保存与插件访问路径
 
 # 设置系统
 
-<UnderConstruction />
+<HelpUsImprove />
 
 设置是一个大对象树，根类型 `Settings`（`Resources\Settings.cs`，1711 行），序列化成 `Configs\Settings.json`。全局单例挂在 `SettingsManager.Settings` 上：
 

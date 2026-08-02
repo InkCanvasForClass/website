@@ -5,7 +5,7 @@ description: 开发 InkCanvas For Class 所需的工具与环境
 
 # 环境搭建
 
-<UnderConstruction />
+<HelpUsImprove />
 
 ## 必需工具
 

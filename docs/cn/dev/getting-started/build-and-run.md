@@ -5,7 +5,7 @@ description: 编译、版本号、CI 与打包
 
 # 构建与运行
 
-<UnderConstruction />
+<HelpUsImprove />
 
 ## 本地构建
 

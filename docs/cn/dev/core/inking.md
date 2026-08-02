@@ -5,7 +5,7 @@ description: 逻辑工具与编辑模式、TimeMachine 撤销栈
 
 # 墨迹系统
 
-<UnderConstruction />
+<HelpUsImprove />
 
 主画布是一个 WPF `InkCanvas`，`x:Name="inkCanvas"`，在 `MainWindow.xaml:217`，外面套着 `<Grid Name="InkCanvasGridForInkReplay">`。
 

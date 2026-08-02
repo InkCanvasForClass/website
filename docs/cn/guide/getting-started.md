@@ -5,7 +5,7 @@ description: ICC-CE（Ink Canvas for Class Community Edition）是一款免费�
 
 # 快速开始
 
-<UnderConstruction />
+<KnownBugs />
 
 ICC-CE（Ink Canvas for Class Community Edition）是一款免费开源的屏幕批注和白板软件，专为课堂教学和演示场景设计。它让你能够在任何软件界面（PPT、PDF、浏览器、视频等）上方实时书写标注，或切换到全屏白板模式进行板书。
 

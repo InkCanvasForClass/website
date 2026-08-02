@@ -5,7 +5,7 @@ description: InkCanvas For Class development guide
 
 # Development Docs
 
-<UnderConstruction />
+<HelpUsImprove />
 
 This documentation is written for two kinds of readers:
 

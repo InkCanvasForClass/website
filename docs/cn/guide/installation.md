@@ -5,7 +5,7 @@ description: ICC-CE 的系统要求、安装版与绿色版的区别、四个更
 
 # 安装与更新通道
 
-<UnderConstruction />
+<KnownBugs />
 
 ## 系统要求
 

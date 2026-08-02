@@ -41,6 +41,8 @@ features:
     link: /cn/features/overview#界面定制
 ---
 
+<HelpUsImprove title="这个文档站正在大面积更新信息哦！" text="如果你一定要这个时候看的话……一定要看清楚条目上面的提示呀！当然欢迎其他人来帮忙！" type="content" />
+
 <HomeUnderline />
 
 ## 宣传视频

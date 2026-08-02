@@ -5,7 +5,7 @@ description: ICC-CE 使用中的常见问题解答，涵盖安装、运行、PPT
 
 # 常见问题
 
-<UnderConstruction />
+<KnownBugs />
 
 ## 安装与运行
 

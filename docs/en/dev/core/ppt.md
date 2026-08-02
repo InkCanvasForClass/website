@@ -5,7 +5,7 @@ description: Three integration architectures, the unified interface, and the VST
 
 # PowerPoint Integration
 
-<UnderConstruction />
+<HelpUsImprove />
 
 There are three implementations of the integration; the user picks one in the settings. The selection logic lives in `MainWindow_cs\MW_PPT.cs:291`:
 

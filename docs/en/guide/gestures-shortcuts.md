@@ -5,7 +5,7 @@ description: Touch gesture support in ICC-CE screen annotation and whiteboard mo
 
 # Gestures & Shortcuts
 
-<UnderConstruction />
+<KnownBugs />
 
 ## Touch Gestures
 

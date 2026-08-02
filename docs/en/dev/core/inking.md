@@ -5,7 +5,7 @@ description: Logical tools vs editing modes, and the TimeMachine undo stack
 
 # Inking System
 
-<UnderConstruction />
+<HelpUsImprove />
 
 The main canvas is a WPF `InkCanvas` named `x:Name="inkCanvas"` at `MainWindow.xaml:217`, wrapped in a `<Grid Name="InkCanvasGridForInkReplay">`.
 

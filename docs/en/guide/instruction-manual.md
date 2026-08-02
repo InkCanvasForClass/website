@@ -5,7 +5,7 @@ description: ICC-CE's three working modes, interface layout, toolbar features, a
 
 # Instruction Manual
 
-<UnderConstruction />
+<KnownBugs />
 
 ## Three Working Modes
 
