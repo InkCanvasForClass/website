@@ -3,6 +3,8 @@ title: PowerPoint 联动指南
 description: ICC-CE 与 PowerPoint 的三条联动通路、加载项安装与放映时的墨迹行为
 ---
 
+<UnderConstruction />
+
 # PowerPoint 联动指南
 
 ICC-CE 可以在放映幻灯片时随讲随写，并把每一页的墨迹分别记住。

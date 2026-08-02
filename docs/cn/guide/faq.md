@@ -5,6 +5,8 @@ description: ICC-CE 使用过程中最常遇到的问题与解决办法
 
 # 常见问题
 
+<UnderConstruction />
+
 ## 安装与启动
 
 **双击没反应 / 一闪而过**

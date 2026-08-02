@@ -14,6 +14,7 @@ import HomeUnderline from "./components/HomeUnderline.vue"
 import DownloadPage from './components/DownloadPage.vue'
 import MyLayout from './components/MyLayout.vue'
 import HelpUsImprove from './components/HelpUsImprove.vue'
+import UnderConstruction from './components/UnderConstruction.vue'
 
 export default {
   extends: DefaultTheme,
@@ -25,6 +26,7 @@ export default {
     app.component('HomeUnderline' , HomeUnderline);
     app.component('DownloadPage', DownloadPage);
     app.component('HelpUsImprove', HelpUsImprove);
+    app.component('UnderConstruction', UnderConstruction);
     if (inBrowser) {
       router.onAfterRouteChanged = () => {
         busuanzi.fetch()

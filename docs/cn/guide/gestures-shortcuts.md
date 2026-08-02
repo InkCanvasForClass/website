@@ -5,6 +5,8 @@ description: ICC-CE 支持的触控手势、笔身按键与常用快捷操作
 
 # 手势与快捷操作
 
+<UnderConstruction />
+
 ## 触控手势
 
 ICC-CE 的手势系统可以在设置中整体开关，也可以逐项启用。

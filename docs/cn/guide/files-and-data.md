@@ -5,6 +5,8 @@ description: ICC-CE 的配置文件、墨迹存档、日志与崩溃报告分别
 
 # 配置文件与数据目录
 
+<UnderConstruction />
+
 ## 目录结构
 
 ICC-CE 的用户数据集中存放在数据目录下，典型结构如下：

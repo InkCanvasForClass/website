@@ -1,5 +1,7 @@
 # 快速开始
 
+<UnderConstruction />
+
 ## 系统要求
 
 - <badge type="tip" text="操作系统" /> Windows 10 1809（build 17763）及以上 / Windows 11
