@@ -5,7 +5,7 @@ description: Storage locations and structure of ICC-CE configuration files, ink 
 
 # Configuration & Data Directories
 
-<UnderConstruction />
+<KnownBugs />
 
 ICC-CE user data is stored by default in `%AppData%\InkCanvasForClass CE\`.
 

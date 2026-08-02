@@ -5,7 +5,7 @@ description: ICC-CE 的配置文件、墨迹存档、截图、日志等数据文
 
 # 配置文件与数据目录
 
-<UnderConstruction />
+<KnownBugs />
 
 ICC-CE 的用户数据默认保存在 `%AppData%\InkCanvasForClass CE\` 目录下。
 
