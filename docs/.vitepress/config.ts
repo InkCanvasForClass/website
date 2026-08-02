@@ -140,7 +140,7 @@ export default withMermaid(defineConfig({
           { text: '<i class="fa-solid fa-house"></i> Home', link: '/en/' },
           { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
           { text: '<i class="fa-solid fa-list-ul"></i> Features', link: '/en/features/overview' },
-          { text: '<i class="fa-solid fa-code"></i> Development', link: '/en/dev/project-structure' },
+          { text: '<i class="fa-solid fa-code"></i> Development', link: '/en/dev/' },
           { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
           { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
           { text: '<i class="fa-brands fa-github"></i> Repository', link: 'https://github.com/InkCanvasForClass/community' }
@@ -173,183 +173,46 @@ export default withMermaid(defineConfig({
             },
           ],
           '/en/dev/': [
-            { text: 'Repository Structure', link: '/en/dev/project-structure' },
+            { text: 'Development Docs Overview', link: '/en/dev/' },
             {
-              text: 'Core Modules',
+              text: 'Getting Started',
               collapsed: false,
               items: [
-                { text: 'Core Modules Overview', link: '/en/dev/core-modules' },
-                {
-                  text: 'Whiteboard System',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/whiteboard-system/' },
-                    { text: 'InkCanvas Core Component', link: '/en/dev/whiteboard-system/inkcanvas-core' },
-                    { text: 'Ink Smoothing', link: '/en/dev/whiteboard-system/ink-smoothing' },
-                    { text: 'Ink Fadeout Effect', link: '/en/dev/whiteboard-system/ink-fadeout' },
-                    { text: 'Color & Brush Management', link: '/en/dev/whiteboard-system/color-brush-management' },
-                    { text: 'Page & Canvas Management', link: '/en/dev/whiteboard-system/page-canvas-management' },
-                  ]
-                },
-                {
-                  text: 'Toolbar System',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/toolbar-system/' },
-                    { text: 'Architecture Design', link: '/en/dev/toolbar-system/architecture' },
-                    { text: 'Toolbar Item Implementation', link: '/en/dev/toolbar-system/item-implementation' },
-                    { text: 'Registry', link: '/en/dev/toolbar-system/registry' },
-                    { text: 'Customization & Extension', link: '/en/dev/toolbar-system/customization' },
-                  ]
-                },
-                { text: 'Page Management', link: '/en/dev/page-management' },
-                {
-                  text: 'Color & Brush System',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/color-brush-system/' },
-                    { text: 'Brush Type Management', link: '/en/dev/color-brush-system/brush-types' },
-                    { text: 'Brush Effect Adjustments', link: '/en/dev/color-brush-system/brush-effects' },
-                    { text: 'Color Picker', link: '/en/dev/color-brush-system/color-picker' },
-                    { text: 'Theme Color System', link: '/en/dev/color-brush-system/theme-colors' },
-                  ]
-                },
-                {
-                  text: 'PowerPoint Integration',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/ppt-integration/' },
-                    { text: 'Connection Management', link: '/en/dev/ppt-integration/connection-management' },
-                    { text: 'Event System', link: '/en/dev/ppt-integration/event-system' },
-                    { text: 'Sync Mechanism', link: '/en/dev/ppt-integration/sync-mechanism' },
-                    { text: 'Fault Recovery', link: '/en/dev/ppt-integration/fault-recovery' },
-                  ]
-                },
-                { text: 'Gesture & Interaction', link: '/en/dev/gesture-interaction' },
-                { text: 'Shape Drawing', link: '/en/dev/shape-drawing' },
-                { text: 'Eraser System', link: '/en/dev/eraser-system' },
-              ]
-            },
-            { text: 'Plugin Architecture', link: '/en/dev/plugin-architecture' },
-            {
-              text: 'UI System',
-              collapsed: true,
-              items: [
-                { text: 'Overview', link: '/en/dev/ui-system/' },
-                { text: 'Popup System', link: '/en/dev/ui-system/popup-system' },
-                { text: 'Multi-language Support', link: '/en/dev/ui-system/multi-language' },
-                { text: 'Theme System', link: '/en/dev/ui-system/theme-system' },
-                { text: 'Custom Controls Library', link: '/en/dev/ui-system/custom-controls' },
+                { text: 'Environment Setup', link: '/en/dev/getting-started/environment' },
+                { text: 'Solution Layout', link: '/en/dev/getting-started/solution-layout' },
+                { text: 'Build and Run', link: '/en/dev/getting-started/build-and-run' },
+                { text: 'Contributing', link: '/en/dev/getting-started/contributing' },
               ]
             },
             {
-              text: 'System Architecture',
-              collapsed: true,
-              items: [
-                { text: 'Overview', link: '/en/dev/system-architecture/' },
-                { text: 'Application Entrypoint', link: '/en/dev/system-architecture/app-entrypoint' },
-                { text: 'Event-driven Architecture', link: '/en/dev/system-architecture/event-driven' },
-                { text: 'Monitoring & Diagnostics', link: '/en/dev/system-architecture/monitoring-diagnostics' },
-                {
-                  text: 'Global Services',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/system-architecture/global-services/' },
-                    { text: 'Service Communication', link: '/en/dev/system-architecture/global-services/service-communication' },
-                    { text: 'Notification Service', link: '/en/dev/system-architecture/global-services/notification-service' },
-                    { text: 'Telemetry Service', link: '/en/dev/system-architecture/global-services/telemetry-service' },
-                    { text: 'Exception Service', link: '/en/dev/system-architecture/global-services/exception-service' },
-                  ]
-                },
-                {
-                  text: 'Configuration Management',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/system-architecture/config-management/' },
-                    { text: 'Dynamic Config Updates', link: '/en/dev/system-architecture/config-management/dynamic-config' },
-                    { text: 'Config Security & Permissions', link: '/en/dev/system-architecture/config-management/config-security' },
-                    { text: 'Config File Management', link: '/en/dev/system-architecture/config-management/config-files' },
-                    { text: 'Config Validation & Migration', link: '/en/dev/system-architecture/config-management/config-validation' },
-                  ]
-                },
-              ]
-            },
-            {
-              text: 'Advanced Modules',
-              collapsed: true,
-              items: [
-                { text: 'Overview', link: '/en/dev/advanced-modules/' },
-                { text: 'Security Mechanism', link: '/en/dev/advanced-modules/security' },
-                { text: 'Internationalization', link: '/en/dev/advanced-modules/internationalization' },
-                { text: 'File Management & Storage', link: '/en/dev/advanced-modules/file-management' },
-                { text: 'Performance Monitoring', link: '/en/dev/advanced-modules/performance-telemetry' },
-                { text: 'Exception & Crash Recovery', link: '/en/dev/advanced-modules/exception-recovery' },
-              ]
-            },
-            {
-              text: 'Developer Guide',
+              text: 'Application Core',
               collapsed: false,
               items: [
-                { text: 'Overview', link: '/en/dev/dev-guide/' },
-                { text: 'Setup Environment', link: '/en/dev/dev-guide/environment-setup' },
-                { text: 'Code Standards', link: '/en/dev/dev-guide/code-standards' },
-                {
-                  text: 'Plugin Development',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/dev-guide/plugin-dev/' },
-                    { text: 'Interface Design', link: '/en/dev/dev-guide/plugin-dev/interface-design' },
-                    { text: 'Lifecycle Management', link: '/en/dev/dev-guide/plugin-dev/lifecycle' },
-                    { text: 'Host Service', link: '/en/dev/dev-guide/plugin-dev/host-service' },
-                    { text: 'Config System', link: '/en/dev/dev-guide/plugin-dev/config-system' },
-                    { text: 'Debugging & Testing', link: '/en/dev/dev-guide/plugin-dev/debugging' },
-                    { text: 'Packaging & Distribution', link: '/en/dev/dev-guide/plugin-dev/packaging' },
-                  ]
-                },
-                {
-                  text: 'Custom Controls Development',
-                  collapsed: true,
-                  items: [
-                    { text: 'Overview', link: '/en/dev/dev-guide/custom-control-dev/' },
-                    { text: 'WPF Controls Basics', link: '/en/dev/dev-guide/custom-control-dev/wpf-basics' },
-                    { text: 'Templates & Styles', link: '/en/dev/dev-guide/custom-control-dev/templates-styles' },
-                    { text: 'Data Binding & Interaction', link: '/en/dev/dev-guide/custom-control-dev/data-binding' },
-                    { text: 'Performance & Best Practices', link: '/en/dev/dev-guide/custom-control-dev/performance' },
-                  ]
-                },
-                { text: 'IACore Helper Development', link: '/en/dev/dev-guide/iacore-helper' },
-                { text: 'Debugging & Testing', link: '/en/dev/dev-guide/debugging-testing' },
-                { text: 'Contribution Process', link: '/en/dev/dev-guide/contribution-process' },
+                { text: 'Startup Flow', link: '/en/dev/core/startup' },
+                { text: 'Main Window', link: '/en/dev/core/mainwindow' },
+                { text: 'Settings System', link: '/en/dev/core/settings' },
+                { text: 'Inking System', link: '/en/dev/core/inking' },
+                { text: 'Toolbar System', link: '/en/dev/core/toolbar' },
+                { text: 'PowerPoint Integration', link: '/en/dev/core/ppt' },
+                { text: 'Automation', link: '/en/dev/core/automation' },
+                { text: 'URI Protocol', link: '/en/dev/core/uri' },
+                { text: 'Code Conventions', link: '/en/dev/core/conventions' },
               ]
             },
             {
-              text: 'API Reference',
-              collapsed: true,
+              text: 'Plugin Development',
+              collapsed: false,
               items: [
-                { text: 'Overview', link: '/en/dev/api-reference/' },
-                { text: 'IPC API', link: '/en/dev/api-reference/ipc-api' },
-                { text: 'PowerPoint API', link: '/en/dev/api-reference/ppt-api' },
-                { text: 'Plugin API', link: '/en/dev/api-reference/plugin-api' },
-                { text: 'Toolbar API', link: '/en/dev/api-reference/toolbar-api' },
-                { text: 'Config API', link: '/en/dev/api-reference/config-api' },
+                { text: 'Overview', link: '/en/dev/plugin/overview' },
+                { text: 'Quickstart', link: '/en/dev/plugin/quickstart' },
+                { text: 'Manifest', link: '/en/dev/plugin/manifest' },
+                { text: 'Lifecycle', link: '/en/dev/plugin/lifecycle' },
+                { text: 'Host Services', link: '/en/dev/plugin/host-services' },
+                { text: 'UI Integration', link: '/en/dev/plugin/ui-integration' },
+                { text: 'Packaging', link: '/en/dev/plugin/packaging' },
+                { text: 'Debugging', link: '/en/dev/plugin/debugging' },
               ]
             },
-            {
-              text: 'Deployment & Maintenance',
-              collapsed: true,
-              items: [
-                { text: 'Overview', link: '/en/dev/deployment/' },
-                { text: 'Build & Release', link: '/en/dev/deployment/build-release' },
-                { text: 'Versioning Scheme', link: '/en/dev/deployment/versioning' },
-                { text: 'Publishing SDK to NuGet', link: '/en/dev/deployment/nuget-publishing' },
-                { text: 'System Deployment', link: '/en/dev/deployment/system-deployment' },
-                { text: 'Monitoring & Maintenance', link: '/en/dev/deployment/monitoring-maintenance' },
-                { text: 'Troubleshooting & Support', link: '/en/dev/deployment/troubleshooting-support' },
-              ]
-            },
-            { text: 'Troubleshooting & FAQ', link: '/en/dev/troubleshooting' },
-            { text: 'Contribution & Community', link: '/en/dev/community' },
-            { text: 'URI Protocol', link: '/en/dev/uri' },
           ]
         },
         footer: {
