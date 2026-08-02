@@ -14,14 +14,18 @@ description: 插件能做什么，边界在哪
 | 能力 | 用到的接口 |
 | --- | --- |
 | 在工具栏加一个按钮，点击弹出自己的面板 | `IPluginHost.RegisterToolbarItem` |
+| 在白板工具栏注册插件组件 | `IPluginHost.RegisterBoardToolbarItem` |
 | 提供一个主视图 / 设置页 | `IPlugin.GetMainView()` / `GetSettingsView()` |
 | 读写主程序设置 | `ISettingsService` |
 | 订阅白板模式切换、PPT 翻页、墨迹变化等事件 | `IEventService` |
 | 发应用内通知 | `INotificationService` |
+| 读取通知历史、发送 Windows 系统通知 toast | `INotificationService` |
 | 注册全局热键 | `IHotkeyService` |
-| 控制窗口置顶、收纳、进出白板 | `IWindowService` |
-| 控制 PPT 放映与翻页 | `IPowerPointService` |
+| 枚举/更新宿主内置热键、暂停全部热键响应 | `IHotkeyService` |
+| 控制窗口置顶、收纳、进出白板、全屏 | `IWindowService` |
+| 控制 PPT 放映与翻页、导出幻灯片缩略图 | `IPowerPointService` |
 | 读写画布墨迹、切换工具、控制白板分页与撤销重做 | `ICanvasInkService` |
+| 导出画布墨迹为 PNG、插入位图图片到画布 | `ICanvasInkService` |
 | 手写转文字、图形识别、手写体美化 | `IRecognitionService` |
 | 控制托盘图标显隐、往托盘右键菜单加菜单项 | `ITrayService` |
 | 往画布下方注入背景层，做 PDF 阅读器这类功能 | `ICanvasCompositionService` |
@@ -30,6 +34,23 @@ description: 插件能做什么，边界在哪
 | 注册文件类型关联 | `IFileAssociationService` |
 | 重启应用（含提权重启） | `IAppRestartService` |
 | 注册自己的服务供其他插件使用 | `IPluginHost.Services`（DI 容器） |
+| 读写系统剪贴板文本与图像 | `IClipboardService` |
+| 枚举摄像头、启动预览、拍照 | `ICameraService` |
+| 截取全屏或指定区域屏幕 | `IScreenshotService` |
+| 弹出文件打开/保存对话框 | `IFileDialogService` |
+| 管理配置方案（设置快照） | `IConfigProfileService` |
+| 读取与管理随机点名花名册 | `INameRosterService` |
+| 读取宿主内置名言预设、触发水印刷新 | `IQuoteService` |
+| 读取公告中心未读数和历史 | `IAnnouncementService` |
+| 读取显示器信息 | `IScreenInfoService` |
+| 读取系统/设备信息与使用统计 | `ISystemInfoService` |
+| 检测与应用宿主主题 | `IThemeService` |
+| 控制画布墨迹渐隐消隐动画 | `IInkEffectService` |
+| 注册深链接处理程序、打开 `icc://` URI | `IPluginUriService` |
+| 控制宿主设置自动备份 | `IBackupService` |
+| 检查宿主更新、读取更新日志、触发安装 | `IUpdateService` |
+| 读取宿主版本号、安装路径、更新状态 | `IAppInfoService` |
+| 枚举系统窗口（用于窗口切换类插件） | `IWindowOverviewService` |
 
 ## 插件不能做什么
 

@@ -23,6 +23,7 @@ public interface IPluginHost
     void RegisterService<T>(T service) where T : class;
 
     void RegisterToolbarItem(PluginToolbarItemInfo itemInfo);
+    void RegisterBoardToolbarItem(PluginToolbarItemInfo itemInfo);
     void RegisterIpcHandler(string method, Func<JsonElement?, object> handler);
     IPluginIpcBus Ipc { get; }
 
@@ -110,6 +111,11 @@ public override void Shutdown()
 ```csharp
 void Show(string title, string message, NotificationLevel level = NotificationLevel.Info);
 void Show(string title, string message, NotificationLevel level, Action onClicked);
+void ShowToast(string title, string message, NotificationLevel level = NotificationLevel.Info);
+void ShowToast(string title, string message, NotificationLevel level, Action onClicked);
+
+IReadOnlyList<NotificationHistoryItem> GetHistory();
+NotificationHistoryItem GetLatestHistoryItem();
 
 public enum NotificationLevel { Info, Warning, Error, Success }
 ```
@@ -118,6 +124,8 @@ public enum NotificationLevel { Info, Warning, Error, Success }
 GetService<INotificationService>()
     .Show("导出完成", "已保存到桌面", NotificationLevel.Success, () => OpenFolder());
 ```
+
+`ShowToast` 发送 Windows 系统通知（显示在操作中心）。`GetHistory` 返回完整通知历史；`GetLatestHistoryItem` 返回最近一条。
 
 ## IWindowService
 
@@ -131,6 +139,8 @@ bool IsWhiteboardMode { get; }
 
 void SetTopMost(bool topMost);
 void ToggleTopMost();
+void SetFullscreen(bool fullscreen);
+void ToggleFullscreen();
 void Collapse();      // 收纳浮动栏到屏幕边缘
 void Expand();
 void ToggleCollapse();
@@ -155,6 +165,8 @@ void PreviousSlide();
 void StartSlideshow();
 void StopSlideshow();
 
+Task<string> SaveSlideThumbnailAsync(int slideNumber, string outputPath);
+
 event Action<int> SlideChanged;
 event Action      SlideshowStarted;
 event Action      SlideshowEnded;
@@ -170,6 +182,12 @@ event Action      SlideshowEnded;
 bool Register(string id, uint modifiers, uint key, Action callback);
 bool Unregister(string id);
 bool IsRegistered(string id);
+
+IReadOnlyList<HostHotkeyInfo> GetHostHotkeys();
+bool UpdateHostHotkey(string id, uint modifiers, uint key);
+void PauseAll();
+void ResumeAll();
+bool IsPaused { get; }
 ```
 
 修饰键是位标志：`Alt=1`、`Ctrl=2`、`Shift=4`、`Win=8`。`key` 是虚拟键码。
@@ -180,6 +198,8 @@ GetService<IHotkeyService>().Register("myplugin.toggle", 2 | 4, 0x42, () => Togg
 ```
 
 热键是全局注册的，`Shutdown()` 里务必 `Unregister`，否则会一直占用。
+
+`GetHostHotkeys` 返回宿主内置热键列表。`UpdateHostHotkey` 可修改某个内置热键的绑定。`PauseAll` / `ResumeAll` 暂停/恢复所有热键处理（包括宿主和插件热键）。
 
 ## ICanvasCompositionService
 
@@ -298,6 +318,8 @@ void AddWhiteboardPage();
 void DeleteWhiteboardPage();
 
 bool InsertImage();                   // 从文件插入图片流程
+Task<bool> InsertImageAsync(string imagePath);
+Task<string> ExportToPngAsync(string outputPath);
 void ChangeBackgroundColor();
 void ToggleGesture();                 // 双指手势开关
 void ExitWhiteboard();
@@ -393,6 +415,173 @@ tray.LeftClicked += () => Log("托盘左键被点击");
 ## IWindowOverviewService
 
 提供系统窗口枚举能力，配合 `PluginWindowInfo` 使用。用于做窗口切换、多窗口管理类插件。
+
+## IClipboardService
+
+读取和写入系统剪贴板文本与图像。
+
+```csharp
+Task<string> GetTextAsync();
+Task<bool> SetTextAsync(string text);
+
+Task<BitmapSource> GetImageAsync();
+Task<bool> SetImageAsync(BitmapSource image);
+```
+
+## ICameraService
+
+枚举摄像头、启动预览、拍照。
+
+```csharp
+IReadOnlyList<PluginCameraInfo> GetCameras();
+
+Task<PluginCameraPreview> StartPreviewAsync(string cameraId);
+void StopPreview();
+
+Task<BitmapSource> CaptureFrameAsync(string cameraId);
+```
+
+## IScreenshotService
+
+截取全屏或指定区域屏幕。
+
+```csharp
+Task<BitmapSource> CaptureFullscreenAsync();
+Task<BitmapSource> CaptureRegionAsync(Rect region);
+```
+
+## IFileDialogService
+
+弹出文件打开/保存对话框。
+
+```csharp
+Task<string> OpenFileDialogAsync(PluginFileDialogOptions options);
+Task<string> SaveFileDialogAsync(PluginFileDialogOptions options);
+```
+
+## IConfigProfileService
+
+管理配置方案（不同场景下的设置快照）。
+
+```csharp
+IReadOnlyList<PluginConfigProfile> GetProfiles();
+bool CreateProfile(string name, string description = null);
+bool ApplyProfile(string profileId);
+bool DeleteProfile(string profileId);
+```
+
+## INameRosterService
+
+读取与管理随机点名花名册。
+
+```csharp
+IReadOnlyList<string> GetNames();
+bool AddName(string name);
+bool RemoveName(string name);
+void ClearNames();
+```
+
+## IQuoteService
+
+读取宿主内置名言预设，触发水印刷新。
+
+```csharp
+IReadOnlyList<string> GetQuotes();
+void RefreshCurrentWatermark();
+```
+
+## IAnnouncementService
+
+读取公告中心未读数和历史。
+
+```csharp
+int UnreadCount { get; }
+IReadOnlyList<PluginAnnouncement> GetHistory();
+void MarkAsRead(string announcementId);
+```
+
+## IScreenInfoService
+
+读取显示器信息。
+
+```csharp
+IReadOnlyList<PluginDisplayInfo> GetDisplays();
+PluginDisplayInfo GetPrimaryDisplay();
+```
+
+## ISystemInfoService
+
+读取系统/设备信息与使用统计。
+
+```csharp
+string GetOSVersion();
+string GetDeviceName();
+long GetTotalMemory();
+long GetAvailableMemory();
+double GetCpuUsage();
+```
+
+## IThemeService
+
+检测与应用宿主主题。
+
+```csharp
+PluginTheme CurrentTheme { get; }
+event Action<PluginTheme> ThemeChanged;
+```
+
+## IInkEffectService
+
+控制画布墨迹渐隐消隐动画。
+
+```csharp
+void SetFadeOutEnabled(bool enabled);
+bool IsFadeOutEnabled { get; }
+void SetFadeOutDuration(TimeSpan duration);
+TimeSpan FadeOutDuration { get; }
+```
+
+## IPluginUriService
+
+注册深链接处理程序，打开 `icc://` URI。
+
+```csharp
+bool RegisterScheme(string scheme, Func<Uri, Task> handler);
+bool UnregisterScheme(string scheme);
+Task<bool> OpenUriAsync(Uri uri);
+```
+
+## IBackupService
+
+控制宿主设置自动备份。
+
+```csharp
+bool IsAutoBackupEnabled { get; }
+void TriggerBackup();
+DateTime? LastBackupTime { get; }
+```
+
+## IUpdateService
+
+检查宿主更新、读取更新日志、触发安装。
+
+```csharp
+Task<PluginUpdateInfo> CheckForUpdatesAsync();
+IReadOnlyList<string> GetChangelog(string version);
+void InstallNewVersion(string version, bool isInSilence);
+void RequestCancelDownload();
+string LastDownloadFailure { get; }
+```
+
+## IAppInfoService
+
+读取宿主版本号、安装路径、更新状态。
+
+```csharp
+string AppVersion { get; }
+string InstallPath { get; }
+bool IsUpdateAvailable { get; }
+```
 
 ## 服务可用性
 

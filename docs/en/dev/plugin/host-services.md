@@ -23,6 +23,7 @@ public interface IPluginHost
     void RegisterService<T>(T service) where T : class;
 
     void RegisterToolbarItem(PluginToolbarItemInfo itemInfo);
+    void RegisterBoardToolbarItem(PluginToolbarItemInfo itemInfo);
     void RegisterIpcHandler(string method, Func<JsonElement?, object> handler);
     IPluginIpcBus Ipc { get; }
 
@@ -110,6 +111,11 @@ public override void Shutdown()
 ```csharp
 void Show(string title, string message, NotificationLevel level = NotificationLevel.Info);
 void Show(string title, string message, NotificationLevel level, Action onClicked);
+void ShowToast(string title, string message, NotificationLevel level = NotificationLevel.Info);
+void ShowToast(string title, string message, NotificationLevel level, Action onClicked);
+
+IReadOnlyList<NotificationHistoryItem> GetHistory();
+NotificationHistoryItem GetLatestHistoryItem();
 
 public enum NotificationLevel { Info, Warning, Error, Success }
 ```
@@ -118,6 +124,8 @@ public enum NotificationLevel { Info, Warning, Error, Success }
 GetService<INotificationService>()
     .Show("导出完成", "已保存到桌面", NotificationLevel.Success, () => OpenFolder());
 ```
+
+`ShowToast` sends a Windows toast notification (visible in the action center). `GetHistory` returns the full notification history; `GetLatestHistoryItem` returns the most recent entry.
 
 ## IWindowService
 
@@ -131,6 +139,8 @@ bool IsWhiteboardMode { get; }
 
 void SetTopMost(bool topMost);
 void ToggleTopMost();
+void SetFullscreen(bool fullscreen);
+void ToggleFullscreen();
 void Collapse();      // 收纳浮动栏到屏幕边缘
 void Expand();
 void ToggleCollapse();
@@ -155,6 +165,8 @@ void PreviousSlide();
 void StartSlideshow();
 void StopSlideshow();
 
+Task<string> SaveSlideThumbnailAsync(int slideNumber, string outputPath);
+
 event Action<int> SlideChanged;
 event Action      SlideshowStarted;
 event Action      SlideshowEnded;
@@ -170,6 +182,12 @@ event Action      SlideshowEnded;
 bool Register(string id, uint modifiers, uint key, Action callback);
 bool Unregister(string id);
 bool IsRegistered(string id);
+
+IReadOnlyList<HostHotkeyInfo> GetHostHotkeys();
+bool UpdateHostHotkey(string id, uint modifiers, uint key);
+void PauseAll();
+void ResumeAll();
+bool IsPaused { get; }
 ```
 
 Modifiers are bit flags: `Alt=1`, `Ctrl=2`, `Shift=4`, `Win=8`. `key` is a virtual key code.
@@ -180,6 +198,8 @@ GetService<IHotkeyService>().Register("myplugin.toggle", 2 | 4, 0x42, () => Togg
 ```
 
 Hotkeys are registered globally, so you must `Unregister` in `Shutdown()` or they stay occupied.
+
+`GetHostHotkeys` returns the list of built-in host hotkeys. `UpdateHostHotkey` lets you change a built-in hotkey's binding. `PauseAll` / `ResumeAll` suspends and resumes all hotkey processing (including both host and plugin hotkeys).
 
 ## ICanvasCompositionService
 
@@ -298,6 +318,8 @@ void AddWhiteboardPage();
 void DeleteWhiteboardPage();
 
 bool InsertImage();                   // 从文件插入图片流程
+Task<bool> InsertImageAsync(string imagePath);
+Task<string> ExportToPngAsync(string outputPath);
 void ChangeBackgroundColor();
 void ToggleGesture();                 // 双指手势开关
 void ExitWhiteboard();
@@ -393,6 +415,173 @@ Injected items land between the host's fixed menu sections (hide window / restar
 ## IWindowOverviewService
 
 Provides system window enumeration, used together with `PluginWindowInfo`. Handy for window-switching and multi-window management plugins.
+
+## IClipboardService
+
+Reads and writes clipboard text and images.
+
+```csharp
+Task<string> GetTextAsync();
+Task<bool> SetTextAsync(string text);
+
+Task<BitmapSource> GetImageAsync();
+Task<bool> SetImageAsync(BitmapSource image);
+```
+
+## ICameraService
+
+Enumerates cameras, starts preview, captures frames.
+
+```csharp
+IReadOnlyList<PluginCameraInfo> GetCameras();
+
+Task<PluginCameraPreview> StartPreviewAsync(string cameraId);
+void StopPreview();
+
+Task<BitmapSource> CaptureFrameAsync(string cameraId);
+```
+
+## IScreenshotService
+
+Captures fullscreen or region screenshots.
+
+```csharp
+Task<BitmapSource> CaptureFullscreenAsync();
+Task<BitmapSource> CaptureRegionAsync(Rect region);
+```
+
+## IFileDialogService
+
+Opens file open/save dialogs.
+
+```csharp
+Task<string> OpenFileDialogAsync(PluginFileDialogOptions options);
+Task<string> SaveFileDialogAsync(PluginFileDialogOptions options);
+```
+
+## IConfigProfileService
+
+Manages config profiles (snapshots of settings for different scenarios).
+
+```csharp
+IReadOnlyList<PluginConfigProfile> GetProfiles();
+bool CreateProfile(string name, string description = null);
+bool ApplyProfile(string profileId);
+bool DeleteProfile(string profileId);
+```
+
+## INameRosterService
+
+Reads and manages the name roster used in the random name picker feature.
+
+```csharp
+IReadOnlyList<string> GetNames();
+bool AddName(string name);
+bool RemoveName(string name);
+void ClearNames();
+```
+
+## IQuoteService
+
+Reads the host's built-in quote presets and triggers a watermark refresh.
+
+```csharp
+IReadOnlyList<string> GetQuotes();
+void RefreshCurrentWatermark();
+```
+
+## IAnnouncementService
+
+Reads announcement center unread count and history.
+
+```csharp
+int UnreadCount { get; }
+IReadOnlyList<PluginAnnouncement> GetHistory();
+void MarkAsRead(string announcementId);
+```
+
+## IScreenInfoService
+
+Reads display/ screen information.
+
+```csharp
+IReadOnlyList<PluginDisplayInfo> GetDisplays();
+PluginDisplayInfo GetPrimaryDisplay();
+```
+
+## ISystemInfoService
+
+Reads system/device information and usage statistics.
+
+```csharp
+string GetOSVersion();
+string GetDeviceName();
+long GetTotalMemory();
+long GetAvailableMemory();
+double GetCpuUsage();
+```
+
+## IThemeService
+
+Detects and applies the host theme.
+
+```csharp
+PluginTheme CurrentTheme { get; }
+event Action<PluginTheme> ThemeChanged;
+```
+
+## IInkEffectService
+
+Controls the ink fade-out animation on the canvas.
+
+```csharp
+void SetFadeOutEnabled(bool enabled);
+bool IsFadeOutEnabled { get; }
+void SetFadeOutDuration(TimeSpan duration);
+TimeSpan FadeOutDuration { get; }
+```
+
+## IPluginUriService
+
+Registers deep-link handlers and opens `icc://` URIs.
+
+```csharp
+bool RegisterScheme(string scheme, Func<Uri, Task> handler);
+bool UnregisterScheme(string scheme);
+Task<bool> OpenUriAsync(Uri uri);
+```
+
+## IBackupService
+
+Controls the host's auto-backup of settings.
+
+```csharp
+bool IsAutoBackupEnabled { get; }
+void TriggerBackup();
+DateTime? LastBackupTime { get; }
+```
+
+## IUpdateService
+
+Checks for host updates, reads changelogs, and triggers installation.
+
+```csharp
+Task<PluginUpdateInfo> CheckForUpdatesAsync();
+IReadOnlyList<string> GetChangelog(string version);
+void InstallNewVersion(string version, bool isInSilence);
+void RequestCancelDownload();
+string LastDownloadFailure { get; }
+```
+
+## IAppInfoService
+
+Reads host app version, installation path, and update status.
+
+```csharp
+string AppVersion { get; }
+string InstallPath { get; }
+bool IsUpdateAvailable { get; }
+```
 
 ## Service availability
 

@@ -14,14 +14,18 @@ A plugin is a separately compiled .NET assembly that the host discovers, loads, 
 | Capability | Interface used |
 | --- | --- |
 | Add a toolbar button that opens its own panel | `IPluginHost.RegisterToolbarItem` |
+| Add a toolbar button to the whiteboard toolbar | `IPluginHost.RegisterBoardToolbarItem` |
 | Provide a main view / settings page | `IPlugin.GetMainView()` / `GetSettingsView()` |
 | Read and write host settings | `ISettingsService` |
 | Subscribe to whiteboard mode changes, slide changes, ink changes, etc. | `IEventService` |
 | Post in-app notifications | `INotificationService` |
+| Read notification history and show Windows toast notifications | `INotificationService` |
 | Register global hotkeys | `IHotkeyService` |
-| Control window topmost, folding, entering/leaving the whiteboard | `IWindowService` |
-| Control the slideshow and slide navigation | `IPowerPointService` |
+| Enumerate/update host built-in hotkeys, pause all hotkey registration | `IHotkeyService` |
+| Control window topmost, folding, entering/leaving the whiteboard, fullscreen | `IWindowService` |
+| Control the slideshow and slide navigation, export slide thumbnails | `IPowerPointService` |
 | Read and write canvas ink, switch tools, control whiteboard paging and undo/redo | `ICanvasInkService` |
+| Export canvas ink as PNG, insert bitmap images into the canvas | `ICanvasInkService` |
 | Handwriting-to-text, shape recognition, handwriting beautification | `IRecognitionService` |
 | Show/hide the tray icon and add items to its context menu | `ITrayService` |
 | Inject a background layer beneath the canvas, e.g. for a PDF reader | `ICanvasCompositionService` |
@@ -30,6 +34,23 @@ A plugin is a separately compiled .NET assembly that the host discovers, loads, 
 | Register file type associations | `IFileAssociationService` |
 | Restart the app (including elevated restart) | `IAppRestartService` |
 | Register your own services for other plugins to use | `IPluginHost.Services` (the DI container) |
+| Read and write clipboard text and images | `IClipboardService` |
+| Enumerate cameras, start preview, capture frames | `ICameraService` |
+| Capture fullscreen or region screenshots | `IScreenshotService` |
+| Open file/save file dialogs | `IFileDialogService` |
+| Manage config profiles (snapshots of settings) | `IConfigProfileService` |
+| Read and manage the name roster (random name picker) | `INameRosterService` |
+| Read host built-in quotes and trigger watermark refresh | `IQuoteService` |
+| Display announcement center unread count and history | `IAnnouncementService` |
+| Read screen/display information | `IScreenInfoService` |
+| Read system/device info and usage statistics | `ISystemInfoService` |
+| Detect and apply host theme | `IThemeService` |
+| Control ink fade-out animation on the canvas | `IInkEffectService` |
+| Register deep-link handlers, open `icc://` URIs | `IPluginUriService` |
+| Control host auto-backup of settings | `IBackupService` |
+| Check for host updates, read changelogs, trigger install | `IUpdateService` |
+| Read host app version, installation path, update status | `IAppInfoService` |
+| Enumerate system windows (for window switching plugins) | `IWindowOverviewService` |
 
 ## What a plugin cannot do
 
