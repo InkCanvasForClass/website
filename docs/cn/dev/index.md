@@ -17,7 +17,7 @@ description: InkCanvas For Class 开发指南
 
 ## 这份文档不写什么
 
-- **用户使用手册**：请看 [指南](/cn/guide/getting-started) 和 [功能](/cn/features/overview) 部分
+- **用户使用手册**：请看 [指南](/cn/guide/getting-started) 部分
 - **运维部署指南**：如何批量部署到教室、配置组策略、监控服务状态等系统管理员关心的内容不在此范围
 - **API 自动生成文档**：后续会用 docfx 从 XML 文档注释生成完整 API 参考，目前这份文档只覆盖核心概念和关键接口
 

@@ -200,5 +200,4 @@ icc://freeze?page=3
 
 - [配置文件与数据目录](/cn/guide/files-and-data) — 配置方案存在哪
 - [设置指南](/cn/guide/settings) — 各项设置的说明
-- [故障排除](/cn/guide/troubleshooting) — 其他常见问题
 - [URI 协议调用](/cn/dev/core/uri) — 面向开发者的完整命令与实现细节

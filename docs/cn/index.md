@@ -16,9 +16,6 @@ hero:
       text: 快速开始
       link: /cn/guide/getting-started
     - theme: alt
-      text: 功能介绍
-      link: /cn/features/overview
-    - theme: alt
       text: 使用指南
       link: /cn/guide/instruction-manual
     - theme: alt

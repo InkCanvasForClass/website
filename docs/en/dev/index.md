@@ -17,7 +17,7 @@ This documentation is written for two kinds of readers:
 
 ## What this documentation does not cover
 
-- **End-user manual**: see the [Guide](/en/guide/getting-started) and [Features](/en/features/overview) sections
+- **End-user manual**: see the [Guide](/en/guide/getting-started) section
 - **Operations and deployment guide**: topics system administrators care about — bulk deployment to classrooms, Group Policy configuration, service monitoring — are out of scope here
 - **Auto-generated API documentation**: a full API reference will eventually be generated from XML doc comments with docfx. For now this documentation only covers core concepts and key interfaces
 

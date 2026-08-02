@@ -23,4 +23,4 @@ See [Installation & Update Channels](/en/guide/installation) for the full compar
 - New here? Start with [Getting Started](/en/guide/getting-started)
 - For gestures and palm rejection, see [Gestures & Shortcuts](/en/guide/gestures-shortcuts)
 - Using it with PowerPoint? See the [PowerPoint Guide](/en/guide/ppt-guide)
-- Running into trouble? Check the [FAQ](/en/guide/faq) and [Troubleshooting](/en/guide/troubleshooting)
+- Running into trouble? Check the [FAQ](/en/guide/faq)

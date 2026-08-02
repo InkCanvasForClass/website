@@ -23,4 +23,4 @@ description: 获取 InkCanvasForClass CE 的各个更新通道版本
 - 第一次使用请阅读[快速开始](/cn/guide/getting-started)
 - 手势与防误触设置见[手势与快捷操作](/cn/guide/gestures-shortcuts)
 - 需要配合 PowerPoint 使用，见[PPT 联动指南](/cn/guide/ppt-guide)
-- 遇到问题请查阅[常见问题](/cn/guide/faq)与[故障排除](/cn/guide/troubleshooting)
+- 遇到问题请查阅[常见问题](/cn/guide/faq)

@@ -205,5 +205,4 @@ If everything checks out and it still doesn't work, check the latest log file in
 
 - [Configuration & Data Directories](/en/guide/files-and-data) — Where configuration profiles are stored
 - [Settings Guide](/en/guide/settings) — Explanation of all settings
-- [Troubleshooting](/en/guide/troubleshooting) — Other common issues
 - [URI Protocol](/en/dev/core/uri) — Complete command reference and implementation details for developers
