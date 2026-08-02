@@ -5,7 +5,7 @@ description: icc:// 协议的注册、分发与全部命令
 
 # URI 协议调用
 
-<HelpUsImprove />
+<UnderConstruction />
 
 程序注册了 `icc://` 协议，外部可以通过一条 URL 来控制它——收纳工具栏、切换工具、清空墨迹、打开设置页等等。
 
@@ -242,12 +242,14 @@ private static readonly TimeSpan _uriCommandDebounceWindow = TimeSpan.FromSecond
 | `tool/select` / `tool/lasso` | 套索选择 |
 
 ::: warning 切橡皮会先切到画笔
+
 ```csharp
 case "eraser":
     PenIcon_Click(null, null);
     EraserIcon_Click(null, null);
     break;
 ```
+
 橡皮属于画笔面板下的子工具，必须先激活画笔面板。写自动化脚本时不要假设 `tool/eraser` 是原子操作。
 :::
 
@@ -281,7 +283,7 @@ return allowMissing ? -1 : GetCurrentFreezePageIndex();
 
 ### 配置方案
 
-```
+```txt
 icc://config-profile/list
 icc://config-profile/switch?name=方案名
 ```
@@ -312,13 +314,13 @@ switch 的结果文件内容是三种之一：`ok`、`error: 缺少参数 name`�
 
 ### 设置页导航
 
-```
+```txt
 icc://settings[/<PageTag>][?key=<SettingsJsonKey>]
 ```
 
 例子（来自代码注释）：
 
-```
+```txt
 icc://settings/CanvasPage?key=inkFadeSpeedMultiplier
 ```
 

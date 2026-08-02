@@ -1,68 +1,48 @@
 ---
-title: Files & Data Locations
-description: Where ICC-CE keeps settings, saved ink, logs and crash reports
+title: Configuration & Data Directories
+description: Storage locations and structure of ICC-CE configuration files, ink archives, screenshots, logs, and other data files
 ---
 
-# Files & Data Locations
+# Configuration & Data Directories
 
-## Directory layout
+<UnderConstruction />
 
-ICC-CE keeps user data together in its data directory:
+ICC-CE user data is stored by default in `%AppData%\InkCanvasForClass CE\`.
 
-```
-data directory/
-├── Settings.json          User settings (toolbar, gestures, everything)
-├── Saves/                 Auto-saved ink
-│   └── <presentation>/     One folder per presentation
-├── Logs/                  Runtime logs
-└── CrashLogs/             Crash reports
-```
+## Configuration Files
 
-::: tip Finding it quickly
-For portable builds the data directory usually lives inside the program folder; for installed builds it sits
-under your user profile's application data folder. The most reliable way is to look for an
-"open data folder" entry in the settings UI.
-:::
+All settings are saved in `%AppData%\InkCanvasForClass CE\Configs\`:
 
-## Settings.json
+- **Settings.json** — Main configuration file, contains all settings
+- **CustomColors.json** — Custom color configuration
+- **Toolbar.json** — Toolbar layout configuration
 
-Every setting is serialised into this single JSON file, grouped by area (canvas, gestures, shape recognition,
-PowerPoint, appearance, startup, advanced, automation, security and so on).
+## Ink & Screenshots
 
-**If you edit it by hand:**
+- **Auto-saved ink**: `%AppData%\InkCanvasForClass CE\Saves\`
+- **Screenshot location**: `%USERPROFILE%\Pictures\Ink Canvas Screenshots\` (can be changed in settings)
+- **Organized by date**: Screenshots can be organized by date (optional in settings)
 
-- Exit ICC-CE completely first, otherwise it will overwrite your changes with its in-memory state on exit
-- Keep the file UTF-8 encoded
-- Keys are case-sensitive; a mistyped key is ignored silently rather than reported
-- If you break it, just delete the file &mdash; a fresh default config is generated on next start
+## Log Files
 
-## Saved ink
+- **Log directory**: `%AppData%\InkCanvasForClass CE\Logs\`
+- **Log files**: Rotated by date; log level and file size limits can be adjusted in settings
 
-Auto-saved ink is written to `Saves`. The location is controlled by the automation settings and can point to a
-network share or USB drive.
+## Other Data
 
-::: warning Path changes
-Older documentation mentioned different save paths; everything is now unified under `Saves`. When upgrading
-from an old version, archives in the old folder are not migrated automatically &mdash; copy them over yourself.
-:::
+- **Plugin directory**: Customizable plugin storage location in settings
+- **Update cache**: `%AppData%\InkCanvasForClass CE\Updates\`, auto-cleaned on startup
+- **Crash reports**: `%AppData%\InkCanvasForClass CE\CrashReports\`
 
-## Logs and crash reports
+## Quick Access
 
-- **Logs**: startup, integration and recognition activity &mdash; the first place to look when something breaks
-- **CrashLogs**: generated when the app terminates abnormally, including the call stack
+Press <kbd>Win</kbd> + <kbd>R</kbd> and enter `%AppData%\InkCanvasForClass CE` to quickly open the data directory.
 
-When reporting a bug, please attach the files matching the time the problem occurred; it speeds up diagnosis a
-lot. Logs may contain presentation file names, so feel free to redact them before sending.
+## Backup & Migration
 
-## Backup and mass deployment
-
-**Backup**: copy `Settings.json` and the `Saves` folder.
-
-**Mass deployment**: configure one machine, then distribute its `Settings.json` to the same location on the
-others to give every device the same toolbar layout and behaviour. Combined with the portable build, you can
-simply copy the whole folder.
-
-::: warning Lab environments
-Some labs use restore cards or make the install directory read-only. In that case point the data directory at
-a partition that is not reset, otherwise settings and ink are lost on every reboot.
-:::
+| Scenario | Action |
+| --- | --- |
+| Backup before system reinstall | Back up the entire `%AppData%\InkCanvasForClass CE\` directory |
+| Migrate to a new computer | Copy backup data to the same path on the new computer |
+| Reset configuration | Delete `Settings.json`; the program will generate a default config on next launch |
+| Complete cleanup | Delete the entire `%AppData%\InkCanvasForClass CE\` directory |

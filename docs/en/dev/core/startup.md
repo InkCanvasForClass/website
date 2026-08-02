@@ -5,7 +5,7 @@ description: Constructor branches, single instance, main window creation, and th
 
 # Startup Flow
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `App.xaml.cs` is 1956 lines long and the startup logic comes in two parts: the constructor `App()` handles process-level concerns and routes special modes, while `App_Startup` handles the actual application startup.
 

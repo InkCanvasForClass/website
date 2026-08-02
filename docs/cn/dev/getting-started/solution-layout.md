@@ -5,7 +5,7 @@ description: 各项目的职责与依赖关系
 
 # 解决方案结构
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `Ink Canvas.sln` 包含 6 个项目。磁盘上另有 2 个项目（`InkCanvas.PowerPointAddIn`、`InkCanvas.NativeInk.Tests`）**未加入解决方案**，需要单独打开构建。
 
@@ -29,7 +29,7 @@ description: 各项目的职责与依赖关系
 
 ## 依赖关系
 
-```
+```txt
 InkCanvasForClass (主程序)
   ├─> InkCanvas.PluginSdk
   ├─> InkCanvas.Controls
@@ -69,7 +69,7 @@ InkCanvas.PowerPointAddIn (VSTO，独立构建)
 
 运行时配置都在**程序目录**下（不是 `%AppData%`）：
 
-```
+```txt
 <程序目录>/
 ├── Configs/
 │   ├── Settings.json          # 主设置

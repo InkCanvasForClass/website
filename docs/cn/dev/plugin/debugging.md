@@ -5,7 +5,7 @@ description: 免打包调试、日志位置与常见加载失败原因
 
 # 调试
 
-<HelpUsImprove />
+<UnderConstruction />
 
 调试插件不需要反复打 `.icpx`。宿主加载的是 `Plugins/<Id>/` 目录，把文件直接丢进去就行。
 

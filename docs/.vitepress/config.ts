@@ -17,7 +17,6 @@ export default withMermaid(defineConfig({
         nav: [
           { text: '<i class="fa-solid fa-house"></i> 首页', link: '/cn/' },
           { text: '<i class="fa-solid fa-book"></i> 指南', link: '/cn/guide/getting-started' },
-          { text: '<i class="fa-solid fa-list-ul"></i> 功能', link: '/cn/features/overview' },
           { text: '<i class="fa-solid fa-code"></i> 开发', link: '/cn/dev/' },
           { text: '<i class="fa-solid fa-download"></i> 下载', link: '/cn/download' },
           { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
@@ -34,20 +33,9 @@ export default withMermaid(defineConfig({
                 { text: 'PPT 联动指南', link: '/cn/guide/ppt-guide' },
                 { text: 'URL 命令调用', link: '/cn/guide/url-commands' },
                 { text: '配置文件与数据目录', link: '/cn/guide/files-and-data' },
-                { text: '高级技巧', link: '/cn/guide/advanced-tips' },
                 { text: '设置指南', link: '/cn/guide/settings' },
                 { text: '常见问题', link: '/cn/guide/faq' },
-                { text: '故障排除', link: '/cn/guide/troubleshooting' },
                 { text: '使用指南', link: '/cn/guide/instruction-manual' },
-              ],
-            },
-          ],
-          '/cn/features/': [
-            {
-              text: '功能文档',
-              collapsed: false,
-              items: [
-                { text: '功能概览', link: '/cn/features/overview' },
               ],
             },
           ],
@@ -139,7 +127,6 @@ export default withMermaid(defineConfig({
         nav: [
           { text: '<i class="fa-solid fa-house"></i> Home', link: '/en/' },
           { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
-          { text: '<i class="fa-solid fa-list-ul"></i> Features', link: '/en/features/overview' },
           { text: '<i class="fa-solid fa-code"></i> Development', link: '/en/dev/' },
           { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
           { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
@@ -155,20 +142,9 @@ export default withMermaid(defineConfig({
                 { text: 'Gestures & Shortcuts', link: '/en/guide/gestures-shortcuts' },
                 { text: 'PowerPoint Guide', link: '/en/guide/ppt-guide' },
                 { text: 'Files & Data Locations', link: '/en/guide/files-and-data' },
-                { text: 'Advanced Tips', link: '/en/guide/advanced-tips' },
                 { text: 'Settings Guide', link: '/en/guide/settings' },
                 { text: 'FAQ', link: '/en/guide/faq' },
-                { text: 'Troubleshooting', link: '/en/guide/troubleshooting' },
                 { text: 'Instruction Manual', link: '/en/guide/instruction-manual' },
-              ],
-            },
-          ],
-          '/en/features/': [
-            {
-              text: 'Features',
-              collapsed: false,
-              items: [
-                { text: 'Overview', link: '/en/features/overview' },
               ],
             },
           ],

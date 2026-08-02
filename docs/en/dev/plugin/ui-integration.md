@@ -5,7 +5,7 @@ description: Toolbar items, popups, custom settings, and plugin views
 
 # UI Integration
 
-<HelpUsImprove />
+<UnderConstruction />
 
 There are only two legitimate ways for a plugin to put something on screen: register a button on the floating toolbar, or provide the two views `GetMainView()` / `GetSettingsView()`. The former is what the vast majority of plugins do.
 

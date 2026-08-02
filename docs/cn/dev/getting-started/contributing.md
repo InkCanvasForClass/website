@@ -5,7 +5,7 @@ description: 分支策略、提交规范、PR 检查与代码规范
 
 # 贡献流程
 
-<HelpUsImprove />
+<UnderConstruction />
 
 主开发分支是 `net6`。`main` 是历史遗留分支，实际上已不活跃。所有 PR 都应提交到 `net6`。
 
@@ -13,7 +13,7 @@ description: 分支策略、提交规范、PR 检查与代码规范
 
 只有一个活跃开发分支：**`net6`**。
 
-```
+```txt
 net6 (主开发分支)
   ├─ feature/xxx (功能分支)
   ├─ fix/yyy (修复分支)
@@ -21,7 +21,6 @@ net6 (主开发分支)
 ```
 
 `sync-net6-to-net10.yml` 会在 `net6` 有新提交时自动把改动合并到 `net10` 分支（.NET 10 迁移分支），细节见文末。
-
 
 ::: warning 不要直接推送到 main
 虽然 `prcheck.yml` 允许 PR 到 `main`，但实际开发都在 `net6`。除非维护者明确要求，否则不要向 `main` 提交。
@@ -62,6 +61,7 @@ net6 (主开发分支)
 - `Merge branch ...`
 
 ::: tip 典型提交示例
+
 ```bash
 feat(plugin): 支持插件注册全局快捷键
 
@@ -72,7 +72,6 @@ Closes #1234
 
 提交信息里写 `#1234` 会被 `link_parsers` 自动转成指向 community 仓库 issue 的链接。
 :::
-
 
 ## PR 检查门禁
 
@@ -195,7 +194,6 @@ push 到 `net6`（或手动触发）后，把 `net6` 合并进 `net10`。这个�
 ::: tip 不用管 net10 分支
 `net10` 是迁移分支，由这个工作流自动维护。日常开发只需要关心 `net6`，除非收到同步失败的告警。
 :::
-
 
 ## 下一步
 

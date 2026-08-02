@@ -5,7 +5,7 @@ description: MainWindow 的 42 个 partial 文件与查找方法
 
 # 主窗口
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `MainWindow` 是一个巨型 partial 类，代码分散在 `MainWindow_cs\` 下的 **42 个 `.cs` 文件**里，总量约三万行。找代码的第一个障碍就是「这功能在哪个文件」。
 

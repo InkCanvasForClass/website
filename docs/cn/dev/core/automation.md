@@ -5,7 +5,7 @@ description: 触发器 / 行动 / 规则的注册与扩展
 
 # 自动化系统
 
-<HelpUsImprove />
+<UnderConstruction />
 
 自动化是「触发器 + 规则 + 行动」的组合：某个事件发生（触发器），满足某些条件（规则），执行某些操作（行动）。代码在 `Automation\` 目录，60 个文件约 5265 行。
 
@@ -17,7 +17,7 @@ description: 触发器 / 行动 / 规则的注册与扩展
 
 目录结构：
 
-```
+```txt
 Automation/
 ├─ AutomationBootstrap.cs      221 行，整个系统的注册入口
 ├─ Abstractions/               基类、特性、服务接口

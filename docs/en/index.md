@@ -50,6 +50,4 @@ features:
 <BilibiliVideo bvid="BV1LHKt6WEPN" />
 <BilibiliVideo bvid="BV1yH8ezcEKk" />
 
-<div align="center">
-Total Views <span id="busuanzi_value_site_pv" /> | Total Visitors <span id="busuanzi_value_site_uv" />
-</div>
+The game images and animations of *Arknights* and *Arknights: Endfield* used on this website are solely for better illustration of articles, materials, and prominent reminders. Their copyright belongs to Shanghai Hypergryph Network Technology Co., Ltd. and its affiliates.

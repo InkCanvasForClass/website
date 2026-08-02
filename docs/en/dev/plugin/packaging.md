@@ -5,7 +5,7 @@ description: The .icpx layout, CI validation rules, and automated releases
 
 # Packaging
 
-<HelpUsImprove />
+<UnderConstruction />
 
 An `.icpx` is just a zip with a different extension, and **exactly three files are allowed inside**. That restriction isn't a suggestion; it's a hard rule enforced by both CI and the host.
 

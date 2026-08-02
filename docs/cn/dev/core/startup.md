@@ -5,7 +5,7 @@ description: 构造函数分支、单实例、主窗口创建与心跳看门狗
 
 # 启动流程
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `App.xaml.cs` 有 1956 行，启动逻辑分两段：构造函数 `App()` 处理进程级的事和特殊模式分流，`App_Startup` 处理真正的应用启动。
 
@@ -13,7 +13,7 @@ description: 构造函数分支、单实例、主窗口创建与心跳看门狗
 
 `App()`（L113-187）在做任何应用初始化之前，先判断这个进程到底是不是「主程序」。
 
-```
+```txt
 App()
 ├─ SetHighDpiMode(PerMonitorV2) + SetCurrentProcessExplicitAppUserModelID
 ├─ ConfigureTlsForWindows7()
@@ -30,7 +30,7 @@ App()
 
 构造函数 L117-122 的注释记录了一个真实踩过的坑：
 
-```
+```csharp
 // 注意：此处显式禁用 Switch.System.Windows.Input.Stylus.EnablePointerSupport。
 // 启用该开关会让 WPF 使用 WM_POINTER 触摸栈，导致 DragMove() 和 DoDragDrop()
 // （gong-wpf-dragdrop 库内部使用）的模态消息循环无法接收触摸释放消息。

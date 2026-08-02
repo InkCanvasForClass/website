@@ -5,7 +5,7 @@ description: The 42 partial files of MainWindow and how to find your way around 
 
 # Main Window
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `MainWindow` is a huge partial class whose code is spread across **42 `.cs` files** under `MainWindow_cs\`, roughly thirty thousand lines in total. The first obstacle to finding code is working out "which file is this feature in".
 

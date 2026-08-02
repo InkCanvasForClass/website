@@ -5,7 +5,7 @@ description: manifest.json 字段说明
 
 # 清单文件
 
-<HelpUsImprove />
+<UnderConstruction />
 
 每个插件必须在根目录放一个 `manifest.json`。宿主靠它发现插件、校验兼容性、解析依赖。
 
@@ -115,7 +115,7 @@ description: manifest.json 字段说明
 
 打包 `.icpx` 时如果输出目录里没有 `manifest.json`，会直接报错：
 
-```
+```shell
 ICSDK001: manifest.json not found in output directory.
 ```
 

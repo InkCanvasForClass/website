@@ -5,11 +5,11 @@ description: 两套独立工具栏体系、项发现机制与布局持久化
 
 # 工具栏系统
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `Ink Canvas\Controls\Toolbar\` 下其实是**两套互不相干的体系**，没有共享接口或基类：
 
-```
+```txt
 Controls\Toolbar\
 ├── FloatingToolbar\      主窗口悬浮工具栏
 ├── BoardToolbar\         白板工具栏
@@ -72,7 +72,7 @@ var items = typeof(ToolbarRegistry).Assembly.GetTypes()
 
 用户调整过的工具栏布局存在：
 
-```
+```txt
 <程序目录>\Configs\ToolbarConfigs\<name>.json
 ```
 

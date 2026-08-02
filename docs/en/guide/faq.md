@@ -1,88 +1,138 @@
 ---
 title: FAQ
-description: The most common questions and fixes when using ICC-CE
+description: Frequently asked questions about ICC-CE, covering installation, runtime, PPT integration, ink, performance, and more
 ---
 
 # FAQ
 
-## Installation and startup
+<UnderConstruction />
 
-**Nothing happens on double click / the window flashes and disappears**
-The usual cause is a missing **.NET 6 Desktop Runtime**. Download ".NET Desktop Runtime 6.x" from Microsoft and
-install the build matching your system architecture. If it still won't start, check the reports in `CrashLogs`.
+## Installation & Runtime
 
-**Antivirus flags it**
-ICC-CE creates a transparent always-on-top window and reads touch input, which some security products
-misidentify. Download from the official release page and add an exclusion.
+### Program won't start, missing .NET runtime
 
-**32-bit or 64-bit?**
-Use 64-bit on any modern device. Pick 32-bit only if your OS itself is 32-bit.
+ICC-CE requires .NET 6 Desktop Runtime. Search for ".NET Desktop Runtime 6.x" on Microsoft's official website and download the appropriate architecture (x64 / x86). The installer will prompt you to download it automatically when needed.
 
-## Drawing and display
+### Portable version won't start
 
-**Noticeable lag while writing**
-Try, in order: make sure you are on the vendor's official device driver, enable hardware-accelerated ink
-rendering in settings, and close other GPU-heavy programs. On older hardware, lower the ink smoothing strength.
+Most likely due to missing .NET 6 Desktop Runtime — install it as described above. If the runtime is already installed, check if the downloaded archive is intact and try extracting again.
 
-**Stroke width is uneven**
-That is pressure sensitivity working. Turn off pressure response in settings for uniform strokes.
+### Installer says "Cannot install"
 
-**My drawing snapped into a perfect shape**
-Shape recognition kicked in. Disable it in settings, or configure it to require a long press.
+Your system version may be too old. Make sure Windows 10 version ≥ 1809 (build 17763). It could also be antivirus software falsely flagging the installer — add ICC-CE to the whitelist.
 
-**Multi-touch doesn't work**
-Confirm the device supports multi-touch (a HID-compliant touch screen appears in Device Manager), then check
-that gestures are not disabled in settings.
+### "Has stopped working" error during runtime
 
-## Gestures and interaction
+1. Check if the system version meets requirements
+2. Try running as administrator
+3. Check the log file (`%AppData%\InkCanvasForClass CE\Logs\`) for detailed error information
+4. If crashes persist, submit a GitHub Issue with the logs attached
 
-**Two-finger zoom does nothing**
-Check the master gesture switch and the zoom gesture switch in settings. Some older panels have touch drivers
-that swallow two-finger gestures; updating the driver fixes it.
+## PPT Integration
 
-**Too many accidental touches**
-Enable palm rejection and increase the touch area threshold.
+### Doesn't auto-enter annotation mode when entering PPT slideshow
 
-## PowerPoint integration
+1. Make sure PowerPoint is activated, not in protected view / read-only mode
+2. Check that PPT integration is enabled in ICC-CE settings (enabled by default)
+3. Check if PowerPoint is running as administrator while ICC-CE is not elevated — mismatched permissions prevent integration
+4. Try switching integration modes (COM / ROT / Agent)
 
-**No PowerPoint buttons during a slide show**
-Make sure you use desktop PowerPoint and that COM calls are not blocked by security policy. See the
-[PowerPoint Guide](/en/guide/ppt-guide).
+### Annotated ink can't be found after saving
 
-**Ink is not saved**
-Check the auto-save switch and write permissions on the target directory.
+Default save location: `%AppData%\InkCanvasForClass CE\Saves\`. You can customize the save path in settings, or enable auto-rename on save to avoid overwriting.
 
-**The add-in is installed but inactive**
-Office may have auto-disabled it. Re-enable it under File → Options → Add-ins → Manage: Disabled Items.
+### Ink lost when switching slides
 
-## Settings and data
+Make sure "Show Canvas on New Slide" is enabled, and "Hide Ink on Exit" is enabled. When you return to an annotated page, the ink should be restored automatically.
 
-**Settings reset after a restart**
-Usually the app was killed rather than closed normally, so the config never reached disk. Exit properly.
-If the directory is read-only (lab restore environments), move the data directory to a writable partition.
+### WPS integration not working
 
-**Syncing settings to other machines**
-Copy `Settings.json` to the same location on the target machine &mdash; see
-[Files & Data Locations](/en/guide/files-and-data).
+Enable "WPS Support" in settings, and make sure WPS is not running as administrator.
 
-**I broke my config**
-Delete `Settings.json`; defaults are regenerated on next start.
+## Ink & Handwriting
 
-## Versions and updates
+### Ink latency / lag
 
-**Which channel should I use?**
-**Beta** for daily use, **Stable** if you need maximum stability, and **never Nightly in a real classroom**.
-See [Installation & Update Channels](/en/guide/installation).
+1. Disable hardware acceleration (Settings → Canvas & Ink → Advanced Strokes → Hardware Acceleration)
+2. Lower ink smoothing quality (Settings → Canvas & Ink → Advanced Strokes → Ink Smoothing Quality)
+3. Disable async ink smoothing
+4. Check if the graphics driver is up to date
 
-**Downloads are slow or fail**
-The download page picks the fastest route automatically. If it still fails, try another channel or download
-manually from the GitHub releases page.
+### Ink not smooth / jagged
 
-**Can I go back to an older version?**
-Yes. Use the Newer / Older buttons on the download page to reach the version you want. If a downgrade behaves
-oddly, back up and delete the settings file to regenerate it.
+1. Make sure Advanced Bezier Smoothing is enabled
+2. Check if Pen Tip Mode is set to "Off" — disabling it can make strokes more uniform
+3. Set ink smoothing quality to "High Quality"
 
-## Reporting problems
+### Gestures not working
 
-When opening an issue, please include: the ICC-CE version, your Windows version, reproduction steps, and the
-matching files from `Logs` and `CrashLogs`. The more complete the report, the faster the fix.
+1. Make sure the gesture master toggle in settings is enabled
+2. Check if you're using gestures in the correct mode (screen annotation mode and whiteboard mode gestures are configured independently)
+3. Check if "Pen Only" mode is enabled — finger input is ignored in this mode
+4. Check if other software (e.g., Windows Ink Workspace) is intercepting gestures
+
+### Shape recognition inaccurate
+
+1. Make sure "Enable Shape Recognition" is enabled
+2. Make sure the specific shape (rectangle/triangle/circle) recognition toggle is enabled
+3. Adjust line straightening sensitivity — try lowering the sensitivity value for higher precision
+4. Try to draw shapes in one continuous stroke, avoid breaks
+
+## Performance & Compatibility
+
+### High CPU / memory usage
+
+1. Disable hardware acceleration
+2. Lower ink smoothing quality
+3. Disable async ink smoothing
+4. Reduce log level (e.g., from "Debug" to "Info")
+5. Disable the floating window blocking feature (this feature adds performance overhead)
+6. Check if other processes are conflicting with ICC-CE
+
+### Conflicts with certain software
+
+ICC-CE's floating window blocking feature can block floating windows from teaching software such as Seewo and Hitevision. If you encounter conflicts with other software, try disabling this feature or adjusting related settings.
+
+### Multi-monitor support
+
+ICC-CE supports multi-monitor environments. Enable multi-monitor related options in settings. If you experience canvas display issues, try enabling "Multi-Monitor Canvas Fix".
+
+## Files & Data
+
+### How to back up configuration and data
+
+Back up the entire `%AppData%\InkCanvasForClass CE\` directory. When reinstalling the system or migrating to a new computer, copy the backup data to the same path.
+
+### How to completely uninstall
+
+- **Installer**: Settings → Apps → Installed apps → InkCanvasForClass CE → Uninstall
+- **Portable**: Simply delete the entire folder
+
+Uninstallation does not automatically clear user configuration and ink archives. For complete cleanup, manually delete the `%AppData%\InkCanvasForClass CE\` directory.
+
+### How to restore default settings
+
+Delete `%AppData%\InkCanvasForClass CE\Configs\Settings.json`, and the program will generate a default configuration on next launch. It's recommended to back up the original file first.
+
+## Updates
+
+### How to switch update channels
+
+Change the "Update Channel" in settings. The Beta channel provides the fastest updates, while Release is the most stable.
+
+### Issues after cross-channel switching
+
+When downgrading from Beta to Release, configuration entries written by the newer version may not be recognized by the older version. If issues occur, back up and delete the configuration file to let the program regenerate it.
+
+### Update failed
+
+1. Check network connection
+2. Try manually downloading the latest version installer
+3. Check if the update channel setting is correct
+4. Check the log file for detailed error information
+
+## How to Get Help
+
+- **GitHub Issues**: Submit issues on the project repository
+- **Log files**: `%AppData%\InkCanvasForClass CE\Logs\`, please attach logs when submitting issues
+- **Configuration export**: If you need help troubleshooting, export your settings and share them with the developer

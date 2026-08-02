@@ -1,72 +1,88 @@
 ---
 title: PowerPoint Guide
-description: The three integration paths, add-in setup, and how ink behaves during a slide show
+description: A complete guide for ICC-CE integration with PowerPoint/WPS, including slideshow annotation, ink saving, time capsule, and more
 ---
 
 # PowerPoint Guide
 
-ICC-CE lets you annotate slides while presenting and remembers the ink of each slide separately.
+<UnderConstruction />
 
-## Three integration paths
+## PPT Integration Mode
 
-ICC-CE does not rely on a single mechanism to talk to PowerPoint. It tries them in order of availability:
+Automatically activates when PowerPoint enters slideshow mode — no manual operation needed. In this mode:
 
-| Path | How it works | When it applies |
-| --- | --- | --- |
-| **COM automation** | Creates the PowerPoint application object directly | The normal case &mdash; PowerPoint just needs to be running |
-| **ROT / OLE** | Grabs an existing PowerPoint instance from the Running Object Table | When COM creation fails, or PowerPoint was launched by another program first |
-| **VSTO add-in** | The add-in pushes slide show events to ICC-CE | When the first two are blocked by security policy, or you want more responsive slide change events |
+- Page navigation buttons appear on the toolbar for slideshow control
+- Ink written on slides is automatically saved per page
+- Annotations are restored automatically when returning to previously annotated pages
+- After the slideshow ends, you can return to normal mode to continue editing
 
-The app picks whichever works; no manual switching is needed. If none are available, the PowerPoint-related
-toolbar buttons simply don't appear.
+> Integration not working? Check: Is PowerPoint activated? Is it in protected view (read-only)? Is PowerPoint running as administrator while ICC-CE is not elevated?
 
-## Installing the VSTO add-in
+## Basic Integration Settings
 
-The add-in is optional but makes slide change events noticeably more responsive:
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Enable PPT Integration | Toggle | On | Auto-enable annotation when PowerPoint slideshow is detected |
+| Integration Mode | Select | COM | COM / ROT / Agent |
+| Enable WPS Support | Toggle | Off | Enable WPS Presentation integration |
+| Close WPS Process | Toggle | On | Auto-close lingering WPS processes |
+| Smart Mode | Toggle | Off | Intelligently detect and switch to optimal integration mode |
 
-1. Fully exit both PowerPoint and ICC-CE
-2. In ICC-CE settings, find the PowerPoint section and enable add-in support
-3. Restart PowerPoint and confirm the ICC add-in is enabled under File → Options → Add-ins
+## Slideshow Control
 
-::: warning Add-in gets disabled
-Office sometimes disables add-ins automatically when startup is slow. If integration stops working, go to
-File → Options → Add-ins → Manage: Disabled Items and re-enable the ICC add-in.
-:::
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Show PPT Buttons | Toggle | On | Show page navigation controls during slideshow |
+| Page Number Clickable | Toggle | On | Click page number to jump directly |
+| Long Press for Page Navigation | Toggle | On | Long press to continuously flip pages |
+| Enhanced Preview | Toggle | Off | Enable enhanced slide preview |
+| Enhanced Preview Loading Animation | Toggle | On | Show loading animation during preview |
+| Show Canvas on New Slide | Toggle | Off | Auto-show canvas when switching to a new slide |
+| Two-Finger Gesture Control During Slideshow | Toggle | Off | Use two-finger gestures for page navigation during slideshow |
 
-## Behaviour during a slide show
+## Ink Saving
 
-Once you enter presentation mode:
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Auto-Save Ink During Slideshow | Toggle | On | Auto-save all ink to file when slideshow ends |
+| Auto-Screenshot During Slideshow | Toggle | Off | Auto-screenshot on clear screen or slide change |
+| Auto-Save Time Capsule During Slideshow | Toggle | On | Auto-save ink timestamp data for playback |
+| Auto-Append Extension on Save | Toggle | On | Auto-add file extension when saving |
+| Auto-Rename on Save | Toggle | Off | Auto-generate file name to avoid overwriting |
+| Save Location | Directory | Default | Custom ink file save path |
+| Ink-Saving Mode | Toggle | Off | Save ink in more compact format to reduce file size |
 
-- The toolbar gains PowerPoint-specific buttons such as previous / next slide and the slide number
-- Ink drawn on a slide is kept in memory **per slide number**
-- Changing slides hides the current slide's ink and restores the target slide's ink
-- On exit, the whole deck's ink can be written to disk depending on your settings
+## Slideshow Toolbar
 
-::: tip Slide changes and undo
-Changing slides is not part of the undo stack. If you flip by accident, use the toolbar buttons to go back &mdash;
-the ink is restored automatically.
-:::
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Auto-Hide Toolbar Delay | Time | 30 seconds | Auto-hide toolbar after inactivity during slideshow |
+| Enable Rounded PPT Toolbar | Toggle | On | Use rounded style toolbar during slideshow |
+| Show Toolbar During Slideshow | Toggle | On | Show floating toolbar during slideshow |
+| Show Collapse Button During Slideshow | Toggle | On | Show collapse button in slideshow mode |
 
-## Where the ink is stored
+## Time Capsule
 
-Ink produced during a slide show goes to the `Saves` folder in the data directory, in a sub-folder named after
-the presentation. The path can be changed via the auto-save settings; see
-[Files & Data Locations](/en/guide/files-and-data).
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Time Capsule Auto-Play | Toggle | Off | Auto-play when opening a time capsule |
+| Time Capsule Auto-Export | Toggle | Off | Auto-export when closing a time capsule |
+| Time Capsule Auto-Export Format | Select | PNG | PNG / GIF / MP4 |
+| Time Capsule GIF Frame Rate | Number | 10 | Frame rate for GIF export |
+| Time Capsule Timeline Scale | Slider | 1.0 | Timeline display zoom ratio |
+| Time Capsule Auto-Play Speed | Slider | 1.0 | Auto-play speed multiplier |
 
-::: warning Renaming a presentation
-Ink is associated with the presentation's name. After renaming the pptx file, previously saved ink will no
-longer be matched to it automatically.
-:::
+## Other Settings
+
+| Setting | Type | Default | Description |
+| --- | --- | --- | --- |
+| Enable PPT End Detection | Toggle | On | Auto-detect slideshow end and exit annotation mode |
+| Auto-Exit on Slideshow End | Toggle | Off | Auto-exit software when slideshow ends |
 
 ## Troubleshooting
 
-**No PowerPoint buttons appear during a slide show**
-None of the three paths connected. Make sure you are using desktop PowerPoint (not UWP or the web version),
-and check whether antivirus software is blocking COM calls.
-
-**Ink appears on the wrong slide**
-Usually happens with several presentations open at once. Present only one, or exit and re-enter the slide show.
-
-**Ink is not saved automatically**
-Check that auto-save is enabled and that the target directory is writable &mdash; some labs make the install
-directory read-only.
+1. Make sure PowerPoint is activated, not in protected view / read-only mode
+2. Check that PPT integration is enabled in ICC-CE settings
+3. Check if PowerPoint is running as administrator while ICC-CE is not elevated
+4. If using WPS simultaneously, try disabling WPS support or enabling Smart Mode
+5. Try switching integration modes (COM / ROT / Agent)

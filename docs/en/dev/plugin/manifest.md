@@ -5,7 +5,7 @@ description: A field-by-field reference for manifest.json
 
 # Manifest
 
-<HelpUsImprove />
+<UnderConstruction />
 
 Every plugin must place a `manifest.json` in its root directory. The host relies on it to discover the plugin, validate compatibility, and resolve dependencies.
 

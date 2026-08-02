@@ -5,7 +5,7 @@ description: 编译、版本号、CI 与打包
 
 # 构建与运行
 
-<HelpUsImprove />
+<UnderConstruction />
 
 ## 本地构建
 
@@ -113,7 +113,7 @@ dotnet build -p:NBGV_OverrideVersion=1.8.0
 
 主程序有单实例 Mutex 保护。调试时如果已经有一个实例在跑，新实例会退出。可以用 `--skip-mutex-check` 参数跳过：
 
-```
+```shell
 InkCanvasForClass.exe --skip-mutex-check
 ```
 

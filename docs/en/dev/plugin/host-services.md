@@ -5,7 +5,7 @@ description: IPluginHost and each of the service interfaces
 
 # Host Services
 
-<HelpUsImprove />
+<UnderConstruction />
 
 Plugins interact with the host through `IPluginHost`. `IPluginHost` itself provides four categories of capability — logging, the DI container, toolbar registration, and IPC — while more specific functionality is obtained by resolving concrete service interfaces from the DI container.
 

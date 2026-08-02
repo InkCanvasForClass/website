@@ -1,61 +1,82 @@
 ---
 title: Gestures & Shortcuts
-description: Touch gestures, pen buttons and common shortcut operations in ICC-CE
+description: Touch gesture support in ICC-CE screen annotation and whiteboard modes, plus shortcut keys (global shortcuts) documentation
 ---
 
 # Gestures & Shortcuts
 
-## Touch gestures
+<UnderConstruction />
 
-The gesture system can be switched off entirely or enabled item by item in settings.
+## Touch Gestures
 
-| Gesture | Effect |
+ICC-CE supports multi-touch gestures on touch-enabled devices, independently configurable for screen annotation mode and whiteboard mode.
+
+### Screen Annotation Mode Gestures
+
+| Gesture | Function | Default State |
+| --- | --- | --- |
+| Two-Finger Zoom | Pinch to zoom canvas content | On |
+| Two-Finger Pan | Two-finger drag to move canvas viewport | On |
+| Two-Finger Rotate | Two-finger rotation of canvas | Off |
+| Selection Two-Finger Rotate | Two-finger rotate selected ink | Off |
+| Two-Finger Tap Undo | Two-finger tap to undo last action | Off |
+| Three-Finger Tap Redo | Three-finger tap to redo last action | Off |
+
+### Whiteboard Mode Gestures
+
+| Gesture | Function | Default State |
+| --- | --- | --- |
+| Whiteboard Two-Finger Zoom | Two-finger zoom canvas in whiteboard mode | On |
+| Whiteboard Two-Finger Pan | Two-finger pan canvas in whiteboard mode | On |
+| Whiteboard Two-Finger Rotate | Two-finger rotate canvas in whiteboard mode | Off |
+
+### Palm Rejection
+
+| Setting | Description |
 | --- | --- |
-| One-finger drag | Draw (in pen mode) |
-| Two-finger pinch / spread | Zoom the canvas |
-| Two-finger drag | Pan the canvas |
-| Two-finger rotate | Rotate the canvas (enable in settings) |
-| Two-finger tap | Undo |
-| Three-finger tap | Redo |
-| Multi-finger long press | Open the quick menu |
+| Palm Rejection | Automatically ignore contacts with excessive area to prevent palm touches |
+| Pen Only | Completely ignore finger input, only accept active stylus |
 
-::: tip Gestures not working
-First confirm the device really supports multi-touch: Device Manager → Human Interface Devices should list a
-"HID-compliant touch screen". Some older all-in-one panels have touch drivers that swallow two-finger gestures
-entirely &mdash; update to the vendor's official driver.
-:::
+## Touch Operations
 
-## Palm rejection
-
-Resting your hand on the screen while writing easily produces stray strokes. ICC-CE offers palm rejection:
-
-- When enabled, contact points with an excessive contact area are ignored
-- The threshold is adjustable &mdash; the larger the screen, the looser it can be
-- On devices with an active stylus you can enable pen-only input to ignore finger input completely
-
-## Pen buttons
-
-Supported digital pens usually have one or two barrel buttons that can be mapped to eraser, select, undo and
-other actions in settings. Many pens also have an eraser tip &mdash; just flip the pen over.
-
-## Common operations
-
-| Action | Notes |
+| Action | Function |
 | --- | --- |
-| Undo / Redo | Toolbar buttons, or two-/three-finger tap |
-| Clear canvas | Toolbar button; goes on the undo stack, so it can be undone |
-| Screenshot | Saves the current screen together with the ink as an image |
-| Toggle transparent / whiteboard mode | Toolbar mode button |
-| Collapse the toolbar | Toolbar collapse button; drawing is unaffected |
-| Exit | Toolbar exit button; triggers one auto-save |
+| Tap toolbar buttons | Switch tools / trigger functions |
+| Long press | Show more options (e.g., color selection, width selection) |
+| Drag | Move toolbar position |
+| Swipe | Pan canvas in whiteboard mode |
 
-::: warning Clear and undo
-Clearing the canvas can be undone, but the undo stack is not kept after the app exits. Take a screenshot or
-wait for auto-save to finish before quitting if the content matters.
-:::
+## Shortcuts
 
-## Working with a PowerPoint slide show
+### Global Shortcuts
 
-During a slide show the toolbar gains slide navigation buttons, and changing slides switches the corresponding
-ink automatically. Slide changes are not part of the undo stack &mdash; see the
-[PowerPoint Guide](/en/guide/ppt-guide).
+| Shortcut | Function |
+| --- | --- |
+| `Win + Shift + O` | Show / Hide toolbar |
+| `Win + Shift + 1-9` | Switch pen presets |
+| `Win + Shift + C` | Switch to color selection |
+| `Win + Shift + E` | Switch to eraser |
+| `Win + Shift + L` | Switch to laser pointer |
+| `Win + Shift + P` | Switch to pointer mode |
+| `Win + Shift + S` | Screenshot |
+| `Win + Shift + U` | Undo |
+| `Win + Shift + R` | Redo |
+| `Win + Shift + A` | Clear all ink |
+| `Win + Shift + +` | Zoom in |
+| `Win + Shift + -` | Zoom out |
+| `Win + Shift + 0` | Reset zoom |
+
+### Mouse Mode Shortcuts
+
+In mouse mode, global shortcuts are disabled by default. You need to manually enable "Mouse Mode Global Shortcuts" in settings.
+
+### Customizable Shortcuts
+
+Some shortcuts can be customized in settings, including:
+- Switch pen / highlighter / laser pointer
+- Switch colors
+- Switch widths
+- Undo / Redo
+- Clear screen
+- Screenshot
+- Show / Hide toolbar

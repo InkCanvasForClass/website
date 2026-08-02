@@ -5,7 +5,7 @@ description: 开发 InkCanvas For Class 所需的工具与环境
 
 # 环境搭建
 
-<HelpUsImprove />
+<UnderConstruction />
 
 ## 必需工具
 
@@ -68,7 +68,7 @@ community/
 
 打开 `Ink Canvas.sln`，选择 `Debug|Any CPU` 或 `Debug|x64`，按 `Ctrl+Shift+B` 构建。
 
-首次构建时 Nerdbank.GitVersioning 会从 `version.json`（当前 `1.7.19.9`）和 git 提交历史计算版本号，自动生成 `ThisAssembly.cs`。如果你不在 git 仓库里或分离了 HEAD，版本号会带 `-g[commit]` 后缀。
+首次构建时 Nerdbank.GitVersioning 会以 `version.json`（当前 `1.7.19.9`）作为基础版本，再结合 git 提交历史计算最终版本号，自动生成 `ThisAssembly.cs`。也就是说，即使在没有可用 git 信息的情况下，项目仍然有一个明确的基础版本可用；主程序在缺少提交缩写时会回退为 `UNKNOWN`。
 
 **IACoreHelper 平台问题**：`InkCanvas.IACoreHelper` 强制为 `x86`（因为 IACore 原生库是 32 位），在解决方案配置里所有平台都被映射到 `x86`。如果你用 `Any CPU` 构建整个解决方案，主程序会是 `Any CPU`（启动时 JIT 成 64 位），但 IACoreHelper 始终是 32 位——这是正常的。
 

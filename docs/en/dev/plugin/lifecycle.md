@@ -5,7 +5,7 @@ description: What a plugin goes through inside the host, from discovery to unloa
 
 # Lifecycle
 
-<HelpUsImprove />
+<UnderConstruction />
 
 The host-side implementation is concentrated in `Ink Canvas/Plugins/PluginManager.cs` (roughly 1,380 lines). Understanding this chain saves most of the time you'd otherwise spend investigating "why didn't my plugin load".
 

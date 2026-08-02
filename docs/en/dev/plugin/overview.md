@@ -5,7 +5,7 @@ description: What plugins can do, and where the boundaries are
 
 # Plugin Overview
 
-<HelpUsImprove />
+<UnderConstruction />
 
 A plugin is a separately compiled .NET assembly that the host discovers, loads, and initializes at startup. Plugins run inside the host process and interact with the host through the services exposed by `IPluginHost`.
 

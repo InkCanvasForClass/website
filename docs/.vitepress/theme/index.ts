@@ -15,6 +15,7 @@ import DownloadPage from './components/DownloadPage.vue'
 import MyLayout from './components/MyLayout.vue'
 import HelpUsImprove from './components/HelpUsImprove.vue'
 import UnderConstruction from './components/UnderConstruction.vue'
+import KnownBugs from './components/KnownBugs.vue'
 
 export default {
   extends: DefaultTheme,
@@ -27,6 +28,7 @@ export default {
     app.component('DownloadPage', DownloadPage);
     app.component('HelpUsImprove', HelpUsImprove);
     app.component('UnderConstruction', UnderConstruction);
+    app.component('KnownBugs', KnownBugs);
     if (inBrowser) {
       router.onAfterRouteChanged = () => {
         busuanzi.fetch()

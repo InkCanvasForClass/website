@@ -5,7 +5,7 @@ description: 三种联动架构、统一接口与 VSTO 加载项
 
 # PPT 联动
 
-<HelpUsImprove />
+<UnderConstruction />
 
 联动有三种实现，用户在设置里选一种。选择逻辑在 `MainWindow_cs\MW_PPT.cs:291`：
 

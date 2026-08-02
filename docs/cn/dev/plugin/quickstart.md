@@ -5,7 +5,7 @@ description: 从空项目到能跑起来的第一个插件
 
 # 快速上手
 
-<HelpUsImprove />
+<UnderConstruction />
 
 ## 建项目
 

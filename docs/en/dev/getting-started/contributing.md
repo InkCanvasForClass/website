@@ -5,7 +5,7 @@ description: Branching strategy, commit conventions, PR checks, and code standar
 
 # Contributing
 
-<HelpUsImprove />
+<UnderConstruction />
 
 The main development branch is `net6`. `main` is a legacy branch and is effectively inactive. All PRs should target `net6`.
 

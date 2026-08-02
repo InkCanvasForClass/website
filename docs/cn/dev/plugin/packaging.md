@@ -5,13 +5,13 @@ description: .icpx 结构、CI 校验规则与自动发版
 
 # 打包与分发
 
-<HelpUsImprove />
+<UnderConstruction />
 
 `.icpx` 就是个改了扩展名的 zip，里面**严格只允许三个文件**。这个限制不是建议，是 CI 和宿主都会强制校验的硬规则。
 
 ## 包结构
 
-```
+```txt
 myplugin.icpx (zip)
 ├── manifest.json
 ├── MyPlugin.dll            ← manifest 里 EntranceAssembly 指定的那个
@@ -100,7 +100,7 @@ jobs:
 
 工作流按顺序尝试两个目录：
 
-```
+```txt
 bin/Release/net6.0-windows10.0.19041.0
 bin/x64/Release/net6.0-windows10.0.19041.0
 ```

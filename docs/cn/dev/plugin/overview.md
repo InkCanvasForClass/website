@@ -5,7 +5,7 @@ description: 插件能做什么，边界在哪
 
 # 插件概览
 
-<HelpUsImprove />
+<UnderConstruction />
 
 插件是独立编译的 .NET 程序集，被主程序在启动时发现、加载并初始化。插件运行在主程序进程内，通过 `IPluginHost` 提供的服务与宿主交互。
 

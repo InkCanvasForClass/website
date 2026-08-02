@@ -5,7 +5,7 @@ description: InkCanvas For Class 开发指南
 
 # 开发文档
 
-<HelpUsImprove />
+<UnderConstruction />
 
 这份文档写给两类读者：
 

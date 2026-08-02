@@ -5,7 +5,7 @@ description: From an empty project to your first working plugin
 
 # Quickstart
 
-<HelpUsImprove />
+<UnderConstruction />
 
 ## Create the project
 

@@ -5,7 +5,7 @@ description: 工具栏项、弹窗、自定义设置项与插件视图
 
 # UI 集成
 
-<HelpUsImprove />
+<UnderConstruction />
 
 插件往界面里塞东西只有两条正规途径：往浮动工具栏注册一个按钮，或者提供 `GetMainView()` / `GetSettingsView()` 两个视图。前者是绝大多数插件的做法。
 

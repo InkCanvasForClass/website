@@ -5,7 +5,7 @@ description: Packaging-free debugging, log locations, and common load failures
 
 # Debugging
 
-<HelpUsImprove />
+<UnderConstruction />
 
 You do not need to build an `.icpx` package over and over while developing. The host loads plugins straight from `Plugins/<Id>/`, so copying your build output into that folder is enough.
 

@@ -5,7 +5,7 @@ description: 从发现到卸载，插件在宿主里经历了什么
 
 # 生命周期
 
-<HelpUsImprove />
+<UnderConstruction />
 
 宿主侧的实现集中在 `Ink Canvas/Plugins/PluginManager.cs`（约 1380 行）。理解这条链路能省掉大部分"插件为什么没加载"的排查时间。
 
@@ -89,17 +89,22 @@ Id 里带 `..`、`/`、`\` 之类字符会被直接拒绝。
 ### MinHostVersion
 
 ```csharp
-if (!IsVersionAtLeast(HostApiRequirement.MinSupportedHostVersion, manifest.MinHostVersion))
+if (!IsVersionAtLeast(HostApiRequirement.HostVersion, manifest.MinHostVersion))
 {
     return CompatibilityResult.Fail(
-        $"插件要求宿主版本 ≥ {manifest.MinHostVersion}，当前宿主为 {HostApiRequirement.MinSupportedHostVersion}");
+        $"插件要求宿主版本 ≥ {manifest.MinHostVersion}，当前宿主为 {HostApiRequirement.HostVersion}");
 }
 ```
 
-::: warning 这里比较的不是实际宿主版本
-被拿来比较的是 `HostApiRequirement.MinSupportedHostVersion`（常量 `"1.7.18"`），而不是 `HostVersion`（实际构建版本）。
+::: warning 这里比较的是宿主构建版本和插件声明的最低宿主版本
+这一步调用的是 `IsVersionAtLeast(string hostVersion, string requiredMinVersion)`，并把 `HostApiRequirement.HostVersion` 传给了第一个参数位，所以比较的是宿主的实际构建版本（由 Nerdbank.GitVersioning 生成）和插件清单里的 `MinHostVersion`。
 
-这意味着：**插件把 `MinHostVersion` 写成高于 `1.7.18` 的值就会被拒绝加载，哪怕你实际跑的宿主版本更高**。写清单时 `MinHostVersion` 填 `1.7.18` 即可，不要跟着宿主实际版本往上写。
+因此实际生效的是：
+
+- `HostApiRequirement.HostVersion` 作为比较基准；
+- 只要插件清单里的 `MinHostVersion` 高于当前宿主构建版本，就会被拒绝加载；
+- `MinHostVersion` 留空时会直接跳过检查；
+- `MinHostVersion` 填入不可解析字符串时，代码会记录警告并 `return true`，也就是放行。
 :::
 
 ### ApiVersion
@@ -109,7 +114,7 @@ if (Version.TryParse(NormalizeVersion(required), out var req)
     && Version.TryParse(NormalizeVersion(HostApiRequirement.CurrentApiVersion), out var cur))
 ```
 
-主版本号相同即视为兼容。当前 `CurrentApiVersion` 是 `1.0.0`，所以填 `1.x.x` 都能过。
+主版本号相同即视为兼容。当前 `CurrentApiVersion` 是 `1.1.0`，所以填 `1.x.x` 都能过。
 
 ## 加载顺序与循环依赖
 
