@@ -5,6 +5,7 @@ export default withMermaid(defineConfig({
   base: '/website/',
   head: [
     ['link', { rel: 'icon', href: '/website/images/logo.png' }],
+    ['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/ajax/libs/font-awesome/6.5.1/css/all.min.css', crossorigin: 'anonymous' }],
   ],
   locales: {
     cn: {
