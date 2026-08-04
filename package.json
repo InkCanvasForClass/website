@@ -11,10 +11,7 @@
     "test": "vitepress dev docs --base /"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.7.2",
-    "busuanzi.pure.js": "^1.0.3",
-    "marked": "^16.2.0",
-    "medium-zoom": "^1.1.0",
-    "vitepress-plugin-mermaid": "^2.0.17"
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "marked": "^18.0.9"
   }
 }
