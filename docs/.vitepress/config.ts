@@ -32,12 +32,12 @@ export default defineConfig({
       description: '智能课堂绘图增强工具',
       themeConfig: {
         nav: [
-          { text: '🏠 首页', link: '/cn/' },
-          { text: '📖 指南', link: '/cn/guide/getting-started' },
-          { text: '💻 开发', link: '/cn/dev/' },
-          { text: '📥 下载', link: '/cn/download' },
-          { text: '🌐 官网', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '💬 社区', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-house"></i> 首页', link: '/cn/' },
+          { text: '<i class="fa-solid fa-book"></i> 指南', link: '/cn/guide/getting-started' },
+          { text: '<i class="fa-solid fa-laptop-code"></i> 开发', link: '/cn/dev/' },
+          { text: '<i class="fa-solid fa-download"></i> 下载', link: '/cn/download' },
+          { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
+          { text: '<i class="fa-solid fa-comments"></i> 社区', link: 'https://github.com/InkCanvasForClass/community' }
         ],
         sidebar: {
           '/cn/guide/': [
@@ -142,12 +142,12 @@ export default defineConfig({
       description: 'Smart Classroom Drawing Enhancement Tool',
       themeConfig: {
         nav: [
-          { text: '🏠 Home', link: '/en/' },
-          { text: '📖 Guide', link: '/en/guide/getting-started' },
-          { text: '💻 Development', link: '/en/dev/' },
-          { text: '📥 Download', link: '/en/download' },
-          { text: '🌐 Official Site', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '💬 Community', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-house"></i> Home', link: '/en/' },
+          { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
+          { text: '<i class="fa-solid fa-laptop-code"></i> Development', link: '/en/dev/' },
+          { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
+          { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
+          { text: '<i class="fa-solid fa-comments"></i> Community', link: 'https://github.com/InkCanvasForClass/community' }
         ],
         sidebar: {
           '/en/guide/': [
