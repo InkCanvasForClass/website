@@ -3,18 +3,18 @@
     <!-- 镜像状态 -->
     <div class="mirror-status">
       <span v-if="!mirrorReady" class="mirror-tag">
-        <Icon name="spinner" :spin="true" />
+        <i class="fa-solid fa-spinner fa-spin"></i>
         {{ t('正在检测下载镜像…', 'Detecting download mirrors…') }}
       </span>
       <template v-else>
         <span class="mirror-tag" :class="net.state.smartTeachAvailable ? 'mirror-tag--ok' : 'mirror-tag--off'">
-          <Icon :name="net.state.smartTeachAvailable ? 'circle-check' : 'circle-xmark'" />
+          <i :class="net.state.smartTeachAvailable ? 'fa-solid fa-circle-check' : 'fa-solid fa-circle-xmark'"></i>
           {{ net.state.smartTeachAvailable
             ? t('智教联盟可用', 'Smart-Teach mirror available')
             : t('智教联盟不可用', 'Smart-Teach mirror unavailable') }}
         </span>
         <span class="mirror-tag">
-          <Icon name="rocket" />
+          <i class="fa-solid fa-rocket"></i>
           {{ net.state.fastestMirror
             ? t('GitHub 加速：', 'GitHub proxy: ') + net.state.fastestMirror.replace(/^https?:\/\//, '')
             : t('GitHub 官方直连', 'GitHub direct connection') }}
@@ -34,7 +34,7 @@
         :aria-selected="key === currentChannel"
         @click="selectChannel(key)"
       >
-        <Icon :name="CHANNELS[key].icon" />
+        <i :class="CHANNELS[key].icon"></i>
         <span>{{ t(CHANNELS[key].shortLabel, CHANNELS[key].shortLabelEn) }}</span>
         <span v-if="CHANNELS[key].recommended" class="segmented-badge">
           {{ t('推荐', 'Recommended') }}
@@ -44,7 +44,7 @@
 
     <!-- 通道说明 -->
     <div class="channel-desc" :class="`channel-desc--${currentChannel}`">
-      <Icon :name="channel.type === 'nightly' ? 'triangle-exclamation' : 'circle-info'" />
+      <i :class="channel.type === 'nightly' ? 'fa-solid fa-triangle-exclamation' : 'fa-solid fa-circle-info'"></i>
       <span>
         <span v-html="t(channel.desc, channel.descEn)"></span>
         {{ t(' 数据来源：', ' Source: ') }}
@@ -57,7 +57,7 @@
         <a v-else :href="`${channel.repo.url}/releases`" target="_blank" rel="noopener">{{ channel.repo.name }}</a>
         <br v-if="channel.installerFallbackRepo" />
         <span v-if="channel.installerFallbackRepo" class="channel-desc-extra">
-          <Icon name="shuffle" />
+          <i class="fa-solid fa-shuffle"></i>
           {{ t('该通道发布绿色版与安装版，安装版按相同 tag 取自主仓库。',
                 'This channel provides both portable and installer builds; installers come from the main repository under the same tag.') }}
         </span>
@@ -72,7 +72,7 @@
 
     <!-- 错误 -->
     <div v-else-if="errorText" class="release-empty">
-      <Icon name="circle-exclamation" />
+      <i class="fa-solid fa-circle-exclamation"></i>
       <p>{{ errorText }}</p>
       <a class="btn btn--outlined" :href="`${channel.repo.url}/releases`" target="_blank" rel="noopener">
         {{ t('前往 GitHub 下载', 'Open GitHub Releases') }}
@@ -90,22 +90,22 @@
             rel="noopener"
           >
             {{ t(`Nightly（${CONFIG.NIGHTLY.branch} 分支）`, `Nightly (${CONFIG.NIGHTLY.branch} branch)`) }}
-            <Icon name="arrow-up-right-from-square" />
+            <i class="fa-solid fa-arrow-up-right-from-square"></i>
           </a>
           <span class="release-item-date">
-            <Icon name="screwdriver-wrench" />
+            <i class="fa-solid fa-screwdriver-wrench"></i>
             {{ t('由 GitHub Actions 自动构建', 'Built automatically by GitHub Actions') }}
           </span>
         </div>
         <div class="release-item-badges">
-          <span class="chip chip--nightly"><Icon name="moon" />Nightly</span>
-          <span class="chip chip--prerelease"><Icon name="bug" />Debug</span>
+          <span class="chip chip--nightly"><i class="fa-solid fa-moon"></i>Nightly</span>
+          <span class="chip chip--prerelease"><i class="fa-solid fa-bug"></i>Debug</span>
         </div>
       </header>
 
       <div class="alert alert--danger">
         <div class="alert-title">
-          <Icon name="skull-crossbones" />
+          <i class="fa-solid fa-skull-crossbones"></i>
           <span>{{ t('危险', 'Danger') }}</span>
         </div>
         <p v-if="isEn">
@@ -120,21 +120,21 @@
 
       <div v-if="nightlyRun" class="nightly-run">
         <div class="nightly-run-item">
-          <Icon name="hashtag" />
+          <i class="fa-solid fa-hashtag"></i>
           <span>{{ t('构建 #', 'Build #') }}{{ nightlyRun.run_number }}</span>
         </div>
         <div class="nightly-run-item">
-          <Icon name="code-commit" />
+          <i class="fa-solid fa-code-commit"></i>
           <a :href="`${CONFIG.NIGHTLY.repo.url}/commit/${nightlyRun.head_sha}`" target="_blank" rel="noopener">
             {{ String(nightlyRun.head_sha).slice(0, 7) }}
           </a>
         </div>
         <div class="nightly-run-item">
-          <Icon name="clock" />
+          <i class="fa-regular fa-clock"></i>
           <span>{{ formatDate(nightlyRun.updated_at) }}（{{ relativeTime(nightlyRun.updated_at, isEn) }}）</span>
         </div>
         <div class="nightly-run-item nightly-run-title">
-          <Icon name="note-sticky" />
+          <i class="fa-solid fa-note-sticky"></i>
           <span>{{ String(nightlyRun.display_title || '').split('\n')[0] }}</span>
         </div>
       </div>
@@ -166,7 +166,7 @@
       <footer class="release-item-actions">
         <div class="asset-group">
           <div class="asset-group-header">
-          <Icon name="file-zipper" />
+            <i class="fa-solid fa-file-zipper"></i>
             <span class="asset-group-title">{{ t('构建产物', 'Build artifacts') }}</span>
             <span class="asset-group-hint">{{ t('解压即用，无安装版', 'Extract and run; no installer available') }}</span>
           </div>
@@ -178,7 +178,7 @@
               class="download-btn"
               @click="onNightlyDownload(a)"
             >
-              <span class="download-btn-icon"><Icon name="moon" /></span>
+              <i class="fa-solid fa-moon download-btn-icon"></i>
               <span class="download-btn-text">
                 <span class="download-btn-title">
                   {{ t(a.archLabel, a.archLabelEn) }}
@@ -199,10 +199,10 @@
           <div class="release-item-heading">
             <a class="release-item-title" :href="currentEntry.release.html_url" target="_blank" rel="noopener">
               {{ currentEntry.release.name || currentEntry.release.tag_name }}
-              <Icon name="arrow-up-right-from-square" />
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
             </a>
             <span class="release-item-date">
-              <Icon name="clock" />
+              <i class="fa-regular fa-clock"></i>
               {{ formatDate(currentEntry.release.published_at) }}（{{
                 relativeTime(currentEntry.release.published_at, isEn)
               }}）
@@ -210,13 +210,13 @@
           </div>
           <div class="release-item-badges">
             <span class="chip" :class="`chip--${channel.key}`">
-              <Icon :name="channel.icon" />{{ t(channel.label, channel.labelEn) }}
+              <i :class="channel.icon"></i>{{ t(channel.label, channel.labelEn) }}
             </span>
             <span v-if="currentEntry.release.prerelease" class="chip chip--prerelease">
-              <Icon name="bolt" />Pre-release
+              <i class="fa-solid fa-bolt"></i>Pre-release
             </span>
             <span v-if="index === 0" class="chip chip--latest">
-              <Icon name="certificate" />{{ t('最新', 'Latest') }}
+              <i class="fa-solid fa-certificate"></i>{{ t('最新', 'Latest') }}
             </span>
           </div>
         </header>
@@ -226,7 +226,7 @@
         <div class="divider"></div>
 
         <h4 class="release-assets-title">
-          <Icon name="circle-down" />
+          <i class="fa-solid fa-circle-down"></i>
           <span>{{ t('下载', 'Download') }}</span>
         </h4>
 
@@ -235,7 +235,7 @@
             <div v-for="g in assetGroups" :key="g.kind" class="asset-group">
               <template v-if="g.items.length">
                 <div class="asset-group-header">
-                  <Icon :name="g.icon" />
+                  <i :class="g.icon"></i>
                   <span class="asset-group-title">{{ g.title }}</span>
                   <span class="asset-group-hint">{{ g.hint }}</span>
                 </div>
@@ -248,7 +248,7 @@
                     :class="{ 'is-checking': checkingAsset === a.name }"
                     @click="onAssetDownload(a)"
                   >
-                    <span class="download-btn-icon"><Icon name="download" /></span>
+                    <i class="fa-solid fa-download download-btn-icon"></i>
                     <span class="download-btn-text">
                       <span class="download-btn-title">
                         {{ t(a.archLabel, a.archLabelEn) }}
@@ -275,7 +275,7 @@
       <!-- 版本历史翻页 -->
       <div class="release-navigation">
         <button type="button" class="btn btn--outlined" :disabled="index === 0" @click="index--">
-          <Icon name="arrow-left" />
+          <i class="fa-solid fa-arrow-left"></i>
           <span>{{ t('上一版', 'Newer') }}</span>
         </button>
         <span class="card-subtitle">{{ index + 1 }} / {{ entries.length }}</span>
@@ -286,14 +286,14 @@
           @click="index++"
         >
           <span>{{ t('下一版', 'Older') }}</span>
-          <Icon name="arrow-right" />
+          <i class="fa-solid fa-arrow-right"></i>
         </button>
       </div>
     </template>
 
     <!-- 空状态 -->
     <div v-else class="release-empty">
-      <Icon name="inbox" />
+      <i class="fa-solid fa-inbox"></i>
       <p>{{ t('该通道暂无可用发布版本', 'No releases available on this channel') }}</p>
     </div>
 
@@ -313,14 +313,14 @@
 
           <p v-if="modal.fileName" class="modal-file">
             <span class="chip" :class="`chip--${channel.key}`">
-              <Icon :name="channel.icon" />{{ t(channel.label, channel.labelEn) }}
+              <i :class="channel.icon"></i>{{ t(channel.label, channel.labelEn) }}
             </span>
             <code>{{ modal.fileName }}</code>
           </p>
 
           <div v-if="modal.warning" class="alert" :class="modal.requireConfirm ? 'alert--danger' : 'alert--warning'">
             <div class="alert-title">
-              <Icon :name="modal.requireConfirm ? 'skull-crossbones' : 'triangle-exclamation'" />
+              <i :class="modal.requireConfirm ? 'fa-solid fa-skull-crossbones' : 'fa-solid fa-triangle-exclamation'"></i>
               <span>{{ modal.requireConfirm ? t('危险', 'Danger') : t('注意', 'Notice') }}</span>
             </div>
             <p v-html="modal.warning"></p>
@@ -387,9 +387,8 @@
 
 <script setup lang="ts">
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
+import { marked } from 'marked'
 import { useData } from 'vitepress'
-import Icon from './Icon.vue'
-import { renderMarkdown } from './markdown'
 
 import {
   CHANNELS,
@@ -433,7 +432,7 @@ const activeProxyKey = ref(CONFIG.NIGHTLY.proxies[0].key)
 const checkingAsset = ref<string | null>(null)
 
 const renderedNotes = computed(() =>
-  currentEntry.value?.release.body ? renderMarkdown(currentEntry.value.release.body) : ''
+  currentEntry.value?.release.body ? marked.parse(currentEntry.value.release.body) : ''
 )
 
 const assetGroups = computed(() => {
@@ -441,14 +440,14 @@ const assetGroups = computed(() => {
   return [
     {
       kind: 'installer' as const,
-      icon: 'desktop',
+      icon: 'fa-solid fa-desktop',
       title: t('安装版', 'Installer'),
       hint: t('自动安装并创建快捷方式，推荐日常使用', 'Installs automatically and creates shortcuts; recommended'),
       items: assets.filter((a) => a.kind === 'installer')
     },
     {
       kind: 'portable' as const,
-      icon: 'file-zipper',
+      icon: 'fa-solid fa-file-zipper',
       title: t('绿色版', 'Portable'),
       hint: t('解压即用，不写入系统', 'Extract and run; nothing written to the system'),
       items: assets.filter((a) => a.kind === 'portable')
@@ -599,6 +598,7 @@ function openModal(info: {
       `您即将下载 InkCanvasForClass CE ${info.version}`,
       `You are about to download InkCanvasForClass CE ${info.version}`
     )
+    // 强制阅读冷静期，期间勾选框与下载按钮均不可用
     cooldown.value = CONFIG.CONFIRM_COOLDOWN
     cooldownTimer = setInterval(() => {
       cooldown.value--
@@ -641,6 +641,7 @@ function confirmDangerDownload() {
 // ---------- 下载入口 ----------
 async function onAssetDownload(asset: AssetMeta) {
   checkingAsset.value = asset.name
+  // 点击时才做智教联盟存在性校验，避免给出 404 链接
   const url = await net.resolveDownloadUrl(asset.url, asset.repo)
   checkingAsset.value = null
 
@@ -675,12 +676,14 @@ function onNightlyDownload(artifact: NightlyArtifact) {
   })
 }
 
+// 语言切换后刷新当前通道的本地化文案
 watch(isEn, () => {
   if (!isLoading.value && !errorText.value) return
   loadChannel(currentChannel.value, true)
 })
 
 onMounted(async () => {
+  // 恢复记忆的通道与 Nightly 加速节点
   const savedChannel = readStorage(CONFIG.STORAGE_KEYS.channel)
   if (savedChannel && CHANNELS[savedChannel]) currentChannel.value = savedChannel
 
@@ -693,6 +696,7 @@ onMounted(async () => {
     }
   }
 
+  // 先探测镜像，再拉取 release
   loadingText.value = t('正在检测下载镜像…', 'Detecting download mirrors…')
   await net.detectMirrors()
   mirrorReady.value = true
@@ -704,100 +708,661 @@ onBeforeUnmount(clearTimers)
 </script>
 
 <style scoped>
-.dl { max-width: 900px; margin: 0 auto; }
-.mirror-status { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.mirror-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: 13px; background: var(--vp-c-bg-soft); border: 1px solid var(--vp-c-divider); color: var(--vp-c-text-2); }
-.mirror-tag--ok { color: var(--vp-c-green-1); border-color: var(--vp-c-green-soft); }
-.mirror-tag--off { color: var(--vp-c-text-3); }
-.segmented { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-.segmented-btn { position: relative; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px; border: 1px solid var(--vp-c-divider); border-radius: 8px; background: var(--vp-c-bg-soft); color: var(--vp-c-text-1); font-size: 15px; cursor: pointer; transition: all 0.25s; }
-.segmented-btn:hover { border-color: var(--vp-c-brand-1); }
-.segmented-btn.is-active { background: var(--vp-c-brand-1); border-color: var(--vp-c-brand-1); color: #fff; }
-.segmented-badge { padding: 1px 6px; border-radius: 999px; font-size: 11px; background: var(--vp-c-warning-soft); color: var(--vp-c-warning-1); }
-.segmented-btn.is-active .segmented-badge { background: rgba(255,255,255,0.25); color: #fff; }
-.channel-desc { display: flex; gap: 10px; padding: 12px 14px; margin-bottom: 20px; border-radius: 8px; font-size: 14px; line-height: 1.6; background: var(--vp-c-bg-soft); border-left: 4px solid var(--vp-c-brand-1); color: var(--vp-c-text-2); }
-.channel-desc--nightly { border-left-color: var(--vp-c-danger-1); background: var(--vp-c-danger-soft); }
-.channel-desc-extra { display: inline-flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13px; color: var(--vp-c-text-3); }
-.loading { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px 0; color: var(--vp-c-text-2); }
-.spinner { width: 32px; height: 32px; border: 4px solid var(--vp-c-divider); border-top-color: var(--vp-c-brand-1); border-radius: 50%; animation: spin 1s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.release-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px 0; color: var(--vp-c-text-2); }
-.release-item { padding: 20px; border: 1px solid var(--vp-c-divider); border-radius: 12px; background: var(--vp-c-bg-soft); }
-.release-item--nightly { border-color: var(--vp-c-danger-soft); }
-.release-item-header { display: flex; flex-wrap: wrap; gap: 12px; justify-content: space-between; align-items: flex-start; }
-.release-item-title { display: inline-flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 600; color: var(--vp-c-text-1) !important; text-decoration: none !important; }
-.release-item-title:hover { color: var(--vp-c-brand-1) !important; }
-.release-item-date { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 13px; color: var(--vp-c-text-3); }
-.release-item-badges { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 500; background: var(--vp-c-default-soft); color: var(--vp-c-text-2); }
-.chip--beta { background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
-.chip--preview { background: var(--vp-c-purple-soft); color: var(--vp-c-purple-1); }
-.chip--stable { background: var(--vp-c-green-soft); color: var(--vp-c-green-1); }
-.chip--nightly, .chip--prerelease { background: var(--vp-c-danger-soft); color: var(--vp-c-danger-1); }
-.chip--latest { background: var(--vp-c-tip-soft); color: var(--vp-c-tip-1); }
-.release-item-body { margin-top: 16px; font-size: 14px; line-height: 1.7; max-height: 420px; overflow-y: auto; }
-.release-item-body :deep(h1), .release-item-body :deep(h2), .release-item-body :deep(h3), .release-item-body :deep(h4) { margin: 14px 0 6px; font-size: 15px; font-weight: 600; border: none; padding: 0; }
-.release-item-body :deep(ul), .release-item-body :deep(ol) { margin: 6px 0; padding-left: 22px; }
-.release-item-body :deep(code) { font-size: 12px; }
-.divider { height: 1px; background: var(--vp-c-divider); margin: 20px 0; }
-.release-assets-title { display: flex; align-items: center; gap: 8px; margin: 0 0 12px; font-size: 16px; font-weight: 600; }
-.asset-group + .asset-group { margin-top: 18px; }
-.asset-group-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin-bottom: 10px; }
-.asset-group-title { font-size: 15px; font-weight: 600; }
-.asset-group-hint { font-size: 12px; color: var(--vp-c-text-3); }
-.asset-group-items { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
-.download-btn { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--vp-c-divider); border-radius: 10px; background: var(--vp-c-bg); color: var(--vp-c-text-1); text-align: left; cursor: pointer; transition: all 0.2s; }
-.download-btn:hover { border-color: var(--vp-c-brand-1); transform: translateY(-1px); }
-.download-btn.is-checking { opacity: 0.6; pointer-events: none; }
-.download-btn-icon { font-size: 18px; color: var(--vp-c-brand-1); }
-.download-btn-text { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.download-btn-title { font-size: 15px; font-weight: 600; }
-.download-btn-version { font-size: 12px; font-weight: 400; color: var(--vp-c-text-3); }
-.download-btn-meta { font-size: 12px; color: var(--vp-c-text-3); }
-.download-btn-tag { padding: 1px 5px; border-radius: 4px; background: var(--vp-c-default-soft); }
-.release-navigation { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 8px; font-size: 14px; cursor: pointer; text-decoration: none !important; transition: all 0.2s; }
-.btn--outlined { border: 1px solid var(--vp-c-divider); background: transparent; color: var(--vp-c-text-1); }
-.btn--outlined:hover:not(:disabled) { border-color: var(--vp-c-brand-1); color: var(--vp-c-brand-1); }
-.btn--filled { border: 1px solid var(--vp-c-brand-1); background: var(--vp-c-brand-1); color: #fff !important; }
-.btn--filled:hover:not(:disabled) { background: var(--vp-c-brand-2); }
-.btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.card-subtitle { font-size: 13px; color: var(--vp-c-text-3); }
-.alert { margin: 16px 0; padding: 12px 14px; border-radius: 8px; border-left: 4px solid; font-size: 14px; line-height: 1.65; text-align: left; }
-.alert p { margin: 0; }
-.alert--warning { background: var(--vp-c-warning-soft); border-left-color: var(--vp-c-warning-1); }
-.alert--danger { background: var(--vp-c-danger-soft); border-left-color: var(--vp-c-danger-1); }
-.alert-title { display: flex; align-items: center; gap: 6px; margin-bottom: 6px; font-weight: 600; }
-.alert--warning .alert-title { color: var(--vp-c-warning-1); }
-.alert--danger .alert-title { color: var(--vp-c-danger-1); }
-.nightly-run { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 16px 0; }
-.nightly-run-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--vp-c-text-2); }
-.nightly-run-title { grid-column: 1 / -1; }
-.nightly-run-title span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.nightly-proxy { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 18px; }
-.proxy-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.proxy-chip { padding: 5px 12px; border: 1px solid var(--vp-c-divider); border-radius: 999px; background: var(--vp-c-bg); color: var(--vp-c-text-2); font-size: 13px; cursor: pointer; transition: all 0.2s; }
-.proxy-chip.is-active { border-color: var(--vp-c-brand-1); background: var(--vp-c-brand-soft); color: var(--vp-c-brand-1); }
-.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
-.modal-content { position: relative; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; padding: 28px 32px; border-radius: 12px; background: var(--vp-c-bg); color: var(--vp-c-text-1); text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-.modal--danger .modal-content { border-top: 4px solid var(--vp-c-danger-1); }
-.modal-content h2 { margin: 0 0 8px; font-size: 20px; border: none; padding: 0; color: var(--vp-c-brand-1); }
-.modal--danger .modal-content h2 { color: var(--vp-c-danger-1); }
-.modal-thanks { margin: 0 0 12px; font-size: 14px; color: var(--vp-c-text-2); }
-.modal-file { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 0 0 12px; }
-.modal-file code { font-size: 12px; word-break: break-all; }
-.modal-close { position: absolute; top: 10px; right: 14px; border: none; background: transparent; font-size: 26px; line-height: 1; cursor: pointer; color: var(--vp-c-text-3); }
-.modal-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 14px; }
-.modal-help, .manual-tip { margin-top: 12px; font-size: 13px; color: var(--vp-c-text-3); }
-.modal-confirm { text-align: left; }
-.confirm-check { display: flex; gap: 10px; font-size: 14px; line-height: 1.6; cursor: pointer; }
-.confirm-check.is-locked { opacity: 0.55; cursor: not-allowed; }
-.confirm-check input { margin-top: 4px; flex-shrink: 0; }
-.confirm-cooldown { margin: 8px 0 0; font-size: 13px; color: var(--vp-c-danger-1); }
-.modal-fade-enter-active, .modal-fade-leave-active { transition: opacity 0.25s ease; }
-.modal-fade-enter-from, .modal-fade-leave-to { opacity: 0; }
+.dl {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* ---------- 镜像状态 ---------- */
+.mirror-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.mirror-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 13px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  color: var(--vp-c-text-2);
+}
+
+.mirror-tag--ok {
+  color: var(--vp-c-green-1);
+  border-color: var(--vp-c-green-soft);
+}
+
+.mirror-tag--off {
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 通道切换 ---------- */
+.segmented {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.segmented-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.segmented-btn:hover {
+  border-color: var(--vp-c-brand-1);
+}
+
+.segmented-btn.is-active {
+  background: var(--vp-c-brand-1);
+  border-color: var(--vp-c-brand-1);
+  color: #fff;
+}
+
+.segmented-badge {
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 11px;
+  background: var(--vp-c-warning-soft);
+  color: var(--vp-c-warning-1);
+}
+
+.segmented-btn.is-active .segmented-badge {
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+/* ---------- 通道说明 ---------- */
+.channel-desc {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.6;
+  background: var(--vp-c-bg-soft);
+  border-left: 4px solid var(--vp-c-brand-1);
+  color: var(--vp-c-text-2);
+}
+
+.channel-desc--nightly {
+  border-left-color: var(--vp-c-danger-1);
+  background: var(--vp-c-danger-soft);
+}
+
+.channel-desc-extra {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 加载与空态 ---------- */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--vp-c-text-2);
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid var(--vp-c-divider);
+  border-top-color: var(--vp-c-brand-1);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.release-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: var(--vp-c-text-2);
+}
+
+.release-empty i {
+  font-size: 32px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- Release 卡片 ---------- */
+.release-item {
+  padding: 20px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+  background: var(--vp-c-bg-soft);
+}
+
+.release-item--nightly {
+  border-color: var(--vp-c-danger-soft);
+}
+
+.release-item-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.release-item-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--vp-c-text-1) !important;
+  text-decoration: none !important;
+}
+
+.release-item-title:hover {
+  color: var(--vp-c-brand-1) !important;
+}
+
+.release-item-title i {
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.release-item-date {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.release-item-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--vp-c-default-soft);
+  color: var(--vp-c-text-2);
+}
+
+.chip--beta {
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+.chip--preview {
+  background: var(--vp-c-purple-soft);
+  color: var(--vp-c-purple-1);
+}
+
+.chip--stable {
+  background: var(--vp-c-green-soft);
+  color: var(--vp-c-green-1);
+}
+
+.chip--nightly,
+.chip--prerelease {
+  background: var(--vp-c-danger-soft);
+  color: var(--vp-c-danger-1);
+}
+
+.chip--latest {
+  background: var(--vp-c-tip-soft);
+  color: var(--vp-c-tip-1);
+}
+
+.release-item-body {
+  margin-top: 16px;
+  font-size: 14px;
+  line-height: 1.7;
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.release-item-body :deep(h1),
+.release-item-body :deep(h2),
+.release-item-body :deep(h3),
+.release-item-body :deep(h4) {
+  margin: 14px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  padding: 0;
+}
+
+.release-item-body :deep(ul),
+.release-item-body :deep(ol) {
+  margin: 6px 0;
+  padding-left: 22px;
+}
+
+.release-item-body :deep(code) {
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  background: var(--vp-c-divider);
+  margin: 20px 0;
+}
+
+.release-assets-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ---------- 附件分组 ---------- */
+.asset-group + .asset-group {
+  margin-top: 18px;
+}
+
+.asset-group-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.asset-group-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.asset-group-hint {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+
+.asset-group-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 10px;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.download-btn:hover {
+  border-color: var(--vp-c-brand-1);
+  transform: translateY(-1px);
+}
+
+.download-btn.is-checking {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.download-btn-icon {
+  font-size: 18px;
+  color: var(--vp-c-brand-1);
+}
+
+.download-btn-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.download-btn-title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.download-btn-version {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--vp-c-text-3);
+}
+
+.download-btn-meta {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+}
+
+.download-btn-tag {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--vp-c-default-soft);
+}
+
+/* ---------- 翻页 ---------- */
+.release-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  text-decoration: none !important;
+  transition: all 0.2s;
+}
+
+.btn--outlined {
+  border: 1px solid var(--vp-c-divider);
+  background: transparent;
+  color: var(--vp-c-text-1);
+}
+
+.btn--outlined:hover:not(:disabled) {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.btn--filled {
+  border: 1px solid var(--vp-c-brand-1);
+  background: var(--vp-c-brand-1);
+  color: #fff !important;
+}
+
+.btn--filled:hover:not(:disabled) {
+  background: var(--vp-c-brand-2);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.card-subtitle {
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+/* ---------- 提示块 ---------- */
+.alert {
+  margin: 16px 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border-left: 4px solid;
+  font-size: 14px;
+  line-height: 1.65;
+  text-align: left;
+}
+
+.alert p {
+  margin: 0;
+}
+
+.alert--warning {
+  background: var(--vp-c-warning-soft);
+  border-left-color: var(--vp-c-warning-1);
+}
+
+.alert--danger {
+  background: var(--vp-c-danger-soft);
+  border-left-color: var(--vp-c-danger-1);
+}
+
+.alert-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.alert--warning .alert-title {
+  color: var(--vp-c-warning-1);
+}
+
+.alert--danger .alert-title {
+  color: var(--vp-c-danger-1);
+}
+
+/* ---------- Nightly ---------- */
+.nightly-run {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 16px 0;
+}
+
+.nightly-run-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--vp-c-text-2);
+}
+
+.nightly-run-title {
+  grid-column: 1 / -1;
+}
+
+.nightly-run-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nightly-proxy {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.proxy-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.proxy-chip {
+  padding: 5px 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 999px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.proxy-chip.is-active {
+  border-color: var(--vp-c-brand-1);
+  background: var(--vp-c-brand-soft);
+  color: var(--vp-c-brand-1);
+}
+
+/* ---------- 弹窗 ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 28px 32px;
+  border-radius: 12px;
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-1);
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+.modal--danger .modal-content {
+  border-top: 4px solid var(--vp-c-danger-1);
+}
+
+.modal-content h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  border: none;
+  padding: 0;
+  color: var(--vp-c-brand-1);
+}
+
+.modal--danger .modal-content h2 {
+  color: var(--vp-c-danger-1);
+}
+
+.modal-thanks {
+  margin: 0 0 12px;
+  font-size: 14px;
+  color: var(--vp-c-text-2);
+}
+
+.modal-file {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0 0 12px;
+}
+
+.modal-file code {
+  font-size: 12px;
+  word-break: break-all;
+}
+
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: transparent;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--vp-c-text-3);
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.modal-help,
+.manual-tip {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+}
+
+.modal-confirm {
+  text-align: left;
+}
+
+.confirm-check {
+  display: flex;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.confirm-check.is-locked {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.confirm-check input {
+  margin-top: 4px;
+  flex-shrink: 0;
+}
+
+.confirm-cooldown {
+  margin: 8px 0 0;
+  font-size: 13px;
+  color: var(--vp-c-danger-1);
+}
+
+/* 弹窗过渡 */
+.modal-fade-enter-active,
+.modal-fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.modal-fade-enter-from,
+.modal-fade-leave-to {
+  opacity: 0;
+}
+
 @media (max-width: 640px) {
-  .asset-group-items { grid-template-columns: 1fr; }
-  .modal-content { padding: 24px 20px; }
+  .asset-group-items {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    padding: 24px 20px;
+  }
 }
 </style>

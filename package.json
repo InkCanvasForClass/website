@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
-    "marked": "^18.0.9"
+    "busuanzi.pure.js": "^1.0.3",
+    "marked": "^18.0.9",
+    "medium-zoom": "^1.1.0"
   }
 }
