@@ -28,6 +28,7 @@ export default withMermaid(defineConfig({
               text: '入门指南',
               items: [
                 { text: '快速开始', link: '/cn/guide/getting-started' },
+                { text: '页面组件', link: '/cn/guide/components' },
                 { text: '安装与更新通道', link: '/cn/guide/installation' },
                 { text: '手势与快捷操作', link: '/cn/guide/gestures-shortcuts' },
                 { text: 'PPT 联动指南', link: '/cn/guide/ppt-guide' },

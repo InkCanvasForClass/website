@@ -16,6 +16,7 @@ import MyLayout from './components/MyLayout.vue'
 import HelpUsImprove from './components/HelpUsImprove.vue'
 import UnderConstruction from './components/UnderConstruction.vue'
 import KnownBugs from './components/KnownBugs.vue'
+import Cbox2 from './components/Cbox2.vue'
 
 export default {
   extends: DefaultTheme,
@@ -29,6 +30,7 @@ export default {
     app.component('HelpUsImprove', HelpUsImprove);
     app.component('UnderConstruction', UnderConstruction);
     app.component('KnownBugs', KnownBugs);
+    app.component('Cbox2', Cbox2);
     if (inBrowser) {
       router.onAfterRouteChanged = () => {
         busuanzi.fetch()
