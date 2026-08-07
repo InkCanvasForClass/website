@@ -30,6 +30,7 @@ export default withMermaid(defineConfig({
                 { text: '快速开始', link: '/cn/guide/getting-started' },
                 { text: '页面组件', link: '/cn/guide/components' },
                 { text: '安装与更新通道', link: '/cn/guide/installation' },
+                { text: '智能笔迹处理', link: '/cn/guide/smart-ink-processing' },
                 { text: '手势与快捷操作', link: '/cn/guide/gestures-shortcuts' },
                 { text: 'PPT 联动指南', link: '/cn/guide/ppt-guide' },
                 { text: 'URL 命令调用', link: '/cn/guide/url-commands' },
@@ -140,6 +141,7 @@ export default withMermaid(defineConfig({
               items: [
                 { text: 'Getting Started', link: '/en/guide/getting-started' },
                 { text: 'Installation & Update Channels', link: '/en/guide/installation' },
+                { text: 'Smart Ink Processing', link: '/en/guide/smart-ink-processing' },
                 { text: 'Gestures & Shortcuts', link: '/en/guide/gestures-shortcuts' },
                 { text: 'PowerPoint Guide', link: '/en/guide/ppt-guide' },
                 { text: 'Files & Data Locations', link: '/en/guide/files-and-data' },

@@ -26,19 +26,19 @@ features:
   - icon: 🖊️
     title: 智能笔迹处理
     details: 支持线条拉直、形状识别、端点吸附等高级绘图功能，创建精确图形更轻松
-    link: /cn/features/overview#智能笔迹处理
+    link: /cn/guide/smart-ink-processing
   - icon: 🎯
     title: PPT集成
     details: 无缝融入PowerPoint演示环境，在幻灯片放映时实时标注、绘图，增强授课表现力
-    link: /cn/features/overview#powerpoint-集成
+    link: /cn/guide/ppt-guide
   - icon: 🔄
     title: 高级触控手势
     details: 支持缩放、旋转、移动等多点触控操作，提供流畅直观的交互体验
-    link: /cn/features/overview#多点触控支持
+    link: /cn/guide/gestures-shortcuts
   - icon: ⚙️
     title: 高度可定制
     details: 丰富的设置选项满足不同教学场景需求，包括UI定制、笔触参数和自动化功能
-    link: /cn/features/overview#界面定制
+    link: /cn/guide/settings
 ---
 
 <HelpUsImprove title="这个文档站正在大面积更新信息哦！" text="如果你一定要这个时候看的话……一定要看清楚条目上面的提示呀！当然欢迎其他人来帮忙！" type="content" />
