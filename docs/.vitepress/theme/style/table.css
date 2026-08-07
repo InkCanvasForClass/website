@@ -1,0 +1,54 @@
+/* VitePress 现代圆角表格 (Table) 样式 */
+
+.vp-doc table {
+    display: table;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 8px;
+    border: 1px solid var(--vp-c-divider);
+    background-color: var(--vp-c-bg);
+    overflow: hidden;
+    margin: 1.2em 0;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.vp-doc th {
+    background-color: var(--vp-c-bg-soft);
+    font-weight: 600;
+    color: var(--vp-c-text-1);
+}
+
+.vp-doc th,
+.vp-doc td {
+    padding: 10px 16px;
+    border: none;
+    border-bottom: 1px solid var(--vp-c-divider);
+    border-right: 1px solid var(--vp-c-divider);
+}
+
+/* 消除最后一行和最后一列的多余内部边框 */
+.vp-doc tr:last-child td,
+.vp-doc tr:last-child th {
+    border-bottom: none;
+}
+
+.vp-doc tr th:last-child,
+.vp-doc tr td:last-child {
+    border-right: none;
+}
+
+/* 隔行变色 hover 提示（提升可读性） */
+.vp-doc tr:hover td {
+    background-color: var(--vp-c-bg-soft);
+}
+
+/* 小屏幕平滑滚动兼容 */
+@media (max-width: 768px) {
+    .vp-doc table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+}

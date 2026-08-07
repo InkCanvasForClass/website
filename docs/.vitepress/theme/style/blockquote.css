@@ -1,7 +1,39 @@
+/* VitePress 现代统一风格 引用块 (Blockquote) 样式 */
+
 .vp-doc blockquote {
-    border-radius: 10px;
-    padding: 18px 20px 20px 15px;
+    margin: 1.2em 0;
+    padding: 14px 20px;
     position: relative;
-    background-color: var(--vp-c-gray-soft);
-    border-left: 6px solid var(--vp-c-brand-2);
+    background-color: var(--vp-c-bg-soft);
+    border-radius: 8px;
+    border: 1px solid var(--vp-c-divider);
+    border-left: 4px solid var(--vp-c-brand-1);
+    color: var(--vp-c-text-2);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.02);
+    transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+    overflow: hidden;
+}
+
+.vp-doc blockquote p {
+    margin: 0;
+    line-height: 1.65;
+    font-size: 0.96em;
+    color: var(--vp-c-text-2);
+}
+
+.vp-doc blockquote p + p {
+    margin-top: 8px;
+}
+
+.vp-doc blockquote a {
+    color: var(--vp-c-brand-1);
+    font-weight: 500;
+}
+
+.vp-doc blockquote code {
+    background-color: var(--vp-c-bg-alt);
+}
+
+.dark .vp-doc blockquote {
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
