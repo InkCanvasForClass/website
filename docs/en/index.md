@@ -17,7 +17,7 @@ hero:
       link: /en/guide/getting-started
     - theme: alt
       text: Features
-      link: /en/features/overview
+      link: /en/guide/smart-ink-processing
     - theme: alt
       text: User Guide
       link: /en/guide/instruction-manual
@@ -29,19 +29,19 @@ features:
   - icon: 🖊️
     title: Smart Ink Processing
     details: Supports advanced drawing features such as line straightening, shape recognition, and endpoint snapping, making it easier to create precise drawings
-    link: /en/features/overview#smart-ink-processing
+    link: /en/guide/smart-ink-processing
   - icon: 🎯
     title: PPT Integration
     details: Seamlessly integrates into PowerPoint presentation environments, enabling real-time annotations and drawing during slideshows to enhance teaching expression
-    link: /en/features/overview#powerpoint-integration
+    link: /en/guide/ppt-guide
   - icon: 🔄
     title: Advanced Touch Gestures
     details: Supports multi-touch gestures like zoom, rotate, and pan, providing a smooth and intuitive interactive experience
-    link: /en/features/overview#multi-touch-support
+    link: /en/guide/gestures-shortcuts
   - icon: ⚙️
     title: Highly Customizable
     details: Rich settings options to meet the needs of different teaching scenarios, including UI customization, brush parameters, and automation features
-    link: /en/features/overview#ui-customization
+    link: /en/guide/settings
 ---
 
 <HelpUsImprove title="This documentation site is currently undergoing a large-scale update!" text="If you really need to view it at this time... be sure to carefully read the notices above each item! Of course, contributions from others are always welcome!" type="content" />
