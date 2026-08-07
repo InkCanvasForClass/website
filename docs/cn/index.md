@@ -49,4 +49,8 @@ features:
 <BilibiliVideo bvid="BV1LHKt6WEPN" />
 <BilibiliVideo bvid="BV1yH8ezcEKk" />
 
+<div align="center">
+本站总访问量 <span id="busuanzi_value_site_pv" /> 次 | 本站访客数 <span id="busuanzi_value_site_uv" /> 人次
+</div>
+
 网站内使用的《明日方舟》《明日方舟·终末地》游戏图片、动画，仅用于更好地表现文章、资料和醒目提醒，其版权属于上海鹰角网络科技有限公司及其关联公司。

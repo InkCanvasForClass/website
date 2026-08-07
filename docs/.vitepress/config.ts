@@ -1,8 +1,25 @@
 import { defineConfig } from 'vitepress'
-import { withMermaid } from 'vitepress-plugin-mermaid'
 
-export default withMermaid(defineConfig({
+export default defineConfig({
   base: '/website/',
+
+  // Vite 构建优化
+  vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks: undefined, // 让 Vite 自动拆分
+        },
+      },
+      minify: 'esbuild',
+      cssMinify: true,
+      target: 'es2020',
+    },
+    ssr: {
+      noExternal: [], // 减少 SSR 外部化，提升构建效率
+    },
+  },
+
   head: [
     ['link', { rel: 'icon', href: '/website/images/logo.png' }],
     ['link', { rel: 'stylesheet', href: 'https://s4.zstatic.net/ajax/libs/font-awesome/6.5.1/css/all.min.css', crossorigin: 'anonymous' }],
@@ -11,17 +28,16 @@ export default withMermaid(defineConfig({
     cn: {
       label: '简体中文',
       lang: 'zh-CN',
-      link: '/cn/',
       title: 'ICC CE',
       description: '智能课堂绘图增强工具',
       themeConfig: {
         nav: [
           { text: '<i class="fa-solid fa-house"></i> 首页', link: '/cn/' },
           { text: '<i class="fa-solid fa-book"></i> 指南', link: '/cn/guide/getting-started' },
-          { text: '<i class="fa-solid fa-code"></i> 开发', link: '/cn/dev/' },
+          { text: '<i class="fa-solid fa-laptop-code"></i> 开发', link: '/cn/dev/' },
           { text: '<i class="fa-solid fa-download"></i> 下载', link: '/cn/download' },
           { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '<i class="fa-brands fa-github"></i> 源码仓库', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-comments"></i> 社区', link: 'https://github.com/InkCanvasForClass/community' }
         ],
         sidebar: {
           '/cn/guide/': [
@@ -91,7 +107,7 @@ export default withMermaid(defineConfig({
         },
         outline: {
           level: [2, 3],
-          label: '页面导航'
+          label: '目录'
         },
         editLink: {
           pattern: 'https://github.com/InkCanvasForClass/website/edit/main/docs/:path',
@@ -123,17 +139,16 @@ export default withMermaid(defineConfig({
     en: {
       label: 'English',
       lang: 'en-US',
-      link: '/en/',
       title: 'ICC CE',
       description: 'Smart Classroom Drawing Enhancement Tool',
       themeConfig: {
         nav: [
           { text: '<i class="fa-solid fa-house"></i> Home', link: '/en/' },
           { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
-          { text: '<i class="fa-solid fa-code"></i> Development', link: '/en/dev/' },
+          { text: '<i class="fa-solid fa-laptop-code"></i> Development', link: '/en/dev/' },
           { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
           { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '<i class="fa-brands fa-github"></i> Repository', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-comments"></i> Community', link: 'https://github.com/InkCanvasForClass/community' }
         ],
         sidebar: {
           '/en/guide/': [
@@ -199,10 +214,7 @@ export default withMermaid(defineConfig({
           message: 'Released under the GPLv3 License',
           copyright: 'Copyright © 2023-present ICC-CE Team',
         },
-        outline: {
-          level: [2, 3],
-          label: 'On this page'
-        },
+        outline: false,
         editLink: {
           pattern: 'https://github.com/InkCanvasForClass/website/edit/main/docs/:path',
           text: 'Edit this page on GitHub'
@@ -303,8 +315,6 @@ export default withMermaid(defineConfig({
 
   srcExclude: ['**/_HANDOFF.md'],
 
-  mermaid: {},
-
   markdown: {
     config: (md) => {
       md.renderer.rules.heading_close = (tokens, idx, options, env, slf) => {
@@ -326,7 +336,4 @@ export default withMermaid(defineConfig({
       dangerLabel: '危险',
       infoLabel: '信息',
       detailsLabel: '详细信息'
-    },
-    lineNumbers: true
-  },
-}));
+});
