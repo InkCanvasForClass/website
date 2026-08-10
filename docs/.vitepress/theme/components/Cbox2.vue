@@ -143,56 +143,117 @@ function extractText(nodes: any): string {
 
 <style>
 .cbox2 {
+  --cbox2-accent: var(--vp-c-brand-1, #10b981);
+  --cbox2-bg: var(--vp-c-bg-soft);
+  --cbox2-icon-bg: var(--vp-c-default-soft);
+  --cbox2-icon-color: var(--cbox2-accent);
+
   display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
   max-width: 825px;
-  margin: 12px 0;
-  border: 1px solid var(--vp-c-border);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  margin: 1.2em 0;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--vp-c-divider);
+  border-left: 4px solid var(--cbox2-accent);
+  background-color: var(--cbox2-bg);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: background-color 0.25s, border-color 0.25s, box-shadow 0.25s;
+  box-sizing: border-box;
 }
+
+.cbox2:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .cbox2-icon {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 32px;
+  height: 32px;
   min-width: 32px;
-  padding: 6px;
+  border-radius: 6px;
+  background-color: var(--cbox2-icon-bg);
+  color: var(--cbox2-icon-color);
+  font-size: 15px;
   box-sizing: border-box;
-  font: 900 18px/1 "Font Awesome 6 Free";
+  transition: transform 0.2s ease, background-color 0.25s;
 }
+
+.cbox2:hover .cbox2-icon {
+  transform: scale(1.05);
+}
+
 .cbox2-content {
   flex-grow: 1;
-  padding: 6px 10px;
-  box-sizing: border-box;
   font-size: 14px;
-  line-height: 1.4;
+  line-height: 1.6;
+  color: var(--vp-c-text-1);
 }
+
 .cbox2-content p { margin: 0 0 4px; }
 .cbox2-content p:last-child { margin-bottom: 0; }
-.cbox2-content strong { font-weight: 600; }
+.cbox2-content strong { font-weight: 600; color: var(--vp-c-text-1); }
 .cbox2-content code {
-  padding: 1px 4px;
+  padding: 2px 6px;
   font-size: 0.85em;
   background: var(--vp-c-bg-mute);
   border: 1px solid var(--vp-c-divider);
-  border-radius: 3px;
+  border-radius: 4px;
 }
-.cbox2-content a { color: #0645ad; text-decoration: none; }
-.cbox2-content a:hover { text-decoration: underline; }
+.cbox2-content a {
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+  text-decoration: none;
+}
+.cbox2-content a:hover {
+  text-decoration: underline;
+}
 
-.cbox2-green { background: #f9ffea; }
-.cbox2-green .cbox2-icon { background: #b9e66b; color: #84b63c; }
-.cbox2-blue { background: #f3f6ff; }
-.cbox2-blue .cbox2-icon { background: #6688cc; color: #4466aa; }
-.cbox2-orange { background: #fff8f0; }
-.cbox2-orange .cbox2-icon { background: #f0b060; color: #cc8844; }
+/* 颜色系统 */
+.cbox2-green {
+  --cbox2-accent: #10b981;
+  --cbox2-bg: var(--vp-c-green-soft, rgba(16, 185, 129, 0.08));
+  --cbox2-icon-bg: rgba(16, 185, 129, 0.15);
+  --cbox2-icon-color: #10b981;
+}
 
-.dark .cbox2-green { background: #2a3a1a; border-color: #4a6a2a; }
-.dark .cbox2-green .cbox2-icon { background: #4a7a2a; color: #8ac44a; }
-.dark .cbox2-blue { background: #1a2a3a; border-color: #2a4a6a; }
-.dark .cbox2-blue .cbox2-icon { background: #2a4a7a; color: #6a9ac4; }
-.dark .cbox2-orange { background: #3a2a1a; border-color: #6a4a2a; }
-.dark .cbox2-orange .cbox2-icon { background: #6a4a2a; color: #c4a060; }
-.dark .cbox2-content a { color: #6eb4f7; }
-.dark .cbox2-content a:visited { color: #9b7fd4; }
+.cbox2-blue {
+  --cbox2-accent: #3b82f6;
+  --cbox2-bg: var(--vp-c-indigo-soft, rgba(59, 130, 246, 0.08));
+  --cbox2-icon-bg: rgba(59, 130, 246, 0.15);
+  --cbox2-icon-color: #3b82f6;
+}
+
+.cbox2-orange {
+  --cbox2-accent: #f59e0b;
+  --cbox2-bg: var(--vp-c-warning-soft, rgba(245, 158, 11, 0.08));
+  --cbox2-icon-bg: rgba(245, 158, 11, 0.15);
+  --cbox2-icon-color: #f59e0b;
+}
+
+.dark .cbox2 {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+.dark .cbox2-green {
+  --cbox2-accent: #34d399;
+  --cbox2-bg: rgba(16, 185, 129, 0.12);
+  --cbox2-icon-bg: rgba(52, 211, 153, 0.2);
+  --cbox2-icon-color: #34d399;
+}
+.dark .cbox2-blue {
+  --cbox2-accent: #60a5fa;
+  --cbox2-bg: rgba(59, 130, 246, 0.12);
+  --cbox2-icon-bg: rgba(96, 165, 250, 0.2);
+  --cbox2-icon-color: #60a5fa;
+}
+.dark .cbox2-orange {
+  --cbox2-accent: #fbbf24;
+  --cbox2-bg: rgba(245, 158, 11, 0.12);
+  --cbox2-icon-bg: rgba(251, 191, 36, 0.2);
+  --cbox2-icon-color: #fbbf24;
+}
 </style>

@@ -136,3 +136,13 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
+
+/**
+ * Component: Navbar FontAwesome Icon Tweaks
+ * -------------------------------------------------------------------------- */
+.VPNavBarMenuLink i,
+.VPNavScreenMenuLink i {
+  margin-right: 6px;
+  vertical-align: -0.05em;
+}
+
