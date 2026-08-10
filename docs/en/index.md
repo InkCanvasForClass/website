@@ -49,6 +49,8 @@ features:
 <HomeUnderline />
 
 ## Promo Video
+
+<BilibiliVideo bvid="BV16ku961EsC" />
 <BilibiliVideo bvid="BV1LHKt6WEPN" />
 <BilibiliVideo bvid="BV1yH8ezcEKk" />
 
