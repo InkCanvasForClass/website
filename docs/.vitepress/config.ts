@@ -36,8 +36,7 @@ export default defineConfig({
           { text: '<i class="fa-solid fa-book"></i> 指南', link: '/cn/guide/getting-started' },
           { text: '<i class="fa-solid fa-laptop-code"></i> 开发', link: '/cn/dev/' },
           { text: '<i class="fa-solid fa-download"></i> 下载', link: '/cn/download' },
-          { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '<i class="fa-solid fa-comments"></i> 社区', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-globe"></i> 官网', link: 'https://inkcanvasforclass.github.io/' }
         ],
         sidebar: {
           '/cn/guide/': [
@@ -147,8 +146,7 @@ export default defineConfig({
           { text: '<i class="fa-solid fa-book"></i> Guide', link: '/en/guide/getting-started' },
           { text: '<i class="fa-solid fa-laptop-code"></i> Development', link: '/en/dev/' },
           { text: '<i class="fa-solid fa-download"></i> Download', link: '/en/download' },
-          { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' },
-          { text: '<i class="fa-solid fa-comments"></i> Community', link: 'https://github.com/InkCanvasForClass/community' }
+          { text: '<i class="fa-solid fa-globe"></i> Official Site', link: 'https://inkcanvasforclass.github.io/' }
         ],
         sidebar: {
           '/en/guide/': [
@@ -257,7 +255,7 @@ export default defineConfig({
       },
       { 
         icon: 'github',
-        link: 'https://github.com/InkCanvasForClass/website',
+        link: 'https://github.com/InkCanvasForClass/community',
         ariaLabel: 'GitHub 仓库'
       },
       { 
