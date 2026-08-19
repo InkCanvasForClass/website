@@ -5,7 +5,7 @@
  *  Beta   (beta)   ：beta 仓库 community-beta 的 release，包含 pre-release
  *  Preview(preview)：beta 仓库 community-beta 的 release，不含 pre-release
  *  正式版 (stable) ：主仓库 community 的 release，不含 pre-release
- *  Nightly(nightly)：dotnet-desktop 工作流 net6 分支的最新构建产物
+ *  Nightly(nightly)：dotnet-desktop 工作流 net10 分支的最新构建产物
  *
  * 注：community-beta 仓库只发布绿色版(zip)，因此 Preview / Beta 通道的
  *     安装版(exe) 会按相同 tag 回源到主仓库 community 获取。
@@ -86,7 +86,7 @@ export const CONFIG = {
   NIGHTLY: {
     repo: REPOS.community,
     workflow: 'dotnet-desktop.yml',
-    branch: 'net6',
+    branch: 'net10',
     /** nightly.link 只支持以下加速前缀 */
     proxies: [
       { key: 'direct', label: '官方直连', labelEn: 'Direct', prefix: '' },
@@ -100,7 +100,7 @@ export const CONFIG = {
         archLabelEn: '32-bit',
         note: '适用于 32 位系统',
         noteEn: 'For 32-bit systems',
-        url: 'https://nightly.link/InkCanvasForClass/community/workflows/dotnet-desktop/net6/InkCanvasForClass.CE.debug.x86.zip'
+        url: 'https://nightly.link/InkCanvasForClass/community/workflows/dotnet-desktop/net10/InkCanvasForClass.CE.debug.x86.zip'
       },
       {
         arch: 'x64',
@@ -108,7 +108,7 @@ export const CONFIG = {
         archLabelEn: '64-bit',
         note: '适用于 64 位系统',
         noteEn: 'For 64-bit systems',
-        url: 'https://nightly.link/InkCanvasForClass/community/workflows/dotnet-desktop/net6/InkCanvasForClass.CE.debug.AnyCPU.zip'
+        url: 'https://nightly.link/InkCanvasForClass/community/workflows/dotnet-desktop/net10/InkCanvasForClass.CE.debug.AnyCPU.zip'
       }
     ] as NightlyArtifact[]
   },
@@ -181,9 +181,9 @@ export const CHANNELS: Record<string, Channel> = {
     shortLabelEn: 'Nightly',
     icon: 'fa-solid fa-moon',
     repo: REPOS.community,
-    desc: '由 GitHub Actions 自动构建的 <b>Debug</b> 产物（net6 分支最新提交），未经测试、可能无法正常运行，仅供开发者与测试者使用。',
+    desc: '由 GitHub Actions 自动构建的 <b>Debug</b> 产物（net10 分支最新提交），未经测试、可能无法正常运行，仅供开发者与测试者使用。',
     descEn:
-      '<b>Debug</b> artifacts built automatically by GitHub Actions (latest commit on the net6 branch). Untested and may not run at all &mdash; for developers and testers only.'
+      '<b>Debug</b> artifacts built automatically by GitHub Actions (latest commit on the net10 branch). Untested and may not run at all &mdash; for developers and testers only.'
   }
 }
 

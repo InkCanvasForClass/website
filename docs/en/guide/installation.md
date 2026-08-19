@@ -38,7 +38,7 @@ Visit the [Download Center](/en/download) to choose your preferred version. The 
 | **Beta (Recommended)** | Fastest updates, most timely fixes, passes CI auto-build and basic verification | Best for daily use |
 | **Preview** | Pre-release builds without pre-release tags, more stable than Beta | For those who want early access with more stability |
 | **Release** | Lowest release frequency, fully tested | For production environments with high stability requirements |
-| **Nightly** | Untested debug builds, built directly from the latest net6 branch code | **For testing only, never use in actual classrooms** |
+| **Nightly** | Untested debug builds, built directly from the latest net10 branch code | **For testing only, never use in actual classrooms** |
 
 > Nightly builds require reading a risk disclaimer and checking a confirmation box before downloading. Updating to the next Nightly version requires manual download and replacement; auto-update is not supported.
 
