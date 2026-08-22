@@ -14,7 +14,7 @@ Before you begin, please ensure your device meets the following requirements:
 | Item | Requirement |
 | --- | --- |
 | **Operating System** | Windows 10 version 1809 (build 17763) or later, or Windows 11 |
-| **Runtime** | .NET 6 Desktop Runtime (x64 or x86) |
+| **Runtime** | .NET 10 Desktop Runtime (x64 or x86) |
 | **Memory** | 4 GB or more recommended |
 | **Graphics** | Direct3D 11 capable GPU for hardware-accelerated ink rendering |
 | **Input Device** | Mouse works; touchscreen / digitizer / active stylus recommended for best experience |
@@ -24,7 +24,7 @@ Press <kbd>Win</kbd> + <kbd>Pause</kbd> to open System Information, where you ca
 :::
 
 ::: warning About .NET Runtime
-ICC-CE runs on .NET 6, **not** .NET Framework. The installer will automatically prompt you to download the runtime when needed. If the portable version fails to start, it's most likely due to a missing .NET 6 Desktop Runtime — search for ".NET Desktop Runtime 6.x" on Microsoft's official site and install the appropriate architecture (x64 / x86).
+ICC-CE runs on .NET 10, **not** .NET Framework. The installer will automatically prompt you to download the runtime when needed. If the portable version fails to start, it's most likely due to a missing .NET 10 Desktop Runtime — search for ".NET Desktop Runtime 10.x" on Microsoft's official site and install the appropriate architecture (x64 / x86).
 :::
 
 ## Getting the Installer
